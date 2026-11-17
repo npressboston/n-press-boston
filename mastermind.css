@@ -379,8 +379,8 @@ body.mm {
 }
 
 .lw {
-  width: min(900px, 92vw);
-  height: 80vh;
+  width: min(1180px, 94vw);
+  height: 84vh;
   background: #fff;
   display: flex;
   flex-direction: column;
@@ -395,8 +395,120 @@ body.mm {
   border-bottom: 1px solid #ddd;
 }
 
-.lh span {
+.lh .lbc {
   flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: #888;
+}
+
+.lh .lbc a {
+  font-size: 13px;
+  color: #555;
+}
+
+.lh .lbc a:last-child {
+  color: #111;
+}
+
+.lh .lbc a:hover {
+  text-decoration: underline;
+}
+
+.lh .lhint {
+  font-style: normal;
+  font-size: 11px;
+  color: #999;
+}
+
+.lh .lnf {
+  padding: 3px 10px;
+  background: #fff;
+  border: 1px solid #111;
+  font: inherit;
+  cursor: pointer;
+}
+
+.lbd {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+}
+
+.lbd .lt {
+  flex: none;
+  width: 220px;
+  overflow-y: auto;
+  padding: 8px 0 20px;
+  border-right: 1px solid #e5e5e1;
+  background: #fafaf8;
+}
+
+.lbd .lt a {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 5px 12px 5px 10px;
+  cursor: pointer;
+  color: #333;
+}
+
+.lbd .lt a span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.lbd .lt a i {
+  flex: none;
+  font: normal 10px Menlo, monospace;
+  color: #aaa;
+}
+
+.lbd .lt a:hover {
+  background: #f0f0ec;
+}
+
+.lbd .lt a.on {
+  background: #111;
+  color: #fff;
+}
+
+.lbd .lt a.on i {
+  color: #fff45c;
+}
+
+.lg a.fd {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 10px;
+  background: #fff45c;
+  color: #111;
+  box-sizing: border-box;
+}
+
+.lg a.fd b {
+  font-size: 13px;
+  line-height: 1.2;
+  overflow-wrap: anywhere;
+}
+
+.lg a.fd i {
+  margin-top: 4px;
+  font: normal 10px Menlo, monospace;
+}
+
+.lg .le {
+  grid-column: 1 / -1;
+  color: #999;
+}
+
+.lg a {
+  content-visibility: auto;
+  contain-intrinsic-size: 120px 120px;
 }
 
 .lh a {

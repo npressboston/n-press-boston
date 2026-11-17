@@ -29,7 +29,7 @@ function lfolds() {
 }
 
 function lnm(f) {
-  return f == 'photos' ? 'all photos' : f.split('/').pop().replace(/_/g, ' ')
+  return f == 'photos' ? 'all folders' : f.split('/').pop().replace(/_/g, ' ')
 }
 
 function lgo(f) {
