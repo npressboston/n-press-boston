@@ -13,17 +13,18 @@ export async function onRequestPost(ctx) {
   var env = ctx.env, u = ctx.data.u, st = await state(env.DB, u)
   if (!st.mine) return Response.json(st, { status: 423 })
   var b = await ctx.request.json(), nm = (b.n || 'img').replace(/[^a-z0-9._-]/gi, '-').toLowerCase()
+  var fd = String(b.f || 'up').split('/').map(function (x) { return x.replace(/[^A-Za-z0-9 _-]/g, '').trim().replace(/\s+/g, '_') }).filter(Boolean).slice(0, 4).join('/') || 'up'
   var i = nm.lastIndexOf('.'), bs = i > 0 ? nm.slice(0, i) : nm, x = i > 0 ? nm.slice(i) : '', n = nm, k = 2
   var have = (await repo(env, true)).concat(Object.keys(await tree(env, 'up')))
-  while (have.indexOf('photos/up/' + n) > -1) n = bs + '-' + k++ + x
+  while (have.indexOf('photos/' + fd + '/' + n) > -1) n = bs + '-' + k++ + x
   var bl = await gh(env, '/git/blobs', 'POST', { content: b.b64, encoding: 'base64' })
   if (!bl.sha) return Response.json({ err: 'github said ' + bl._s + ' ' + (bl.message || '') }, { status: 502 })
   for (var t = 0; t < 3; t++) {
     var head = await side(env), hc = await gh(env, '/git/commits/' + head)
-    var nt = await gh(env, '/git/trees', 'POST', { base_tree: hc.tree.sha, tree: [{ path: 'photos/up/' + n, mode: '100644', type: 'blob', sha: bl.sha }] })
+    var nt = await gh(env, '/git/trees', 'POST', { base_tree: hc.tree.sha, tree: [{ path: 'photos/' + fd + '/' + n, mode: '100644', type: 'blob', sha: bl.sha }] })
     var c = await gh(env, '/git/commits', 'POST', { message: 'photo ' + n, tree: nt.sha, parents: [head], author: { name: u.name, email: u.email } })
     var r = await gh(env, '/git/refs/heads/up', 'PATCH', { sha: c.sha, force: false })
-    if (r._s == 200) return Response.json({ path: 'photos/up/' + n, url: '/api/img/up/' + n })
+    if (r._s == 200) return Response.json({ path: 'photos/' + fd + '/' + n, url: '/api/img/' + fd + '/' + n })
   }
   return Response.json({ err: 'github kept moving, try again' }, { status: 502 })
 }

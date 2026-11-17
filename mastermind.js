@@ -1735,7 +1735,7 @@ function everypg() {
   nt('changes here reach every page. a page can still change its own copy in the page tab')
   hd('site font')
   var cur = s.styles[s.base.sty] ? s.base.sty : 'body copy'
-  if (s.styles[cur]) scard(cur, 1, function () { SFO = !SFO; panel() })
+  if (s.styles[cur]) scard(cur, 1, function () { SFO = !SFO; panel() }, 1)
   pn.lastChild.classList.add('dd0')
   pn.lastChild.classList.toggle('op', SFO)
   if (SFO) Object.keys(s.styles).forEach(function (n) {
@@ -1748,8 +1748,6 @@ function everypg() {
     })
     pn.lastChild.classList.add('dd1')
   })
-  nt('pick the style that menus, buttons, cards and any text without its own style use')
-  if (s.styles[cur]) btn('open ' + cur + ' in the type lab', function () { lab(cur) })
   hd('grid')
   fld('columns', s.grid, 'cols', 'n', 1)
   fld('baseline', s.grid, 'row', 'n', 4)
@@ -1815,9 +1813,10 @@ function devpanel() {
   nt('/ on cloudflare. /n_press/ only for the old github pages address')
   fld('phones below px', s.grid, 'bp', 'n', 300)
   nt('narrower screens than this get the phone layout')
+  if (TM) tvers()
 }
 
-function scard(n, on, f) {
+function scard(n, on, f, bare) {
   var o = s.styles[n], a = document.createElement('a'), b = document.createElement('b'), i = document.createElement('i')
   a.className = 'sty' + (on ? ' on' : '')
   b.textContent = n
@@ -1828,7 +1827,7 @@ function scard(n, on, f) {
   i.textContent = sline(o)
   a.appendChild(b)
   a.appendChild(i)
-  if (on) a.appendChild(document.createElement('em')).textContent = 'site font'
+  if (on && !bare) a.appendChild(document.createElement('em')).textContent = 'site font'
   a.onclick = f
   pn.appendChild(a)
 }

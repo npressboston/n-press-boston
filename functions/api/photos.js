@@ -36,7 +36,7 @@ export async function onRequestGet(ctx) {
   })
   var u = await tree(env, 'up')
   Object.keys(u).forEach(function (p) {
-    if (p.indexOf('photos/up/') == 0 && !seen[p]) out.push({ p: p, u: '/api/img/' + p.slice(7) })
+    if (p.indexOf('photos/') == 0 && MED.test(p) && !seen[p]) out.push({ p: p, u: '/api/img/' + p.slice(7) })
   })
   return Response.json(out)
 }

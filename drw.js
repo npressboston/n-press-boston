@@ -582,10 +582,10 @@ function nf() {
 
 function fb() {
   document.addEventListener('error', function (e) {
-    var m = e.target, k = m.getAttribute && m.getAttribute('src') || '', i = k.indexOf('photos/up/')
+    var m = e.target, k = m.getAttribute && m.getAttribute('src') || '', i = k.indexOf('photos/')
     if ((m.tagName == 'IMG' || m.tagName == 'VIDEO') && i > -1 && !m.dataset.fb) {
       m.dataset.fb = 1
-      m.src = '/api/img/up/' + k.slice(i + 10)
+      m.src = '/api/img/' + k.slice(i + 7)
     }
   }, true)
 }

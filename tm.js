@@ -239,6 +239,9 @@ function tpanel() {
   hd('draft')
   btn('preview draft', function () { document.getElementById('pv').click() })
   if (!RO) btn('throw away draft', tback, ' ')
+}
+
+function tvers() {
   hd('published versions')
   if (!HS) {
     nt('loading...')
