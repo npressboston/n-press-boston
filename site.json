@@ -33,7 +33,7 @@
         {
           "w": 12,
           "h": 29,
-          "bg": "#fff45c",
+          "bg": "#f984ca",
           "ly": [],
           "id": "0ky7d8",
           "type": "band",
@@ -52,13 +52,29 @@
           "y": 2
         },
         {
+          "id": "hbhtm3",
+          "type": "image",
+          "src": "photos/object_Object/screenshot-2026-11-12-at-19-04-36.png",
           "w": 4,
           "h": 10,
-          "src": "",
-          "id": "o0i219",
-          "type": "image",
           "x": 1,
-          "y": 4
+          "y": 4,
+          "m": {
+            "x": 0,
+            "y": 4,
+            "w": 2,
+            "h": 5
+          }
+        },
+        {
+          "w": 4,
+          "h": 2,
+          "html": "<span style=\"color: rgb(255, 247, 5);\"><a href=\"https://www.instagram.com/n_press_boston/\">Instagram!</a></span>",
+          "id": "iew82b",
+          "type": "text",
+          "sty": "body copy",
+          "x": 5,
+          "y": 12
         }
       ],
       "g": {},
@@ -88,6 +104,6 @@
     }
   },
   "base": {},
-  "pub": "e393g8vk",
+  "pub": "d42u3fgx",
   "out": []
 }
