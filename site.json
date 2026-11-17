@@ -9,26 +9,11 @@
     "row": 24,
     "gap": 10,
     "pad": 20,
-    "v": 2
+    "v": 2,
+    "mc": 4,
+    "bp": 700
   },
-  "common": [
-    {
-      "id": "ct",
-      "type": "text",
-      "x": 0,
-      "y": 0,
-      "w": 2,
-      "h": 2,
-      "html": "Contact us",
-      "href": "#",
-      "fix": "bottom",
-      "fo": 20,
-      "fa": "center",
-      "al": "center",
-      "un": true,
-      "size": 18
-    }
-  ],
+  "common": [],
   "pages": [
     {
       "id": "home",
@@ -38,13 +23,45 @@
         {
           "id": "a1",
           "type": "text",
-          "x": 0,
+          "x": 1,
           "y": 0,
           "w": 4,
           "h": 3,
-          "html": "ñ press"
+          "html": "ñ press",
+          "sty": "H2"
+        },
+        {
+          "w": 12,
+          "h": 29,
+          "bg": "#fff45c",
+          "ly": [],
+          "id": "0ky7d8",
+          "type": "band",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "w": 4,
+          "h": 2,
+          "html": "Community print studio based in East Boston",
+          "id": "3cwag2",
+          "type": "text",
+          "sty": "body copy",
+          "x": 1,
+          "y": 2
+        },
+        {
+          "w": 4,
+          "h": 10,
+          "src": "",
+          "id": "o0i219",
+          "type": "image",
+          "x": 1,
+          "y": 4
         }
-      ]
+      ],
+      "g": {},
+      "len": 27
     },
     {
       "id": "type",
@@ -168,5 +185,10 @@
       "size": 32,
       "wt": "700"
     }
-  }
+  },
+  "base": {},
+  "pub": "z7ir6dn6",
+  "out": [
+    "type"
+  ]
 }
