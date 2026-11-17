@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>mastermind / ñ press</title>
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="pg.css">
+<link rel="stylesheet" href="mastermind.css">
+</head>
+<body class="mm">
+<div id="tb">
+  <b>ñ mastermind</b>
+  <button id="o">open folder</button>
+  <button id="sv">save</button>
+  <button id="pv">preview</button>
+  <i></i>
+  <select id="pgs"></select>
+  <select id="lg"></select>
+  <button id="mb">desktop</button>
+  <button id="sb" title="phone and desktop next to each other">side by side</button>
+  <i></i>
+  <select id="ad">
+    <option value="">+ add</option>
+    <option value="band">band (background)</option>
+    <option value="shape">shape</option>
+    <option value="text">text</option>
+    <option value="image">image</option>
+    <option value="marquee">marquee</option>
+    <option value="nav">menu</option>
+    <option value="tabs">tabs</option>
+    <option value="cards">cards</option>
+    <option value="banner">banner</option>
+    <option value="button">button</option>
+    <option value="lang">language switch</option>
+    <option value="gallery">gallery</option>
+    <option value="video">video</option>
+    <option value="embed">embed</option>
+  </select>
+  <span id="st"></span>
+  <button id="un" title="undo  ⌘Z"><svg viewBox="0 0 24 24" width="16" height="16"><path fill="currentColor" d="M12.5 8c-2.65 0-5.05.99-6.9 2.6L2 7v9h9l-3.62-3.62c1.39-1.16 3.16-1.88 5.12-1.88 3.54 0 6.55 2.31 7.6 5.5l2.37-.78C21.08 11.03 17.15 8 12.5 8z"/></svg></button>
+  <button id="re" title="redo  ⌘⇧Z"><svg viewBox="0 0 24 24" width="16" height="16"><path fill="currentColor" d="M18.4 10.6C16.55 8.99 14.15 8 11.5 8c-4.65 0-8.58 3.03-9.96 7.22L3.9 16c1.05-3.19 4.05-5.5 7.6-5.5 1.95 0 3.73.72 5.12 1.88L13 16h9V7l-3.6 3.6z"/></svg></button>
+  <button id="hk" title="keyboard shortcuts">?</button>
+  <button id="pf" class="ok" title="preflight"><i></i><span></span></button>
+  <a id="vw" href="./" target="_blank">saved site</a>
+</div>
+<div id="lk" hidden></div>
+<div id="wr"><div id="cvp"></div><div id="cv"></div></div>
+<button id="tl" class="tab" title="open the inspector on the left"></button><button id="tr" class="tab" title="open the inspector on the right"></button>
+<div id="pin"></div>
+<div id="tip"></div>
+<div id="bx"></div>
+<div id="rt"><div class="rl" hidden><input placeholder="https://... or @page" spellcheck="false"><button data-x="unlink" title="remove link"><svg viewBox="0 0 24 24" width="16" height="16"><path fill="currentColor" d="M17 7h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1 0 1.43-.98 2.63-2.31 2.98l1.46 1.46C20.88 15.61 22 13.95 22 12c0-2.76-2.24-5-5-5zm-1 4h-2.19l2 2H16zM2 4.27l3.11 3.11C3.29 8.12 2 9.91 2 12c0 2.76 2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1 0-1.59 1.21-2.9 2.76-3.07L8.73 11H8v2h2.73L13 15.27V17h1.73l4.01 4L20 19.74 3.27 3 2 4.27z"/></svg></button></div><button data-x="bold" data-k="b" title="bold"><b>B</b></button><button data-x="italic" data-k="i" title="italic"><i>I</i></button><button data-x="underline" data-k="u" title="underline"><u>U</u></button><button data-x="strikeThrough" data-k="s" title="strike"><s>S</s></button><button data-x="insertUnorderedList" data-k="l" title="list">•</button><button data-x="color" class="rcl" title="text color"><i></i><input type="color" tabindex="-1"></button><button data-x="link" data-k="a" title="link"><svg viewBox="0 0 24 24" width="16" height="16"><path fill="currentColor" d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/></svg></button><button data-x="glyphs" class="rgl" title="glyphs">Ω</button><button data-x="removeFormat" class="rx" title="clear formatting"><i></i></button></div>
+<div id="gp" hidden><header><b>glyphs (beta)</b><span></span><button title="close">×</button></header><div class="gpb"><select></select><input placeholder="find: ñ, 00F1, arrows" spellcheck="false"></div><div class="gpd"><canvas></canvas><span>draw a character here to find it</span><button>clear</button></div><h5>recent</h5><div class="gpr"></div><div class="gpg"></div><p></p></div>
+<div id="pfp" hidden><header><b>preflight</b><span></span><button class="pfr">check again</button><button class="pfx" title="close">×</button></header><div class="pfl"></div><footer><button class="pfc">clear the log</button><span>checks every page each time you change something</span></footer></div>
+<div id="hlp" hidden>
+  <b>keys</b>
+  <p>click, shift click, or drag a box to select</p>
+  <p>arrows move, shift arrows resize</p>
+  <p>enter or double click edits text</p>
+  <p>⌘Z undo, ⌘⇧Z redo</p>
+  <p>⌘C copy, ⌘X cut, ⌘V paste, ⌘D duplicate</p>
+  <p>⌘A select all, delete removes</p>
+  <p>drag the round knob to rotate, shift snaps to 15°</p>
+  <p>drag the dashed page end line to add space</p>
+  <p>double click a page end line or rotate knob to reset</p>
+  <p>locked blocks can only be picked in active elements</p>
+  <p>⌘| lines anti-grid blocks up with the nearest columns and rows, the selected ones or all on the page</p>
+  <p>⌘S save, esc deselects, ? this</p>
+</div>
+<div id="lib" hidden>
+  <div class="lw">
+    <div class="lh"><b>photos</b><label class="upb">upload<input type="file" multiple accept="image/*,video/*"></label><span></span><a>×</a></div>
+    <div class="lg"></div>
+  </div>
+</div>
+<div id="pn"></div>
+<script src="drw.js"></script>
+<script src="mastermind.js"></script>
+<script src="md.js"></script>
+<script src="pk.js"></script>
+<script src="pb.js"></script>
+<script src="lab.js"></script>
+<script src="pf.js"></script>
+<script src="tm.js"></script>
+</body>
+</html>

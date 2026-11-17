@@ -1,0 +1,172 @@
+{
+  "root": "/",
+  "langs": [
+    "es",
+    "en"
+  ],
+  "grid": {
+    "cols": 12,
+    "row": 24,
+    "gap": 10,
+    "pad": 20,
+    "v": 2
+  },
+  "common": [
+    {
+      "id": "ct",
+      "type": "text",
+      "x": 0,
+      "y": 0,
+      "w": 2,
+      "h": 2,
+      "html": "Contact us",
+      "href": "#",
+      "fix": "bottom",
+      "fo": 20,
+      "fa": "center",
+      "al": "center",
+      "un": true,
+      "size": 18
+    }
+  ],
+  "pages": [
+    {
+      "id": "home",
+      "slug": "",
+      "title": "ñ press",
+      "blocks": [
+        {
+          "id": "a1",
+          "type": "text",
+          "x": 0,
+          "y": 0,
+          "w": 4,
+          "h": 3,
+          "html": "ñ press"
+        }
+      ]
+    },
+    {
+      "id": "type",
+      "slug": "type",
+      "title": "type test",
+      "blocks": [
+        {
+          "id": "t1",
+          "type": "text",
+          "x": 0,
+          "y": 1,
+          "w": 8,
+          "h": 3,
+          "html": "H1 is 64 bold",
+          "sty": "H1"
+        },
+        {
+          "id": "t2",
+          "type": "text",
+          "x": 0,
+          "y": 6,
+          "w": 6,
+          "h": 2,
+          "html": "H2 is 32 bold",
+          "sty": "H2"
+        },
+        {
+          "id": "t3",
+          "type": "text",
+          "x": 0,
+          "y": 10,
+          "w": 4,
+          "h": 5,
+          "html": "Body copy is 18 on a 24 baseline. This box is free, so it grows a row at a time as the text gets longer, and every line sits on a pink line.",
+          "sty": "body copy"
+        },
+        {
+          "id": "t4",
+          "type": "text",
+          "x": 5,
+          "y": 10,
+          "w": 3,
+          "h": 3,
+          "html": "Locked body copy. This box stays three rows tall, so the end of this sentence gets cut off and the red mark shows up.",
+          "sty": "body copy",
+          "fm": "lock"
+        },
+        {
+          "id": "t5",
+          "type": "text",
+          "x": 0,
+          "y": 17,
+          "w": 3,
+          "h": 2,
+          "html": "Caption is 12 on the same 24 baseline, so it looks loose. Fig. 1, linocut, 2026",
+          "sty": "caption"
+        },
+        {
+          "id": "t6",
+          "type": "text",
+          "x": 8,
+          "y": 10,
+          "w": 3,
+          "h": 4,
+          "html": "H1 in a narrow box",
+          "sty": "H1"
+        },
+        {
+          "id": "t7",
+          "type": "text",
+          "x": 8,
+          "y": 25,
+          "w": 4,
+          "h": 2,
+          "html": "H2 set to scale to fit",
+          "sty": "H2",
+          "fm": "fit"
+        },
+        {
+          "id": "t8",
+          "type": "text",
+          "x": 5,
+          "y": 15,
+          "w": 3,
+          "h": 1,
+          "html": "Locked caption with too much text for one row of the grid",
+          "sty": "caption",
+          "fm": "lock"
+        },
+        {
+          "id": "t9",
+          "type": "text",
+          "x": 0,
+          "y": 22,
+          "w": 6,
+          "h": 4,
+          "html": "H2 next to<br>body copy",
+          "sty": "H2"
+        }
+      ]
+    }
+  ],
+  "styles": {
+    "body copy": {
+      "font": "\"Degular\", Helvetica, Arial, sans-serif",
+      "size": 18,
+      "wt": "400"
+    },
+    "caption": {
+      "font": "\"Degular\", Helvetica, Arial, sans-serif",
+      "size": 12,
+      "wt": "400"
+    },
+    "H1": {
+      "font": "\"Degular\", Helvetica, Arial, sans-serif",
+      "size": 64,
+      "wt": "700"
+    },
+    "H2": {
+      "font": "\"Degular\", Helvetica, Arial, sans-serif",
+      "size": 32,
+      "wt": "700"
+    }
+  }
+}
