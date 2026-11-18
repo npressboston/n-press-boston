@@ -147,7 +147,7 @@ function draw0() {
     grd(hd, g)
     base(hd, s, pg())
     nw.forEach(function (b) {
-      if (b.type == 'text' ? b.fm : 'cards nav events table'.indexOf(b.type) < 0) return
+      if (b.type == 'text' ? b.fm : 'cards nav events table group'.indexOf(b.type) < 0) return
       var d = document.createElement('div'), x
       d.className = 'b'
       lay(d, b)
@@ -187,6 +187,7 @@ function draw0() {
     d.appendChild(bk(b, 1))
     if (b.type == 'table') thook(b, d)
     if (b.type == 'image') cfix(b, d)
+    if (b.type == 'group') ghook(b, d)
     d.querySelectorAll('img, video').forEach(function (m) {
       var k = m.dataset.src || m.getAttribute('src')
       if (PV[k]) m.src = PV[k]
@@ -208,12 +209,26 @@ function draw0() {
     if (b.lk) d.classList.add('lk')
     d.onpointerdown = function (e) {
       if (CRP && CRP.d == d) return cdrag(e)
+      if (b.type == 'group' && GE == b.id) return gdown(e, b, d)
       if (SB) act(d.mob)
       if (e.target == ro) return spin(e, b, d)
       grab(e, b, d, e.target.dataset.h)
     }
     d.ondblclick = function (e) {
       if (CRP) return
+      if (b.type == 'group') {
+        if (GE != b.id) {
+          GE = b.id
+          GK = null
+          sel = b
+          SS = [b]
+          draw(); panel()
+          return
+        }
+        var gw0 = gat(d, e)
+        if (gw0 && /text|button|marquee/.test(gw0.gk.type) && !gw0.querySelector('[contenteditable=true]')) typ(gw0.gk, gw0, e, 1)
+        return
+      }
       if (b.type == 'image' && b.src && !b.fit && e.target != ro) return crop(b, d)
       if (SB) act(d.mob)
       if (e.target == ro) {
@@ -255,7 +270,7 @@ function draw0() {
     pe.onpointerdown = function (e) {
       e.preventDefault()
       e.stopPropagation()
-      pe.setPointerCapture(e.pointerId)
+      cap(pe, e.pointerId)
       pe.onpointermove = function (e) {
         var r = cv.getBoundingClientRect(), n = Math.round((e.clientY - r.top - g.pad * 2) / g.row)
         var gl = s.grid.len || 0
@@ -356,7 +371,7 @@ function mgx() {
     var o = mgr(mgs()), B = mgb(o), sx = e.clientX, sy = e.clientY, moved = false
     var cx = B.x + B.w / 2, cy = B.y + B.h / 2, cr = cv.getBoundingClientRect()
     var a0 = Math.atan2(e.clientY - cr.top - cy, e.clientX - cr.left - cx)
-    bx0.setPointerCapture(e.pointerId)
+    cap(bx0, e.pointerId)
     bx0.onpointermove = function (e) {
       moved = true
       if (e.target == ro || !h) {
@@ -537,7 +552,13 @@ function mcust() {
   return all().some(function (b) { return b.m && b.m.w })
 }
 
+function tsoff() {
+  TS = null
+  document.querySelectorAll('.tcl.tsel').forEach(function (x) { x.classList.remove('tsel') })
+}
+
 function pick(b, add) {
+  if (TS && (!b || TS.id != b.id)) tsoff()
   if (add && b) {
     var i = SS.indexOf(b)
     if (i > -1) SS.splice(i, 1)
@@ -606,7 +627,7 @@ function grab(e, b, d, rsz) {
   var lo = Math.min.apply(0, gg.map(function (o) { return -o.x }))
   var hi = Math.min.apply(0, gg.map(function (o) { return c - o.w - o.x }))
   var up = Math.min.apply(0, gg.map(function (o) { return o.y }))
-  d.setPointerCapture(e.pointerId)
+  cap(d, e.pointerId)
   var th = rsz && b.rot ? -b.rot * Math.PI / 180 : 0
   d.onpointermove = function (e) {
     var px = e.clientX - sx, py = e.clientY - sy
@@ -683,7 +704,7 @@ function spin(e, b, d) {
   if (sel != b) pick(b)
   var r = d.getBoundingClientRect(), cx = r.left + r.width / 2, cy = r.top + r.height / 2, c = d.firstChild, a0 = b.rot || 0
   var st = Math.atan2(e.clientY - cy, e.clientX - cx) * 180 / Math.PI, moved = false
-  d.setPointerCapture(e.pointerId)
+  cap(d, e.pointerId)
   d.onpointermove = function (e) {
     var a = a0 + Math.atan2(e.clientY - cy, e.clientX - cx) * 180 / Math.PI - st
     a = ((a + 540) % 360) - 180
@@ -859,7 +880,7 @@ function thook(b, d) {
       h.onpointerdown = function (e) {
         e.stopPropagation()
         e.preventDefault()
-        h.setPointerCapture(e.pointerId)
+        cap(h, e.pointerId)
         var s0 = v ? e.clientX : e.clientY, L = (v ? g.offsetWidth : g.offsetHeight) - gp * (ws.length - 1), a0 = ws[i], b0 = ws[i + 1], mn = S * .04
         h.onpointermove = function (e) {
           var dw = ((v ? e.clientX : e.clientY) - s0) / L * S
@@ -1079,7 +1100,7 @@ function cdrag(e) {
   e.stopPropagation()
   var c = CRP, d = c.d, v = c.v, w = d.clientWidth, h = d.clientHeight, ar = c.b.ar
   var iw = Math.max(w, h * ar) * v.z / 100, ih = Math.max(h, w / ar) * v.z / 100, ow = iw - w, oh = ih - h, sx = e.clientX, sy = e.clientY, x0 = v.x, y0 = v.y
-  d.setPointerCapture(e.pointerId)
+  cap(d, e.pointerId)
   d.onpointermove = function (e) {
     cmv(ow > .5 ? x0 - (e.clientX - sx) / ow * 100 : x0, oh > .5 ? y0 - (e.clientY - sy) / oh * 100 : y0, v.z)
   }
@@ -1088,7 +1109,176 @@ function cdrag(e) {
 
 document.addEventListener('pointerdown', function (e) {
   if (CRP && !CRP.d.contains(e.target)) cend()
+  if (GE && !(e.target.closest && e.target.closest('#pn, #rt, #tb, #gp, #cpk, #fpk, #lw, #lab'))) {
+    var gd = all().filter(function (x) { return x.id == GE })[0], el = gd && elof(gd)
+    if (!el || !el.contains(e.target)) { GE = GK = null; setTimeout(function () { draw(); panel() }) }
+  }
 }, true)
+
+var GE = null, GK = null
+
+function grel(el) {
+  var r = el.getBoundingClientRect(), c = cv.getBoundingClientRect()
+  return { l: r.left - c.left - cv.clientLeft, t: r.top - c.top - cv.clientTop, w: r.width, h: r.height }
+}
+
+function gmake() {
+  if (RO) return
+  if (MOB) return st.textContent = 'make groups in the desktop view'
+  var bs = SS.filter(function (b) { return !b.fix && !(b.type == 'band' && b.wp) && b.type != 'group' })
+  if (bs.length < 2) return st.textContent = 'select two or more blocks to group them'
+  var a = arr(bs[0])
+  bs = bs.filter(function (b) { return arr(b) == a })
+  var g = pgd(s, pg()), k = step(), L = 1e9, T = 1e9, R = -1e9, B = -1e9, rs = bs.map(function (b) {
+    var el = elof(b), o = { l: el.offsetLeft, t: el.offsetTop, w: el.offsetWidth, h: el.offsetHeight }
+    L = Math.min(L, o.l); T = Math.min(T, o.t); R = Math.max(R, o.l + o.w); B = Math.max(B, o.t + o.h)
+    return o
+  })
+  var x = Math.max(0, Math.floor((L - g.pad) / k.w + .02)), y = Math.max(0, Math.floor((T - g.pad) / k.h + .02))
+  var w = Math.max(1, Math.ceil((R - g.pad + g.gap) / k.w - .02) - x), h = Math.max(1, Math.ceil((B - g.pad) / k.h - .02) - y)
+  var GL = g.pad + x * k.w, GT = g.pad + y * k.h, GW = Math.round(w * k.w - g.gap), GH = h * k.h
+  var kids = bs.map(function (b, i) {
+    var c = JSON.parse(JSON.stringify(b)), o = rs[i]
+    ;['x', 'y', 'w', 'h', 'ag', 'fx', 'fy', 'fw', 'fh', 'fix', 'fo', 'fa', 'm', 'on', 'lk', 'stk'].forEach(function (q) { delete c[q] })
+    c.gx = Math.round(o.l - GL)
+    c.gy = Math.round(o.t - GT)
+    c.gw = Math.round(o.w)
+    c.gh = Math.round(o.h)
+    return c
+  })
+  var gb = { id: Math.random().toString(36).slice(2, 8), type: 'group', x: x, y: y, w: w, h: h, gw: GW, gh: GH, kids: kids }
+  var at = Math.min.apply(0, bs.map(function (b) { return a.indexOf(b) }))
+  bs.forEach(function (b) { a.splice(a.indexOf(b), 1) })
+  a.splice(at, 0, gb)
+  sel = gb
+  SS = [gb]
+  GE = GK = null
+  dirty(); draw(); panel()
+  st.textContent = 'grouped ' + kids.length + ' blocks. double click the group to edit inside'
+}
+
+function gbreak(gb) {
+  if (RO || !gb || gb.type != 'group') return
+  if (MOB) return st.textContent = 'ungroup in the desktop view'
+  var a = arr(gb), d = elof(gb), g = pgd(s, pg()), k = step(), out = []
+  if (!d) return
+  d.querySelectorAll('.gk').forEach(function (w) {
+    var c = JSON.parse(JSON.stringify(w.gk)), o = grel(w)
+    ;['gx', 'gy', 'gw', 'gh', 'ch', 'cv'].forEach(function (q) { delete c[q] })
+    c.x = Math.max(0, Math.round((o.l - g.pad) / k.w))
+    c.y = Math.max(0, Math.round((o.t - g.pad) / k.h))
+    c.w = Math.max(1, Math.min(k.c - c.x, Math.round((o.w + g.gap) / k.w)))
+    c.h = Math.max(1, Math.round(o.h / k.h))
+    c.id = c.id || Math.random().toString(36).slice(2, 8)
+    out.push(c)
+  })
+  var at = a.indexOf(gb)
+  a.splice.apply(a, [at, 1].concat(out))
+  SS = out.slice()
+  sel = out[out.length - 1] || null
+  GE = GK = null
+  dirty(); draw(); panel()
+}
+
+function gquit() {
+  if (!GE) return
+  GE = GK = null
+  draw()
+  panel()
+}
+
+function gat(d, e) {
+  var ws = [].slice.call(d.querySelectorAll('.gk')).reverse()
+  return ws.filter(function (w) {
+    var r = w.getBoundingClientRect()
+    return e.clientX >= r.left && e.clientX <= r.right && e.clientY >= r.top && e.clientY <= r.bottom
+  })[0]
+}
+
+function gdown(e, b, d) {
+  e.preventDefault()
+  e.stopPropagation()
+  if (document.activeElement && document.activeElement.isContentEditable) return
+  var rz = e.target.classList && e.target.classList.contains('gkr'), w = rz ? e.target.parentNode : gat(d, e)
+  if (!w) {
+    GK = null
+    draw(); panel()
+    return
+  }
+  var k = w.gk, sc = d.firstChild.gs || 1, sx = e.clientX, sy = e.clientY, o = { x: k.gx || 0, y: k.gy || 0, w: k.gw || 40, h: k.gh || 24 }, moved = false
+  if (GK != k) {
+    GK = k
+    d.querySelectorAll('.gk.gsel').forEach(function (x) { x.classList.remove('gsel') })
+    w.classList.add('gsel')
+    panel()
+  }
+  cap(d, e.pointerId)
+  d.onpointermove = function (e) {
+    var dx = (e.clientX - sx) / sc, dy = (e.clientY - sy) / sc
+    if (!moved && Math.abs(dx) + Math.abs(dy) < 3) return
+    moved = true
+    if (rz) {
+      k.gw = Math.max(8, Math.round(o.w + dx))
+      k.gh = Math.max(8, Math.round(o.h + dy))
+    } else {
+      k.gx = Math.round(o.x + dx)
+      k.gy = Math.round(o.y + dy)
+    }
+    gkl(w, k, b)
+  }
+  d.onpointerup = function () {
+    d.onpointermove = d.onpointerup = null
+    if (moved) { dirty(); draw(); panel() }
+  }
+}
+
+function ghook(b, d) {
+  if (GE != b.id) return
+  d.classList.add('gedit')
+  d.querySelectorAll('.gk').forEach(function (w) {
+    if (w.gk != GK) return
+    w.classList.add('gsel')
+    var h = document.createElement('span')
+    h.className = 'gkr'
+    w.appendChild(h)
+  })
+}
+
+function gkpos(G, K) {
+  hd((K.type == 'nav' ? 'menu' : K.type) + ', inside the group')
+  ns('editing inside the group')
+  btn('done editing the group', gquit)
+  nt('esc or click outside the group also finishes')
+  fld('x px', K, 'gx', 'o')
+  fld('y px', K, 'gy', 'o')
+  fld('width px', K, 'gw', 'o')
+  fld('height px', K, 'gh', 'o')
+  if (G.gm != 'scale') {
+    fld('holds', K, 'ch', 's', [['', 'left'], ['r', 'right'], ['c', 'center'], ['lr', 'left and right'], ['s', 'scales across']])
+    nt('what this does when the group gets wider or narrower. left and right stretches it')
+    fld('and', K, 'cv', 's', [['', 'top'], ['b', 'bottom'], ['c', 'middle'], ['tb', 'top and bottom'], ['s', 'scales down']])
+  }
+  fld('layer', K, 'z', 'n')
+  fld('rotate', K, 'rot', 'o')
+  btn('take it out of the group', function () {
+    var d = elof(G), w = d && [].filter.call(d.querySelectorAll('.gk'), function (x) { return x.gk == K })[0]
+    if (!w) return
+    var g = pgd(s, pg()), k = step(), o = grel(w), c = JSON.parse(JSON.stringify(K)), a = arr(G)
+    ;['gx', 'gy', 'gw', 'gh', 'ch', 'cv'].forEach(function (q) { delete c[q] })
+    c.x = Math.max(0, Math.round((o.l - g.pad) / k.w))
+    c.y = Math.max(0, Math.round((o.t - g.pad) / k.h))
+    c.w = Math.max(1, Math.min(k.c - c.x, Math.round((o.w + g.gap) / k.w)))
+    c.h = Math.max(1, Math.round(o.h / k.h))
+    G.kids.splice(G.kids.indexOf(K), 1)
+    a.splice(a.indexOf(G) + 1, 0, c)
+    if (!G.kids.length) a.splice(a.indexOf(G), 1)
+    GK = null
+    sel = c
+    SS = [c]
+    GE = null
+    dirty(); draw(); panel()
+  })
+}
 
 function mqimg(b, p) {
   var h = tx(b.html) || tx(b.text) || ''
@@ -1182,6 +1372,44 @@ function typ(b, d, e, wd, tc) {
 }
 
 var rl = rt.querySelector('.rl'), rli = rl.querySelector('input'), rci = rt.querySelector('.rcl input'), rhi = rt.querySelector('.rhl input'), RG = null
+
+function rwrap() {
+  var r = RG, c = rt.c
+  if (!r || r.collapsed || !c || !c.contains(r.commonAncestorContainer)) return []
+  var sc = r.startContainer, so = r.startOffset, ec = r.endContainer, eo = r.endOffset, w = document.createTreeWalker(c, NodeFilter.SHOW_TEXT), ns = [], n, out = []
+  while ((n = w.nextNode())) if (r.intersectsNode(n) && n.data.length) ns.push(n)
+  ns.forEach(function (t) {
+    var a = t == sc ? so : 0, z = t == ec ? eo : t.data.length
+    if (sc.nodeType != 3 && t == ns[0]) a = 0
+    if (a >= z) return
+    if (z < t.data.length) t.splitText(z)
+    if (a > 0) t = t.splitText(a)
+    var sp = document.createElement('span')
+    sp.className = 'rsel'
+    t.parentNode.insertBefore(sp, t)
+    sp.appendChild(t)
+    out.push(sp)
+  })
+  if (out.length) {
+    RG = document.createRange()
+    RG.setStartBefore(out[0])
+    RG.setEndAfter(out[out.length - 1])
+  }
+  return out
+}
+
+function rfin(sp) {
+  sp.forEach(function (z) {
+    z.classList.remove('rsel')
+    if (!z.className) z.removeAttribute('class')
+    if (!z.getAttribute('style')) z.removeAttribute('style')
+    if (!z.attributes.length && z.parentNode) {
+      while (z.firstChild) z.parentNode.insertBefore(z.firstChild, z)
+      z.remove()
+    }
+  })
+  if (rt.c) rt.c.normalize()
+}
 
 function rkeep() {
   var g = document.getSelection()
@@ -1433,63 +1661,44 @@ rt.onclick = function (e) {
   if (x == 'unlink') return rlend('')
   if (x == 'link') return rl.hidden ? rlink() : rlend()
   if (x == 'glyphs') return gp.hidden ? gopen() : gshut()
-  if (x == 'color') {
+  if (x == 'color' || x == 'hilite') {
     rkeep()
+    var o0 = rinfo(), hi = x == 'hilite', inp = hi ? rhi : rci, sp = rwrap()
+    if (!sp.length) { st.textContent = 'select some text first'; return }
     rt.busy = true
-    rci.value = rgbh(rinfo().col)
-    rci.oninput = function () {
-      rback()
-      document.execCommand('styleWithCSS', false, true)
-      document.execCommand('foreColor', false, rci.value)
-      document.execCommand('styleWithCSS', false, false)
-      rkeep()
-      rt.querySelector('.rcl i').style.background = rci.value
-    }
-    rci.onclose = function () {
-      setTimeout(function () {
-        rt.busy = false
-        if (document.activeElement != rt.c) rback()
-        rts()
-      })
-    }
-    return cpk(rci)
-  }
-  if (x == 'hilite') {
-    rkeep()
-    rt.busy = true
-    var h0 = rinfo().hl
-    rhi.value = h0 ? rgbh(h0) : getComputedStyle(cv).getPropertyValue('--hl').trim() || '#fff45c'
-    function hl(v) {
-      rback()
-      document.execCommand('styleWithCSS', false, true)
-      document.execCommand('hiliteColor', false, v)
-      document.execCommand('styleWithCSS', false, false)
-      if (v == 'transparent') rt.c.querySelectorAll('[style*="background-color"]').forEach(function (z) {
-        if (/transparent|rgba\(0, 0, 0, 0\)/.test(z.style.backgroundColor)) z.style.removeProperty('background-color')
-        if (!z.getAttribute('style')) z.removeAttribute('style')
-        if (z.tagName == 'SPAN' && !z.attributes.length) {
-          while (z.firstChild) z.parentNode.insertBefore(z.firstChild, z)
-          z.remove()
+    inp.value = hi ? (o0.hl ? rgbh(o0.hl) : getComputedStyle(cv).getPropertyValue('--hl').trim() || '#fff45c') : rgbh(o0.col)
+    function put(v) {
+      sp.forEach(function (z) {
+        if (!hi) return z.style.color = v
+        if (v) return z.style.backgroundColor = v
+        z.style.removeProperty('background-color')
+        for (var q = z.parentNode; q && q != rt.c; q = q.parentNode) {
+          if (!q.style || !q.style.backgroundColor) continue
+          var all0 = true, tw = document.createTreeWalker(q, NodeFilter.SHOW_TEXT), tn
+          while ((tn = tw.nextNode())) if (tn.data.trim() && !tn.parentNode.closest('.rsel')) all0 = false
+          if (all0) q.style.removeProperty('background-color')
         }
       })
-      rkeep()
-      rts()
+      rt.querySelector(hi ? '.rhl i' : '.rcl i').style.background = v || 'transparent'
     }
-    rhi.oninput = function () { hl(rhi.value) }
-    rhi.onclose = function () {
+    inp.oninput = function () { put(inp.value) }
+    inp.onclose = function () {
+      rfin(sp)
       setTimeout(function () {
         rt.busy = false
-        if (document.activeElement != rt.c) rback()
+        rback()
         rts()
       })
     }
-    cpk(rhi)
-    if (!h0) hl(rhi.value)
-    var nx = document.createElement('a')
-    nx.className = 'all'
-    nx.textContent = 'no highlight'
-    nx.onclick = function () { hl('transparent'); cpx() }
-    CP.w.appendChild(nx)
+    cpk(inp)
+    if (hi && !o0.hl) put(inp.value)
+    if (hi) {
+      var nx = document.createElement('a')
+      nx.className = 'all'
+      nx.textContent = 'no highlight'
+      nx.onclick = function () { put(''); cpx() }
+      CP.w.appendChild(nx)
+    }
     return
   }
   if (x == 'removeFormat') return rclear()
@@ -1543,6 +1752,13 @@ function add(t) {
 }
 
 function del(go) {
+  if (GE && GK) {
+    var G = all().filter(function (x) { return x.id == GE })[0]
+    if (G) G.kids.splice(G.kids.indexOf(GK), 1)
+    GK = null
+    dirty(); draw(); panel()
+    return
+  }
   if (!SS.length) return
   var both = SS.filter(function (b) { return !b.on && !b.fix })
   if (go !== 1 && both.length) return pick3((SS.length > 1 ? 'remove these ' + SS.length + ' blocks' : 'remove this block') + ' from', [[MOB ? 'p' : 'd', MOB ? 'the phone only' : 'desktop only'], ['all', 'phone and desktop']], function (v) {
@@ -1972,10 +2188,6 @@ function pgpanel() {
   ovf('page length, rows', p, 'len', s.grid, 0)
   tg.lastChild.querySelector('input').placeholder = 'auto'
   nt('blank follows global. 0 ends the page right after the last block. or drag the page end line on the canvas')
-  hd('colors')
-  ovf('text color', p, 'fg', s.base, 'c')
-  ovf('highlight', p, 'hl', s.base, 'c')
-  ovf('lines', p, 'ln', s.base, 'c')
   var lk = all().filter(function (b) { return b.lk })
   hd('locked')
   btn('unlock all on page' + (lk.length ? ' (' + lk.length + ')' : ''), function () {
@@ -2085,6 +2297,7 @@ function stl(b, t) {
 }
 
 function nm(b) {
+  if (b.type == 'group') return (b.kids || []).map(nm).filter(Boolean).join(', ').slice(0, 26) || (b.kids || []).length + ' things'
   var v = tx(b.html) || tx(b.text) || tx(b.t) || (b.items && b.items[0] && tx(b.items[0].t)) || (b.src || '').split('/').pop()
   return String(v).replace(/<[^>]+>/g, ' ').trim().slice(0, 26)
 }
@@ -2270,10 +2483,6 @@ function everypg() {
   fld('page length, rows', s.grid, 'len', 'o')
   tg.lastChild.querySelector('input').placeholder = 'auto'
   nt('blank ends each page after its last block. a page can change this in the page tab')
-  hd('colors')
-  fld('text color', s.base, 'fg', 'c')
-  fld('highlight', s.base, 'hl', 'c')
-  fld('lines', s.base, 'ln', 'c')
   hd('languages')
   var l2 = document.createElement('label'), i2 = document.createElement('input')
   l2.textContent = 'languages'
@@ -2594,7 +2803,11 @@ function pnl() {
     pgpanel()
     return
   }
+  var GKP = GK && sel.type == 'group' && GE == sel.id, G0 = sel
+  if (GKP) sel = GK
   var t = sel.type
+  if (GKP) gkpos(G0, GK)
+  else {
   if (SS.length > 1) {
     hd(SS.length + ' blocks selected')
     nt('they move together. the settings below are for the last one you clicked')
@@ -2605,6 +2818,10 @@ function pnl() {
   fld('lock, can not be clicked on the canvas', sel, 'lk', 'b')
   if (sel.lk) nt('unlock it here or with the lock in active elements')
   fld('show on', sel, 'on', 's', [['', 'phone and desktop'], ['d', 'desktop only'], ['p', 'phone only']])
+  if (!sel.fix && !(t == 'band' && sel.wp)) {
+    fld('sticks to the top when scrolling', sel, 'stk', 'b')
+    if (sel.stk) nt('it scrolls with the page until it reaches the top, then stays there. see it in preview')
+  }
   if (MOB && !sel.fix && !sel.ag && !sel.on) {
     var lk0 = sel.m && Object.keys(sel.m).some(function (k) { return k != 'hide' })
     ns(lk0 ? 'phone: unlinked' : 'phone: linked to desktop')
@@ -2708,6 +2925,7 @@ function pnl() {
   if (sel.fix && t != 'band') {
     fld('from edge %', sel, 'fo', 'o')
     fld('side', sel, 'fa', 's', [['', 'center'], 'left', 'right'])
+  }
   }
   if (MOB) sel = mprox(sel)
   if (t == 'band') return bpanel()
@@ -2824,6 +3042,15 @@ function pnl() {
   }
   if (t == 'button') fld('label', sel, 't', 't')
   if ('text image banner button video'.indexOf(t) > -1 && !sel.zoom) fld('link', sel, 'href')
+  if (t == 'group') {
+    ns((sel.kids || []).length + ' things inside')
+    fld('scaling', sel, 'gm', 's', [['', 'each holds its side'], ['scale', 'scale as one']])
+    nt(sel.gm == 'scale' ? 'everything shrinks and grows together, text too, like an image' : 'each thing keeps its size and holds the side you pick for it inside the group, so nothing wraps into its neighbor')
+    fld('on phones', sel, 'gmm', 's', [['', 'same as desktop'], ['stack', 'stack them']])
+    var G1 = sel.__pb || sel
+    btn('edit inside', function () { GE = G1.id; GK = null; draw(); panel() })
+    btn('ungroup', function () { gbreak(G1) })
+  }
   if (t == 'table') tpan(sel.__pb || sel, sel)
   if (t == 'join') {
     nt('people type their email and it saves to the list. see everyone in the list tab')
@@ -2869,6 +3096,7 @@ function pnl() {
     LS.forEach(function (l) { fld('label ' + l, sel.names, l) })
   }
   if (t == 'nav') {
+    fld('layout', sel, 'nd', 's', [['', 'stacked boxes'], ['row', 'boxes in a row'], ['plain', 'plain links in a row']])
     nt('link to a page with @address, @ alone is home')
     lst('links', sel, 'items', [['t', 'label', 't'], ['href', 'link']])
   }
@@ -2884,6 +3112,19 @@ function pnl() {
     fld('per page', sel, 'per', 'n')
     nt('0 per page shows all')
     lst('items', sel, 'items', [['t', 'title', 't'], ['price', 'price'], ['was', 'old price'], ['badge', 'sticker', 't'], ['img', 'image'], ['href', 'link'], ['tag', 'tag']])
+  }
+  if ('nav tabs cards lang join events'.indexOf(t) > -1) {
+    hd('lines and fills')
+    fld('line color', sel, 'lnc', 'c')
+    fld('line thickness px', sel, 'lnw', 'o')
+    tg.lastChild.querySelector('input').placeholder = 1
+    fld('line style', sel, 'lns', 's', [['', 'solid'], ['dashed', 'dashed'], ['dotted', 'dotted'], ['none', 'no lines']])
+    if ('nav tabs cards'.indexOf(t) > -1) fld(t == 'cards' ? 'sticker and hover fill' : 'hover and active fill', sel, 'hlc', 'c')
+    if (t == 'lang') {
+      fld('active fill', sel, 'afc', 'c')
+      fld('active text', sel, 'atc', 'c')
+    }
+    if (t == 'join') fld('field fill', sel, 'ifc', 'c')
   }
   stl(sel, t)
   btn('delete block', del, ' ')
@@ -3153,7 +3394,7 @@ document.getElementById('wr').onpointerdown = function (e) {
   if (SB) act(cvp.contains(e.target) || e.clientX < cvd.getBoundingClientRect().left)
   if (e.target != cv && e.target != wr && !(SB && (e.target == cvp || e.target == cvd))) return
   var sx = e.clientX, sy = e.clientY, add = e.shiftKey, on = false
-  wr.setPointerCapture(e.pointerId)
+  cap(wr, e.pointerId)
   wr.onpointermove = function (e) {
     if (!on && Math.abs(e.clientX - sx) + Math.abs(e.clientY - sy) < 5) return
     on = true
@@ -3169,6 +3410,7 @@ document.getElementById('wr').onpointerdown = function (e) {
     var r = bx.getBoundingClientRect()
     bx.style.display = 'none'
     if (!add) SS = []
+    tsoff()
     all().forEach(function (b) {
       var el = elof(b), q
       if (!el || b.fix || b.lk) return
@@ -3199,6 +3441,12 @@ document.onkeydown = function (e) {
     return
   }
   if (m && k == 's') { e.preventDefault(); save(); return }
+  if (m && k == 'g' && !/INPUT|TEXTAREA|SELECT/.test(e.target.tagName) && !e.target.isContentEditable) {
+    e.preventDefault()
+    if (e.shiftKey) gbreak(sel)
+    else gmake()
+    return
+  }
   if (m && (e.key == '|' || (e.shiftKey && e.code == 'Backslash')) && !RO) {
     e.preventDefault()
     var ag = (SS.length ? SS : all()).filter(function (b) { return b.ag && !b.lk })
@@ -3231,6 +3479,7 @@ document.onkeydown = function (e) {
     return
   }
   if (e.key == '?') { hlp.hidden = !hlp.hidden; return }
+  if (e.key == 'Escape' && GE) { gquit(); return }
   if (e.key == 'Escape') { hlp.hidden = true; pick(null); return }
   if (!SS.length) return
   if (m && k == 'c') { cp(); return }

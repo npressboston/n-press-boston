@@ -137,8 +137,8 @@ img.c-image {
 }
 
 .c-nav a {
-  border: 1px solid var(--ln, #000);
-  margin-top: -1px;
+  border: var(--lw, 1px) var(--ls, solid) var(--ln, #000);
+  margin-top: calc(var(--lw, 1px) * -1);
   padding: 8px 12px;
   color: inherit;
   text-decoration: none;
@@ -162,8 +162,8 @@ img.c-image {
   display: flex;
   align-items: center;
   padding: 0 12px;
-  border: 1px solid var(--ln, #000);
-  margin-left: -1px;
+  border: var(--lw, 1px) var(--ls, solid) var(--ln, #000);
+  margin-left: calc(var(--lw, 1px) * -1);
   color: inherit;
   text-decoration: none;
   font-size: 17px;
@@ -192,7 +192,7 @@ img.c-image {
   left: -1px;
   right: -1px;
   background: #fff;
-  border: 1px solid var(--ln, #000);
+  border: var(--lw, 1px) var(--ls, solid) var(--ln, #000);
   z-index: 20;
 }
 
@@ -217,8 +217,8 @@ img.c-image {
 
 .cg {
   display: grid;
-  border-top: 1px solid var(--ln, #000);
-  border-left: 1px solid var(--ln, #000);
+  border-top: var(--lw, 1px) var(--ls, solid) var(--ln, #000);
+  border-left: var(--lw, 1px) var(--ls, solid) var(--ln, #000);
 }
 
 .cd {
@@ -226,8 +226,8 @@ img.c-image {
   display: flex;
   flex-direction: column;
   padding: 12px;
-  border-right: 1px solid var(--ln, #000);
-  border-bottom: 1px solid var(--ln, #000);
+  border-right: var(--lw, 1px) var(--ls, solid) var(--ln, #000);
+  border-bottom: var(--lw, 1px) var(--ls, solid) var(--ln, #000);
   color: inherit;
   text-decoration: none;
 }
@@ -269,7 +269,7 @@ img.c-image {
   left: 9px;
   width: 26px;
   height: 26px;
-  border: 1px solid var(--ln, #000);
+  border: var(--lw, 1px) var(--ls, solid) var(--ln, #000);
   border-radius: 50%;
   background: #fff;
   display: flex;
@@ -338,7 +338,7 @@ img.c-image {
   flex-direction: column;
   justify-content: flex-end;
   padding: 10px 12px;
-  border: 1px solid var(--ln, #000);
+  border: var(--lw, 1px) var(--ls, solid) var(--ln, #000);
   font-size: 18px;
 }
 
@@ -359,16 +359,16 @@ img.c-image {
   display: flex;
   align-items: center;
   padding: 0 12px;
-  border: 1px solid var(--ln, #000);
-  margin-left: -1px;
+  border: var(--lw, 1px) var(--ls, solid) var(--ln, #000);
+  margin-left: calc(var(--lw, 1px) * -1);
   color: inherit;
   text-decoration: none;
   font-size: 15px;
 }
 
 .c-lang a.on {
-  background: var(--ln, #000);
-  color: #fff;
+  background: var(--af, var(--ln, #000));
+  color: var(--at, #fff);
 }
 
 .c-video {
@@ -550,11 +550,11 @@ img.c-image {
   grid-template-columns: 64px minmax(0, 1fr) auto;
   gap: 16px;
   padding: 14px 0;
-  border-top: 1px solid var(--ln, #000);
+  border-top: var(--lw, 1px) var(--ls, solid) var(--ln, #000);
 }
 
 .ev:last-of-type {
-  border-bottom: 1px solid var(--ln, #000);
+  border-bottom: var(--lw, 1px) var(--ls, solid) var(--ln, #000);
 }
 
 .evd {
@@ -565,7 +565,7 @@ img.c-image {
   align-self: start;
   height: 64px;
   background: var(--ac);
-  border: 1px solid var(--ln, #000);
+  border: var(--lw, 1px) var(--ls, solid) var(--ln, #000);
   line-height: 1;
 }
 
@@ -624,7 +624,7 @@ img.c-image {
   display: inline-block;
   cursor: pointer;
   list-style: none;
-  border: 1px solid var(--ln, #000);
+  border: var(--lw, 1px) var(--ls, solid) var(--ln, #000);
   padding: 4px 9px;
 }
 
@@ -682,8 +682,8 @@ img.c-image {
 .eve {
   margin: 0;
   padding: 14px 0;
-  border-top: 1px solid var(--ln, #000);
-  border-bottom: 1px solid var(--ln, #000);
+  border-top: var(--lw, 1px) var(--ls, solid) var(--ln, #000);
+  border-bottom: var(--lw, 1px) var(--ls, solid) var(--ln, #000);
 }
 
 .emh {
@@ -710,13 +710,13 @@ img.c-image {
 .emg {
   display: grid;
   grid-template-columns: repeat(7, minmax(0, 1fr));
-  border-top: 1px solid var(--ln, #000);
-  border-left: 1px solid var(--ln, #000);
+  border-top: var(--lw, 1px) var(--ls, solid) var(--ln, #000);
+  border-left: var(--lw, 1px) var(--ls, solid) var(--ln, #000);
 }
 
 .emg > span, .emd {
-  border-right: 1px solid var(--ln, #000);
-  border-bottom: 1px solid var(--ln, #000);
+  border-right: var(--lw, 1px) var(--ls, solid) var(--ln, #000);
+  border-bottom: var(--lw, 1px) var(--ls, solid) var(--ln, #000);
 }
 
 .emw {
@@ -826,7 +826,7 @@ img.c-image {
 
 .jf {
   display: flex;
-  border: 1px solid var(--ln, #000);
+  border: var(--lw, 1px) var(--ls, solid) var(--ln, #000);
 }
 
 .jf input {
@@ -836,7 +836,7 @@ img.c-image {
   color: inherit;
   background: transparent;
   border: 0;
-  border-right: 1px solid var(--ln, #000);
+  border-right: var(--lw, 1px) var(--ls, solid) var(--ln, #000);
   padding: 10px 12px;
   outline: 0;
 }
@@ -871,7 +871,7 @@ img.c-image {
 }
 
 .jst .jf input {
-  border: 1px solid var(--ln, #000);
+  border: var(--lw, 1px) var(--ls, solid) var(--ln, #000);
 }
 
 .jnt, .jms {
@@ -904,7 +904,7 @@ img.c-image {
 
   .jn:not(.jst) .jf:has(input + input) input {
     border-right: 0;
-    border-bottom: 1px solid var(--ln, #000);
+    border-bottom: var(--lw, 1px) var(--ls, solid) var(--ln, #000);
   }
 }
 
@@ -1012,4 +1012,91 @@ img.c-image.cz {
 
 .tct a:hover {
   text-decoration: underline;
+}
+
+.b.t-group {
+  overflow: visible;
+}
+
+.c-group {
+  position: relative;
+}
+
+.gk {
+  position: absolute;
+  box-sizing: border-box;
+}
+
+.gk > .c, .gk > .lk {
+  width: 100%;
+  height: 100%;
+}
+
+.gin {
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform-origin: 0 0;
+}
+
+.c-group.gst {
+  display: flex;
+  flex-direction: column;
+}
+
+.gst .gk {
+  position: relative;
+  width: 100%;
+}
+
+.c-nav.nd-row {
+  flex-direction: row;
+}
+
+.c-nav.nd-row a {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 0;
+  margin-left: calc(var(--lw, 1px) * -1);
+}
+
+.c-nav.nd-row a:first-child {
+  margin-left: 0;
+}
+
+.c-nav.nd-plain {
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 4px 24px;
+}
+
+.c-nav.nd-plain a {
+  border: 0;
+  margin: 0;
+  padding: 0;
+  background: none;
+}
+
+.c-nav.nd-plain a:hover, .c-nav.nd-plain a.on {
+  background: none;
+  text-decoration: underline;
+}
+
+.gst .gk.gbg {
+  position: absolute;
+  inset: 0;
+  width: auto;
+  z-index: 0;
+}
+
+.gst .gk:not(.gbg) {
+  z-index: 1;
+}
+
+.jf input {
+  background: var(--if, transparent);
 }

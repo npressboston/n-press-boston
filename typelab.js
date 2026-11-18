@@ -985,7 +985,7 @@ function gpad(gp) {
   }
   c.onpointerdown = function (e) {
     e.preventDefault()
-    c.setPointerCapture(e.pointerId)
+    cap(c, e.pointerId)
     var r = c.getBoundingClientRect()
     cur = [[e.clientX - r.left, e.clientY - r.top]]
     GS0.push(cur)

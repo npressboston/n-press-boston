@@ -88,7 +88,7 @@ function cpk(i) {
 
   function drag(el, f) {
     el.onpointerdown = function (e) {
-      el.setPointerCapture(e.pointerId)
+      cap(el, e.pointerId)
       f(e)
       send()
       el.onpointermove = function (e) { f(e); send() }

@@ -707,10 +707,29 @@ body.mm {
   box-shadow: 0 2px 10px rgba(0,0,0,.15);
   padding: 12px 16px;
   font-size: 12px;
+  width: 340px;
+  max-height: calc(100vh - 70px);
+  overflow: auto;
+  box-sizing: border-box;
 }
 
 #hlp p {
   margin: 6px 0 0;
+  line-height: 1.35;
+}
+
+#hlp b {
+  display: block;
+}
+
+#hlp b + p {
+  margin-top: 8px;
+}
+
+#hlp p + b {
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px solid #e2e2de;
 }
 
 #pn .ly {
@@ -3447,4 +3466,39 @@ body:not(.sb) #cvp {
 
 #pn .pgl .pgn {
   margin: 10px 14px;
+}
+
+.mm .b.gedit {
+  outline: 1px dashed #2b5cff;
+  outline-offset: 3px;
+}
+
+.mm .b.gedit .gk {
+  outline: 1px dotted rgba(43, 92, 255, .45);
+}
+
+.mm .b.gedit .gk.gsel {
+  outline: 2px solid #2b5cff;
+}
+
+.mm .b .gkr {
+  position: absolute;
+  right: -5px;
+  bottom: -5px;
+  width: 9px;
+  height: 9px;
+  background: #fff;
+  border: 1.5px solid #2b5cff;
+  cursor: nwse-resize;
+  pointer-events: auto;
+  z-index: 5;
+}
+
+.mm .b .gk [contenteditable=true] {
+  pointer-events: auto;
+}
+
+.rsel {
+  outline: 1px dashed rgba(43, 92, 255, .8);
+  outline-offset: 1px;
 }

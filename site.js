@@ -82,7 +82,7 @@ function go() {
   plen(box, p, PG)
   if (MOB) {
     var re = false
-    box.querySelectorAll('.b.fr, .t-cards, .t-nav, .t-events, .t-table').forEach(function (d) {
+    box.querySelectorAll('.b.fr, .t-cards, .t-nav, .t-events, .t-table, .t-group').forEach(function (d) {
       var b = bl.filter(function (x) { return x.id == d.bid })[0]
       if (!b || (b.m && b.m.w) || b.fix) return
       var c = d.querySelector('.c')
@@ -94,6 +94,7 @@ function go() {
     if (re) draw(bl)
   }
   fits()
+  stk()
   pbg(document.body, s, p)
   document.documentElement.lang = L
   document.title = tx(p.title) || 'ñ press'
@@ -151,7 +152,7 @@ function fits() {
 var rz
 window.addEventListener('resize', function () {
   clearTimeout(rz)
-  rz = setTimeout(function () { fits(); sdash(box); oma(box) }, 150)
+  rz = setTimeout(function () { fits(); sdash(box); oma(box); box.querySelectorAll('.b[data-stk]').forEach(function (d) { d.st0 = null }); stk() }, 150)
 })
 document.fonts.ready.then(function () { if (s) { BL = {}; bas(box); fits() } })
 
@@ -237,3 +238,16 @@ if (MM) {
     scrollTo(0, 0)
   })
 }
+
+function stk() {
+  box.querySelectorAll('.b[data-stk]').forEach(function (d) {
+    if (d.st0 == null) {
+      d.style.translate = ''
+      d.st0 = d.getBoundingClientRect().top + scrollY
+    }
+    var y = scrollY - d.st0
+    d.style.translate = y > 0 ? '0 ' + y + 'px' : ''
+    d.style.zIndex = y > 0 ? 40 : ''
+  })
+}
+window.addEventListener('scroll', stk, { passive: true })

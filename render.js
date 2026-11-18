@@ -17,7 +17,24 @@ function rp(p) {
 }
 
 function mig(s) {
-  var g = s.grid
+  var g = s.grid, WG = 'nav tabs cards lang join events button'
+  s.pages.forEach(function (p) {
+    var o = {}
+    ;['fg', 'hl', 'ln'].forEach(function (k) {
+      var v = p[k] || (s.base || {})[k]
+      if (v) o[k] = v
+    })
+    if (!Object.keys(o).length) return
+    ;(s.common || []).concat(p.blocks).forEach(function (b) {
+      if (o.ln && WG.indexOf(b.type) > -1 && !b.lnc) b.lnc = o.ln
+      if (o.hl && WG.indexOf(b.type) > -1 && !b.hlc) b.hlc = o.hl
+      if (o.fg && !b.fg && b.type != 'band' && b.type != 'shape') b.fg = o.fg
+    })
+    delete p.fg
+    delete p.hl
+    delete p.ln
+  })
+  if (s.base) { delete s.base.fg; delete s.base.hl; delete s.base.ln }
   ;(s.common || []).concat.apply(s.common || [], s.pages.map(function (p) { return p.blocks })).forEach(function (b) {
     if (b.type == 'marquee' && b.text != null && b.html == null) {
       b.html = b.text
@@ -116,8 +133,13 @@ function shp(el, b) {
 
 var AR = {}
 
+function cap(el, id) {
+  try { el.setPointerCapture(id) } catch (e) {}
+}
+
 function sdash(root) {
   root.querySelectorAll('.c-shape[data-k]').forEach(function (el) {
+    if (!el.getClientRects().length) return
     var d = el.dataset, p = el.querySelector('.sp'), L = p.getTotalLength(), sw = +d.sw, n = +d.n || 0, ln = p.tagName == 'line'
     if (!L) return
     if (d.k != 'img') {
@@ -157,7 +179,7 @@ function grd(box, g) {
   box.style.padding = g.pad + 'px'
 }
 
-var TXY = 'text nav tabs cards gallery embed marquee lang button events join table', MPK = ['x', 'y', 'w', 'h', 'hide']
+var TXY = 'text nav tabs cards gallery embed marquee lang button events join table group', MPK = ['x', 'y', 'w', 'h', 'hide']
 
 function hid(b) {
   return MOB ? b.on == 'd' || (b.m && b.m.hide) : b.on == 'p'
@@ -174,7 +196,7 @@ function auto(bl, g) {
   var c = g.mc || 4, C = g.cols || 12, ls = [], pos = {}
   AU = {}
   bl.forEach(function (b) {
-    if (b.fix || b.ag || b.wp || (b.m && b.m.w) || b.on == 'd' || (b.m && b.m.hide)) return
+    if (b.fix || b.ag || b.wp || b.on == 'd' || b.on == 'p' || (b.m && b.m.hide)) return
     var fb = b.type == 'band' && !b.ic, w = fb ? c : Math.max(1, Math.round(b.w * c / C)), x = fb ? 0 : Math.round(b.x * c / C), h = b._h || b.h
     if (!fb && TXY.indexOf(b.type) > -1 && w < c) { w = c; x = 0 }
     else if (!fb && w < 2 && c > 1) w = 2
@@ -232,6 +254,8 @@ function lay(el, b, mm) {
   if (b.type == 'text' && !b.fm) el.classList.add('fr')
   s.zIndex = b.type == 'band' && b.wp ? -1 : b.z || (b.fix ? 30 : b.type == 'band' ? 0 : 1)
   s.display = hid(b) ? 'none' : ''
+  if (b.stk && !b.fix) el.dataset.stk = 1
+  else delete el.dataset.stk
   s.margin = ''
   if (b.type == 'band' && b.wp) {
     s.position = 'absolute'
@@ -444,6 +468,13 @@ function sty(el, b, t) {
   if (o.bw) c.border = o.bw + 'px solid ' + (o.bc || 'var(--ln, #000)')
   if (o.rd) c.borderRadius = o.rd + 'px'
   if (o.op != null) c.opacity = o.op / 100
+  if (o.lnc) c.setProperty('--ln', o.lnc)
+  if (o.lnw != null && o.lnw !== '') c.setProperty('--lw', o.lnw + 'px')
+  if (o.lns) c.setProperty('--ls', o.lns)
+  if (o.hlc) c.setProperty('--hl', o.hlc)
+  if (o.afc) c.setProperty('--af', o.afc)
+  if (o.atc) c.setProperty('--at', o.atc)
+  if (o.ifc) c.setProperty('--if', o.ifc)
   if (o.sk) c.transform = 'skewX(' + -o.sk + 'deg)'
   if (o.bg) c.backgroundColor = o.bg
   if (o.fg) c.color = o.fg
@@ -456,7 +487,6 @@ function sb(s) {
 
 function base(el, s, p) {
   var o = Object.assign({}, s.base), c = el.style, y = sb(s)
-  if (p) ['fg', 'hl', 'ln'].forEach(function (k) { if (p[k]) o[k] = p[k] })
   c.fontFamily = y.font || ''
   c.fontSize = y.size ? y.size + 'px' : ''
   c.fontWeight = y.wt || ''
@@ -768,22 +798,32 @@ function tln(g) {
   var b = g.tb, sv = g.querySelector('.tsv'), W = g.offsetWidth, H = g.offsetHeight, sg = {}, hd0 = {}, by = {}, h = ''
   if (!b || !sv || !W) return
   function v(o, k, d) { return o[k] != null && o[k] !== '' ? o[k] : d }
+  var bb = g.closest('.b, .gk'), tf = bb && bb.style.transform
+  if (tf) bb.style.transform = 'none'
+  var gr = g.getBoundingClientRect(), sc = gr.width / W || 1, XS = [], YS = []
+  function sn(a, q) {
+    for (var i = 0; i < a.length; i++) if (Math.abs(a[i] - q) < 1.5) return a[i]
+    a.push(q)
+    return q
+  }
   g.querySelectorAll('.tcl').forEach(function (el) {
-    var c = el.tc, ov = c.sw != null && c.sw !== '', x0 = el.offsetLeft, y0 = el.offsetTop, x1 = x0 + el.offsetWidth, y1 = y0 + el.offsetHeight
+    var r = el.getBoundingClientRect(), c = el.tc, ov = c.sw != null && c.sw !== ''
+    var x0 = sn(XS, (r.left - gr.left) / sc), x1 = sn(XS, (r.right - gr.left) / sc), y0 = sn(YS, (r.top - gr.top) / sc), y1 = sn(YS, (r.bottom - gr.top) / sc)
     var y = { sw: +v(c, 'sw', b.sw || 0), sc: v(c, 'sc', b.sc || '#111111'), ds: v(c, 'ds', b.ds || ''), dl: v(c, 'dl', b.dl), dg: v(c, 'dg', b.dg), cap: v(c, 'cap', b.cap || '') }
     ;[['t', 'h', y0, x0, x1], ['b', 'h', y1, x0, x1], ['l', 'v', x0, y0, y1], ['r', 'v', x1, y0, y1]].forEach(function (q) {
-      var k = q[1] + Math.round(q[2]) + ':' + Math.round(q[3]) + '-' + Math.round(q[4]), ed = q[1] == 'h' ? q[2] < 1 || q[2] > H - 1 : q[2] < 1 || q[2] > W - 1
+      var k = q[1] + q[2].toFixed(1) + ':' + q[3].toFixed(1) + '-' + q[4].toFixed(1), ed = q[1] == 'h' ? q[2] < 1 || q[2] > H - 1 : q[2] < 1 || q[2] > W - 1
       if ((c.hs || '').indexOf(q[0]) > -1) { hd0[k] = 1; return }
       if (!ov && !(ed ? b.lo : q[1] == 'h' ? b.lh : b.lv)) return
       var p = ov ? 2 : 1
       if (!sg[k] || sg[k].p < p) sg[k] = { o: q[1], at: q[2], a: q[3], z: q[4], y: y, p: p, k: k }
     })
   })
+  if (tf) bb.style.transform = tf
   Object.keys(sg).forEach(function (k) {
     var s0 = sg[k]
     if (s0.p < 2 && hd0[k]) return
     if (!s0.y.sw) return
-    var key = s0.o + Math.round(s0.at) + '|' + JSON.stringify(s0.y)
+    var key = s0.o + s0.at.toFixed(1) + '|' + JSON.stringify(s0.y)
     ;(by[key] = by[key] || []).push(s0)
   })
   Object.keys(by).forEach(function (key) {
@@ -798,13 +838,72 @@ function tln(g) {
       var dl = y.dl != null && y.dl !== '' ? +y.dl : sw * 3, dg = y.dg != null && y.dg !== '' ? +y.dg : y.ds == 'dotted' ? sw * 1.5 : sw * 2
       if (y.ds == 'dashed') da = dl + ' ' + dg
       if (y.ds == 'dotted') da = '0 ' + (dg + sw)
-      var p = s0.o == 'h' ? [s0.a, s0.at, s0.z, s0.at] : [s0.at, s0.a, s0.at, s0.z]
+      var at = Math.round(sw) % 2 ? Math.floor(s0.at) + .5 : Math.round(s0.at), p = s0.o == 'h' ? [s0.a, at, s0.z, at] : [at, s0.a, at, s0.z]
       h += '<line x1="' + p[0] + '" y1="' + p[1] + '" x2="' + p[2] + '" y2="' + p[3] + '" stroke="' + y.sc + '" stroke-width="' + sw + '" stroke-linecap="' + cap + '"' + (da ? ' stroke-dasharray="' + da + '"' : '') + (b.dof ? ' stroke-dashoffset="' + -b.dof + '"' : '') + '/>'
     })
   })
   sv.setAttribute('width', W)
   sv.setAttribute('height', H)
   sv.innerHTML = h
+}
+
+var GRO = typeof ResizeObserver != 'undefined' ? new ResizeObserver(function (es) {
+  es.forEach(function (e) {
+    if (!e.target.isConnected) return GRO.unobserve(e.target)
+    gsc(e.target)
+  })
+}) : null
+
+function gsc(el) {
+  var i = el.querySelector('.gin'), b = el.gb
+  if (!i || !b || !b.gw || !b.gh) return
+  var s = Math.min(el.clientWidth / b.gw, el.clientHeight / b.gh)
+  i.style.transform = 'scale(' + s + ')'
+  el.gs = s
+}
+
+function gkl(w, k, G) {
+  var s = w.style, W = G.gw || 100, H = G.gh || 100, x = k.gx || 0, y = k.gy || 0, kw = k.gw || 40, kh = k.gh || 24, sc = G.gm == 'scale'
+  var ch = sc ? 'l' : k.ch || 'l', cv = sc ? 't' : k.cv || 't'
+  s.left = s.right = s.top = s.bottom = s.width = s.height = ''
+  if (ch == 'l') { s.left = x + 'px'; s.width = kw + 'px' }
+  else if (ch == 'r') { s.right = (W - x - kw) + 'px'; s.width = kw + 'px' }
+  else if (ch == 'c') { s.left = 'calc(50% + ' + (x - W / 2) + 'px)'; s.width = kw + 'px' }
+  else if (ch == 'lr') { s.left = x + 'px'; s.right = (W - x - kw) + 'px' }
+  else { s.left = x / W * 100 + '%'; s.width = kw / W * 100 + '%' }
+  if (cv == 't') { s.top = y + 'px'; s.height = kh + 'px' }
+  else if (cv == 'b') { s.bottom = (H - y - kh) + 'px'; s.height = kh + 'px' }
+  else if (cv == 'c') { s.top = 'calc(50% + ' + (y - H / 2) + 'px)'; s.height = kh + 'px' }
+  else if (cv == 'tb') { s.top = y + 'px'; s.bottom = (H - y - kh) + 'px' }
+  else { s.top = y / H * 100 + '%'; s.height = kh / H * 100 + '%' }
+  s.transform = k.rot ? 'rotate(' + k.rot + 'deg)' : ''
+  s.zIndex = k.z || ''
+}
+
+function grp(el, b, mm) {
+  var md = MOB && b.gmm == 'stack' ? 'st' : b.gm == 'scale' ? 'sc' : 'cn', box = el, ks = (b.kids || []).map(function (k, i) { return [k, i] })
+  el.classList.add('g' + md)
+  el.gb = b
+  if (md == 'sc') {
+    box = document.createElement('div')
+    box.className = 'gin'
+    box.style.width = b.gw + 'px'
+    box.style.height = b.gh + 'px'
+    el.appendChild(box)
+    if (GRO) GRO.observe(el)
+  }
+  if (md == 'st') ks.sort(function (p, q) { return (p[0].gy || 0) - (q[0].gy || 0) || (p[0].gx || 0) - (q[0].gx || 0) })
+  ks.forEach(function (x) {
+    var k = x[0], w = document.createElement('div')
+    w.className = 'gk t-' + k.type
+    w.dataset.i = x[1]
+    w.gk = k
+    if (md == 'st' && /band|shape/.test(k.type) && (k.gw || 0) >= b.gw * .9 && (k.gh || 0) >= b.gh * .9) w.classList.add('gbg')
+    else if (md == 'st') w.style.height = (k.gh || 24) + 'px'
+    else gkl(w, k, b)
+    w.appendChild(bk(k, mm))
+    box.appendChild(w)
+  })
 }
 
 function nc(b) {
@@ -944,6 +1043,7 @@ function bk(b, mm) {
     mq(el, b)
   } else if (t == 'nav' || t == 'tabs') {
     (b.items || []).forEach(function (it) { el.appendChild(ln(it)) })
+    if (t == 'nav' && b.nd) el.classList.add('nd-' + b.nd)
     if (t == 'tabs' && b.flt) {
       var f = document.createElement('span')
       f.className = 'flt'
@@ -976,6 +1076,8 @@ function bk(b, mm) {
     ;(b.ly || []).slice().reverse().forEach(function (L) { el.appendChild(bly(L)) })
   } else if (t == 'table') {
     tbl(el, b, mm)
+  } else if (t == 'group') {
+    grp(el, b, mm)
   } else if (t == 'join') {
     jn(el, b, mm)
   } else if (t == 'events') {
