@@ -81,9 +81,2476 @@
             "w": 2,
             "h": 2
           }
+        },
+        {
+          "w": 2,
+          "h": 1,
+          "id": "r272wd",
+          "type": "lang",
+          "x": 9,
+          "y": 12,
+          "names": {
+            "es": "espanol",
+            "en": "english"
+          },
+          "m": {
+            "names": {
+              "es": "espanol",
+              "en": "english"
+            },
+            "x": 2,
+            "y": 4,
+            "w": 2,
+            "h": 1
+          }
+        },
+        {
+          "w": 2,
+          "h": 2,
+          "html": "<font color=\"#fff705\"><a href=\"https://n-press-boston.pages.dev/demo-tables\">Demo 1</a></font>",
+          "id": "33fl8o",
+          "type": "text",
+          "sty": "body copy",
+          "x": 1,
+          "y": 15,
+          "m": {
+            "x": 2,
+            "y": 9,
+            "w": 2,
+            "h": 2
+          }
+        },
+        {
+          "w": 2,
+          "h": 2,
+          "html": "<font color=\"#fff705\"><a href=\"https://n-press-boston.pages.dev/demo-shapes\">Demo 2</a></font>",
+          "id": "i7221n",
+          "type": "text",
+          "sty": "body copy",
+          "x": 3,
+          "y": 15,
+          "m": {
+            "x": 2,
+            "y": 10,
+            "w": 2,
+            "h": 2
+          }
+        },
+        {
+          "w": 2,
+          "h": 2,
+          "html": "<font color=\"#fff705\"><a href=\"https://n-press-boston.pages.dev/demo-type\">Demo 3</a></font>",
+          "id": "mzeozg",
+          "type": "text",
+          "sty": "body copy",
+          "x": 5,
+          "y": 15,
+          "m": {
+            "x": 2,
+            "y": 11,
+            "w": 2,
+            "h": 2
+          }
         }
       ],
       "g": {}
+    },
+    {
+      "title": "tables demo",
+      "slug": "demo-tables",
+      "blocks": [
+        {
+          "type": "text",
+          "x": 0,
+          "y": 0,
+          "w": 8,
+          "h": 4,
+          "html": "tables",
+          "sty": "H1",
+          "id": "mu106e"
+        },
+        {
+          "type": "text",
+          "x": 0,
+          "y": 3,
+          "w": 7,
+          "h": 3,
+          "html": "everything on this page is a table block. click a cell to style it, shift click to pick a range, double click to type in it, and drag the blue lines between columns and rows to resize them.",
+          "sty": "body copy",
+          "id": "2id6mh"
+        },
+        {
+          "type": "text",
+          "x": 0,
+          "y": 7,
+          "w": 12,
+          "h": 2,
+          "html": "01 · a shop front made only of tables",
+          "sty": "caption",
+          "fg": "#555555",
+          "id": "gacv7z"
+        },
+        {
+          "type": "table",
+          "x": 0,
+          "y": 8,
+          "w": 2,
+          "h": 31,
+          "tc": [
+            1
+          ],
+          "tr": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            4
+          ],
+          "cells": [
+            [
+              {
+                "html": "<a href=\"@\">shop</a>",
+                "bg": "#fff45c"
+              }
+            ],
+            [
+              {
+                "html": "<a href=\"@\">workshops</a>"
+              }
+            ],
+            [
+              {
+                "html": "<a href=\"@\">studio</a>"
+              }
+            ],
+            [
+              {
+                "html": "<a href=\"@\">radio</a>"
+              }
+            ],
+            [
+              {
+                "html": "<a href=\"@\">visit us</a>"
+              }
+            ],
+            [
+              {
+                "html": "<a href=\"@\">archive</a>"
+              }
+            ],
+            [
+              {
+                "html": "zine fest<br>this saturday",
+                "bg": "#e8382c",
+                "fg": "#ffffff",
+                "size": 22,
+                "va": "bottom"
+              }
+            ]
+          ],
+          "sw": 1,
+          "sc": "#111111",
+          "lo": true,
+          "lh": true,
+          "lv": true,
+          "cp": 10,
+          "tm": "fit",
+          "id": "kvs189"
+        },
+        {
+          "type": "table",
+          "x": 2,
+          "y": 8,
+          "w": 10,
+          "h": 8,
+          "tc": [
+            3,
+            2
+          ],
+          "tr": [
+            1
+          ],
+          "cells": [
+            [
+              {
+                "html": "november<br>print sale",
+                "bg": "#f4c6d8",
+                "size": 56,
+                "wt": "700",
+                "va": "middle",
+                "al": "center"
+              },
+              {
+                "k": "img",
+                "src": "photos/Studios/Riso_Prints/©IaritzaMenjivar-8113.JPG"
+              }
+            ]
+          ],
+          "sw": 1,
+          "sc": "#111111",
+          "lo": true,
+          "lh": true,
+          "lv": true,
+          "cp": 10,
+          "id": "7rui4v"
+        },
+        {
+          "type": "table",
+          "x": 2,
+          "y": 16,
+          "w": 10,
+          "h": 2,
+          "tc": [
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "tr": [
+            1
+          ],
+          "cells": [
+            [
+              {
+                "html": "prints"
+              },
+              {
+                "html": "zines"
+              },
+              {
+                "html": "posters"
+              },
+              {
+                "html": "stationery"
+              },
+              {
+                "html": "filter by +",
+                "al": "right"
+              }
+            ]
+          ],
+          "sw": 1,
+          "sc": "#111111",
+          "lo": true,
+          "lh": true,
+          "lv": true,
+          "cp": 10,
+          "tm": "scroll",
+          "mw": 520,
+          "tva": "middle",
+          "id": "h44xdt"
+        },
+        {
+          "type": "table",
+          "x": 2,
+          "y": 18,
+          "w": 10,
+          "h": 21,
+          "tc": [
+            1,
+            1,
+            1
+          ],
+          "tr": [
+            5,
+            1,
+            5,
+            1
+          ],
+          "cells": [
+            [
+              {
+                "k": "img",
+                "src": "photos/Projects/Zine_Night_Workshop/©IaritzaMenjivar-6100.JPG",
+                "ip": true
+              },
+              {
+                "k": "img",
+                "src": "photos/Projects/Postering/©IaritzaMenjivar-7594.JPG",
+                "ip": true
+              },
+              {
+                "k": "img",
+                "src": "photos/Projects/Wheat_Paste/©IaritzaMenjivar-7623.JPG",
+                "ip": true
+              }
+            ],
+            [
+              {
+                "html": "riso poster, 3 colors <span style=\"float:right\">$30</span>"
+              },
+              {
+                "html": "zine no. 4 <span style=\"float:right\"><s>$12</s> $9</span>",
+                "bg": "#fff45c"
+              },
+              {
+                "html": "tote bag <span style=\"float:right\">$22</span>"
+              }
+            ],
+            [
+              {
+                "k": "img",
+                "src": "photos/Studios/Final_day/©IaritzaMenjivar-8392.JPG",
+                "ip": true
+              },
+              {
+                "k": "img",
+                "src": "photos/Projects/Print_Boxes/©IaritzaMenjivar-6152.JPG",
+                "ip": true
+              },
+              {
+                "k": "img",
+                "src": "photos/Projects/Postering_Session_2/©IaritzaMenjivar-9023.JPG",
+                "ip": true
+              }
+            ],
+            [
+              {
+                "html": "sticker pack <span style=\"float:right\">$6</span>"
+              },
+              {
+                "html": "linocut print <span style=\"float:right\">$45</span>"
+              },
+              {
+                "html": "gift card <span style=\"float:right\">$25</span>"
+              }
+            ]
+          ],
+          "sw": 1,
+          "sc": "#111111",
+          "lo": true,
+          "lh": true,
+          "lv": true,
+          "cp": 10,
+          "id": "vtuxjd"
+        },
+        {
+          "type": "text",
+          "x": 0,
+          "y": 40,
+          "w": 12,
+          "h": 2,
+          "html": "02 · a schedule: black header, striped rows, dashed lines",
+          "sty": "caption",
+          "fg": "#555555",
+          "id": "43sewc"
+        },
+        {
+          "type": "table",
+          "x": 0,
+          "y": 42,
+          "w": 12,
+          "h": 16,
+          "tc": [
+            1,
+            3,
+            1.2,
+            1.6
+          ],
+          "tr": [
+            1,
+            1,
+            1,
+            0.998,
+            1.002,
+            1,
+            1
+          ],
+          "cells": [
+            [
+              {
+                "html": "date",
+                "bg": "#111111",
+                "fg": "#ffffff",
+                "size": 13,
+                "sw": 2,
+                "ds": "solid"
+              },
+              {
+                "html": "what",
+                "bg": "#111111",
+                "fg": "#ffffff",
+                "size": 13,
+                "sw": 2,
+                "ds": "solid"
+              },
+              {
+                "html": "time",
+                "bg": "#111111",
+                "fg": "#ffffff",
+                "size": 13,
+                "sw": 2,
+                "ds": "solid"
+              },
+              {
+                "html": "where",
+                "bg": "#111111",
+                "fg": "#ffffff",
+                "size": 13,
+                "sw": 2,
+                "ds": "solid"
+              }
+            ],
+            [
+              {
+                "html": "thu 20"
+              },
+              {
+                "html": "open studio · taller abierto"
+              },
+              {
+                "html": "6–9 pm"
+              },
+              {
+                "html": "main room"
+              }
+            ],
+            [
+              {
+                "html": "sat 22",
+                "bg": "#fff45c"
+              },
+              {
+                "html": "riso 101 workshop",
+                "bg": "#fff45c"
+              },
+              {
+                "html": "1–4 pm",
+                "bg": "#fff45c"
+              },
+              {
+                "html": "riso corner",
+                "bg": "#fff45c"
+              }
+            ],
+            [
+              {
+                "html": "sun 23"
+              },
+              {
+                "html": "zine night"
+              },
+              {
+                "html": "5–8 pm"
+              },
+              {
+                "html": "main room"
+              }
+            ],
+            [
+              {
+                "html": "thu 27",
+                "bg": "#fff45c"
+              },
+              {
+                "html": "closed for the holiday",
+                "bg": "#fff45c"
+              },
+              {
+                "html": "—",
+                "bg": "#fff45c"
+              },
+              {
+                "html": "—",
+                "bg": "#fff45c"
+              }
+            ],
+            [
+              {
+                "html": "sat 29"
+              },
+              {
+                "html": "holiday print market"
+              },
+              {
+                "html": "all day"
+              },
+              {
+                "html": "the whole studio"
+              }
+            ],
+            [
+              {
+                "html": "sun 30",
+                "bg": "#fff45c"
+              },
+              {
+                "html": "screen printing: tote bags",
+                "bg": "#fff45c"
+              },
+              {
+                "html": "12–3 pm",
+                "bg": "#fff45c"
+              },
+              {
+                "html": "screen room",
+                "bg": "#fff45c"
+              }
+            ]
+          ],
+          "sw": 1,
+          "sc": "#111111",
+          "lo": true,
+          "lh": true,
+          "lv": true,
+          "cp": 10,
+          "ds": "dashed",
+          "dl": 6,
+          "dg": 4,
+          "tva": "middle",
+          "id": "8vuour"
+        },
+        {
+          "type": "text",
+          "x": 0,
+          "y": 59,
+          "w": 8,
+          "h": 2,
+          "html": "03 · space between cells, merged cells, lines per cell",
+          "sty": "caption",
+          "fg": "#555555",
+          "id": "slvyp6"
+        },
+        {
+          "type": "table",
+          "x": 0,
+          "y": 61,
+          "w": 8,
+          "h": 22,
+          "tc": [
+            1,
+            1,
+            1,
+            1
+          ],
+          "tr": [
+            1,
+            1,
+            1,
+            1
+          ],
+          "cells": [
+            [
+              {
+                "k": "img",
+                "src": "photos/Studios/Riso_Prints/©IaritzaMenjivar-8147.JPG",
+                "cs": 2,
+                "rs": 2
+              },
+              {},
+              {
+                "html": "the press,<br>room by room",
+                "cs": 2,
+                "bg": "#e8382c",
+                "fg": "#ffffff",
+                "size": 30,
+                "wt": "700",
+                "va": "bottom"
+              },
+              {}
+            ],
+            [
+              {},
+              {},
+              {
+                "html": "riso",
+                "bg": "#fff45c",
+                "va": "bottom"
+              },
+              {
+                "html": "dotted",
+                "sw": 3,
+                "sc": "#e8382c",
+                "ds": "dotted",
+                "va": "bottom"
+              }
+            ],
+            [
+              {
+                "html": "screen",
+                "va": "bottom"
+              },
+              {
+                "html": "thick",
+                "sw": 5,
+                "va": "bottom"
+              },
+              {
+                "k": "img",
+                "src": "photos/Projects/Postering/©IaritzaMenjivar-7594.JPG",
+                "cs": 2,
+                "rs": 2
+              },
+              {}
+            ],
+            [
+              {
+                "html": "no left, no bottom",
+                "hs": "lb",
+                "va": "bottom"
+              },
+              {
+                "html": "letterpress",
+                "bg": "#f4c6d8",
+                "va": "bottom"
+              },
+              {},
+              {}
+            ]
+          ],
+          "sw": 1.5,
+          "sc": "#111111",
+          "lo": true,
+          "lh": true,
+          "lv": true,
+          "cp": 10,
+          "tg": 8,
+          "id": "dcxic5"
+        },
+        {
+          "type": "text",
+          "x": 8,
+          "y": 59,
+          "w": 4,
+          "h": 2,
+          "html": "04 · a price list: lines between rows only",
+          "sty": "caption",
+          "fg": "#555555",
+          "id": "60jivu"
+        },
+        {
+          "type": "table",
+          "x": 8,
+          "y": 61,
+          "w": 4,
+          "h": 14,
+          "tc": [
+            3,
+            1
+          ],
+          "tr": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "cells": [
+            [
+              {
+                "html": "poster, 11 × 17"
+              },
+              {
+                "html": "$30",
+                "al": "right"
+              }
+            ],
+            [
+              {
+                "html": "poster, 18 × 24"
+              },
+              {
+                "html": "$45",
+                "al": "right"
+              }
+            ],
+            [
+              {
+                "html": "zine, 16 pages"
+              },
+              {
+                "html": "$12",
+                "al": "right"
+              }
+            ],
+            [
+              {
+                "html": "studio day pass"
+              },
+              {
+                "html": "$20",
+                "al": "right"
+              }
+            ],
+            [
+              {
+                "html": "monthly membership"
+              },
+              {
+                "html": "$60",
+                "al": "right"
+              }
+            ],
+            [
+              {
+                "html": "riso, per 100 prints"
+              },
+              {
+                "html": "$15",
+                "al": "right"
+              }
+            ]
+          ],
+          "sw": 1,
+          "sc": "#111111",
+          "lo": false,
+          "lh": true,
+          "lv": false,
+          "cp": 6,
+          "tva": "middle",
+          "id": "34z4ug"
+        },
+        {
+          "type": "text",
+          "x": 8,
+          "y": 76,
+          "w": 4,
+          "h": 2,
+          "html": "05 · a ticket, turned a little",
+          "sty": "caption",
+          "fg": "#555555",
+          "id": "6a6ry8"
+        },
+        {
+          "type": "table",
+          "x": 8,
+          "y": 77,
+          "w": 4,
+          "h": 6,
+          "tc": [
+            2,
+            1
+          ],
+          "tr": [
+            1,
+            1
+          ],
+          "cells": [
+            [
+              {
+                "html": "admit one",
+                "size": 22,
+                "wt": "700",
+                "bg": "#fff45c"
+              },
+              {
+                "html": "no. 0042",
+                "al": "right",
+                "size": 13
+              }
+            ],
+            [
+              {
+                "html": "holiday print market",
+                "size": 13
+              },
+              {
+                "html": "sat 29",
+                "al": "right",
+                "size": 13
+              }
+            ]
+          ],
+          "sw": 2,
+          "sc": "#111111",
+          "lo": true,
+          "lh": true,
+          "lv": true,
+          "cp": 10,
+          "rot": -4,
+          "id": "ol9wh0"
+        },
+        {
+          "type": "text",
+          "x": 0,
+          "y": 85,
+          "w": 12,
+          "h": 2,
+          "html": "06 · on phones: stack (left), shrink to fit (middle), scroll sideways (right)",
+          "sty": "caption",
+          "fg": "#555555",
+          "id": "4ru3zg"
+        },
+        {
+          "type": "table",
+          "x": 0,
+          "y": 87,
+          "w": 4,
+          "h": 5,
+          "tc": [
+            1,
+            1,
+            1
+          ],
+          "tr": [
+            1,
+            1
+          ],
+          "cells": [
+            [
+              {
+                "html": "a",
+                "bg": "#fff45c"
+              },
+              {
+                "html": "b"
+              },
+              {
+                "html": "c"
+              }
+            ],
+            [
+              {
+                "html": "d"
+              },
+              {
+                "html": "e",
+                "bg": "#f4c6d8"
+              },
+              {
+                "html": "f"
+              }
+            ]
+          ],
+          "sw": 1,
+          "sc": "#111111",
+          "lo": true,
+          "lh": true,
+          "lv": true,
+          "cp": 10,
+          "tm": "",
+          "id": "qtgxzf"
+        },
+        {
+          "type": "table",
+          "x": 4,
+          "y": 87,
+          "w": 4,
+          "h": 5,
+          "tc": [
+            1,
+            1,
+            1
+          ],
+          "tr": [
+            1,
+            1
+          ],
+          "cells": [
+            [
+              {
+                "html": "a",
+                "bg": "#fff45c"
+              },
+              {
+                "html": "b"
+              },
+              {
+                "html": "c"
+              }
+            ],
+            [
+              {
+                "html": "d"
+              },
+              {
+                "html": "e",
+                "bg": "#f4c6d8"
+              },
+              {
+                "html": "f"
+              }
+            ]
+          ],
+          "sw": 1,
+          "sc": "#111111",
+          "lo": true,
+          "lh": true,
+          "lv": true,
+          "cp": 10,
+          "tm": "fit",
+          "id": "l01wv5"
+        },
+        {
+          "type": "table",
+          "x": 8,
+          "y": 87,
+          "w": 4,
+          "h": 5,
+          "tc": [
+            1,
+            1,
+            1
+          ],
+          "tr": [
+            1,
+            1
+          ],
+          "cells": [
+            [
+              {
+                "html": "a",
+                "bg": "#fff45c"
+              },
+              {
+                "html": "b"
+              },
+              {
+                "html": "c"
+              }
+            ],
+            [
+              {
+                "html": "d"
+              },
+              {
+                "html": "e",
+                "bg": "#f4c6d8"
+              },
+              {
+                "html": "f"
+              }
+            ]
+          ],
+          "sw": 1,
+          "sc": "#111111",
+          "lo": true,
+          "lh": true,
+          "lv": true,
+          "cp": 10,
+          "tm": "scroll",
+          "mw": 600,
+          "id": "z9i98v"
+        }
+      ],
+      "id": "yb2x0z"
+    },
+    {
+      "title": "shapes demo",
+      "slug": "demo-shapes",
+      "blocks": [
+        {
+          "type": "shape",
+          "x": 0,
+          "y": 0,
+          "w": 5,
+          "h": 14,
+          "sh": "ellipse",
+          "fill": "#fff45c",
+          "sw": 0,
+          "sc": "#111111",
+          "id": "mzj7y4"
+        },
+        {
+          "type": "shape",
+          "x": 3,
+          "y": 3,
+          "w": 3,
+          "h": 7,
+          "sh": "rect",
+          "fill": "#e8382c",
+          "sw": 0,
+          "sc": "#111111",
+          "rot": 14,
+          "op": 85,
+          "id": "qjpb2g"
+        },
+        {
+          "type": "shape",
+          "x": 7,
+          "y": 1,
+          "w": 4,
+          "h": 13,
+          "sh": "ellipse",
+          "fill": "none",
+          "sw": 5,
+          "sc": "#111111",
+          "ds": "dotted",
+          "dg": 6,
+          "id": "i1pk8s"
+        },
+        {
+          "type": "text",
+          "x": 1,
+          "y": 4,
+          "w": 6,
+          "h": 4,
+          "html": "shapes",
+          "sty": "H1",
+          "z": 5,
+          "id": "bajvp0"
+        },
+        {
+          "type": "text",
+          "x": 1,
+          "y": 8,
+          "w": 5,
+          "h": 3,
+          "html": "rectangles, ellipses and lines, with fills, strokes, dashes, dots, image dashes, corners, opacity and rotation.",
+          "sty": "body copy",
+          "z": 5,
+          "id": "38kiv0"
+        },
+        {
+          "type": "shape",
+          "x": 8,
+          "y": 4,
+          "w": 2,
+          "h": 7,
+          "sh": "rect",
+          "fill": "none",
+          "sw": 2,
+          "sc": "#111111",
+          "ds": "dashed",
+          "dl": 14,
+          "dg": 8,
+          "cap": "round",
+          "id": "w93z1a"
+        },
+        {
+          "type": "text",
+          "x": 8,
+          "y": 7,
+          "w": 2,
+          "h": 2,
+          "html": "dashed frame",
+          "sty": "caption",
+          "al": "center",
+          "z": 5,
+          "id": "ipo2r5"
+        },
+        {
+          "type": "text",
+          "x": 0,
+          "y": 16,
+          "w": 12,
+          "h": 2,
+          "html": "01 · kinds",
+          "sty": "caption",
+          "fg": "#555555",
+          "id": "kgew6p"
+        },
+        {
+          "type": "shape",
+          "x": 0,
+          "y": 17,
+          "w": 2,
+          "h": 6,
+          "sh": "rect",
+          "fill": "#111111",
+          "sw": 0,
+          "sc": "#111111",
+          "id": "phh95j"
+        },
+        {
+          "type": "text",
+          "x": 0,
+          "y": 23,
+          "w": 2,
+          "h": 2,
+          "html": "rectangle",
+          "sty": "caption",
+          "fg": "#555555",
+          "id": "vnfk6f"
+        },
+        {
+          "type": "shape",
+          "x": 2,
+          "y": 17,
+          "w": 2,
+          "h": 6,
+          "sh": "rect",
+          "fill": "#111111",
+          "sw": 0,
+          "sc": "#111111",
+          "rd": 40,
+          "id": "wslq0n"
+        },
+        {
+          "type": "text",
+          "x": 2,
+          "y": 23,
+          "w": 2,
+          "h": 2,
+          "html": "rounded corners",
+          "sty": "caption",
+          "fg": "#555555",
+          "id": "nsrnng"
+        },
+        {
+          "type": "shape",
+          "x": 4,
+          "y": 17,
+          "w": 2,
+          "h": 6,
+          "sh": "ellipse",
+          "fill": "#111111",
+          "sw": 0,
+          "sc": "#111111",
+          "id": "8hs3rl"
+        },
+        {
+          "type": "text",
+          "x": 4,
+          "y": 23,
+          "w": 2,
+          "h": 2,
+          "html": "ellipse",
+          "sty": "caption",
+          "fg": "#555555",
+          "id": "4o85hk"
+        },
+        {
+          "type": "shape",
+          "x": 6,
+          "y": 17,
+          "w": 2,
+          "h": 6,
+          "sh": "line",
+          "fill": "none",
+          "sw": 3,
+          "sc": "#111111",
+          "dir": "",
+          "id": "wim1f2"
+        },
+        {
+          "type": "text",
+          "x": 6,
+          "y": 23,
+          "w": 2,
+          "h": 2,
+          "html": "line across",
+          "sty": "caption",
+          "fg": "#555555",
+          "id": "ob5u1u"
+        },
+        {
+          "type": "shape",
+          "x": 8,
+          "y": 17,
+          "w": 2,
+          "h": 6,
+          "sh": "line",
+          "fill": "none",
+          "sw": 3,
+          "sc": "#111111",
+          "dir": "v",
+          "id": "9hnx2a"
+        },
+        {
+          "type": "text",
+          "x": 8,
+          "y": 23,
+          "w": 2,
+          "h": 2,
+          "html": "line down",
+          "sty": "caption",
+          "fg": "#555555",
+          "id": "z8i9i1"
+        },
+        {
+          "type": "shape",
+          "x": 10,
+          "y": 17,
+          "w": 2,
+          "h": 6,
+          "sh": "line",
+          "fill": "none",
+          "sw": 3,
+          "sc": "#111111",
+          "dir": "d",
+          "id": "hu7gr9"
+        },
+        {
+          "type": "text",
+          "x": 10,
+          "y": 23,
+          "w": 2,
+          "h": 2,
+          "html": "diagonal",
+          "sty": "caption",
+          "fg": "#555555",
+          "id": "2bzrtf"
+        },
+        {
+          "type": "text",
+          "x": 0,
+          "y": 26,
+          "w": 12,
+          "h": 2,
+          "html": "02 · where the stroke sits: inside, center, outside",
+          "sty": "caption",
+          "fg": "#555555",
+          "id": "oxub69"
+        },
+        {
+          "type": "shape",
+          "x": 1,
+          "y": 28,
+          "w": 2,
+          "h": 6,
+          "sh": "rect",
+          "fill": "#f4c6d8",
+          "sw": 12,
+          "sc": "#111111",
+          "sa": "",
+          "id": "tt3zui"
+        },
+        {
+          "type": "text",
+          "x": 1,
+          "y": 35,
+          "w": 2,
+          "h": 2,
+          "html": "inside",
+          "sty": "caption",
+          "fg": "#555555",
+          "id": "xd5h0g"
+        },
+        {
+          "type": "shape",
+          "x": 5,
+          "y": 28,
+          "w": 2,
+          "h": 6,
+          "sh": "rect",
+          "fill": "#f4c6d8",
+          "sw": 12,
+          "sc": "#111111",
+          "sa": "c",
+          "id": "uoh9v3"
+        },
+        {
+          "type": "text",
+          "x": 5,
+          "y": 35,
+          "w": 2,
+          "h": 2,
+          "html": "center",
+          "sty": "caption",
+          "fg": "#555555",
+          "id": "lq29mf"
+        },
+        {
+          "type": "shape",
+          "x": 9,
+          "y": 28,
+          "w": 2,
+          "h": 6,
+          "sh": "rect",
+          "fill": "#f4c6d8",
+          "sw": 12,
+          "sc": "#111111",
+          "sa": "o",
+          "id": "p3adv3"
+        },
+        {
+          "type": "text",
+          "x": 9,
+          "y": 35,
+          "w": 2,
+          "h": 2,
+          "html": "outside",
+          "sty": "caption",
+          "fg": "#555555",
+          "id": "awhntm"
+        },
+        {
+          "type": "text",
+          "x": 0,
+          "y": 38,
+          "w": 12,
+          "h": 2,
+          "html": "03 · dashes and dots",
+          "sty": "caption",
+          "fg": "#555555",
+          "id": "4ljfef"
+        },
+        {
+          "type": "shape",
+          "x": 0,
+          "y": 39,
+          "w": 2,
+          "h": 6,
+          "sh": "rect",
+          "fill": "none",
+          "sw": 4,
+          "sc": "#111111",
+          "ds": "dashed",
+          "dl": 16,
+          "dg": 8,
+          "id": "abw379"
+        },
+        {
+          "type": "text",
+          "x": 0,
+          "y": 46,
+          "w": 2,
+          "h": 2,
+          "html": "dashed",
+          "sty": "caption",
+          "fg": "#555555",
+          "id": "idyu5k"
+        },
+        {
+          "type": "shape",
+          "x": 2,
+          "y": 39,
+          "w": 2,
+          "h": 6,
+          "sh": "rect",
+          "fill": "none",
+          "sw": 6,
+          "sc": "#111111",
+          "ds": "dashed",
+          "dl": 14,
+          "dg": 10,
+          "cap": "round",
+          "id": "888yuo"
+        },
+        {
+          "type": "text",
+          "x": 2,
+          "y": 46,
+          "w": 2,
+          "h": 2,
+          "html": "round ends",
+          "sty": "caption",
+          "fg": "#555555",
+          "id": "12xitm"
+        },
+        {
+          "type": "shape",
+          "x": 4,
+          "y": 39,
+          "w": 2,
+          "h": 6,
+          "sh": "rect",
+          "fill": "none",
+          "sw": 7,
+          "sc": "#111111",
+          "ds": "dotted",
+          "dg": 6,
+          "id": "ue33lu"
+        },
+        {
+          "type": "text",
+          "x": 4,
+          "y": 46,
+          "w": 2,
+          "h": 2,
+          "html": "dotted",
+          "sty": "caption",
+          "fg": "#555555",
+          "id": "8h4pwu"
+        },
+        {
+          "type": "shape",
+          "x": 6,
+          "y": 39,
+          "w": 2,
+          "h": 6,
+          "sh": "rect",
+          "fill": "none",
+          "sw": 5,
+          "sc": "#111111",
+          "ds": "dashed",
+          "dn": 12,
+          "id": "537xwa"
+        },
+        {
+          "type": "text",
+          "x": 6,
+          "y": 46,
+          "w": 2,
+          "h": 2,
+          "html": "12 spread evenly",
+          "sty": "caption",
+          "fg": "#555555",
+          "id": "dhcnbb"
+        },
+        {
+          "type": "shape",
+          "x": 8,
+          "y": 39,
+          "w": 2,
+          "h": 6,
+          "sh": "ellipse",
+          "fill": "none",
+          "sw": 9,
+          "sc": "#111111",
+          "ds": "dotted",
+          "dn": 16,
+          "id": "le8g7m"
+        },
+        {
+          "type": "text",
+          "x": 8,
+          "y": 46,
+          "w": 2,
+          "h": 2,
+          "html": "16 dots around",
+          "sty": "caption",
+          "fg": "#555555",
+          "id": "5mapg4"
+        },
+        {
+          "type": "shape",
+          "x": 10,
+          "y": 39,
+          "w": 2,
+          "h": 6,
+          "sh": "rect",
+          "fill": "none",
+          "sw": 30,
+          "sc": "#111111",
+          "ds": "img",
+          "di": "photos/Projects/Zine_Night_Workshop/©IaritzaMenjivar-6100.JPG",
+          "iu": true,
+          "id": "r2sews"
+        },
+        {
+          "type": "text",
+          "x": 10,
+          "y": 46,
+          "w": 2,
+          "h": 2,
+          "html": "image dashes",
+          "sty": "caption",
+          "fg": "#555555",
+          "id": "dl2vd0"
+        },
+        {
+          "type": "text",
+          "x": 0,
+          "y": 49,
+          "w": 6,
+          "h": 2,
+          "html": "04 · overprint: three see-through circles, like riso inks",
+          "sty": "caption",
+          "fg": "#555555",
+          "id": "gepgfs"
+        },
+        {
+          "type": "shape",
+          "x": 0,
+          "y": 50,
+          "w": 3,
+          "h": 9,
+          "sh": "ellipse",
+          "fill": "#ff48b0",
+          "sw": 0,
+          "sc": "#111111",
+          "op": 75,
+          "id": "dpo5uc"
+        },
+        {
+          "type": "shape",
+          "x": 2,
+          "y": 50,
+          "w": 3,
+          "h": 9,
+          "sh": "ellipse",
+          "fill": "#ffe800",
+          "sw": 0,
+          "sc": "#111111",
+          "op": 75,
+          "id": "07xetm"
+        },
+        {
+          "type": "shape",
+          "x": 1,
+          "y": 55,
+          "w": 3,
+          "h": 9,
+          "sh": "ellipse",
+          "fill": "#0078bf",
+          "sw": 0,
+          "sc": "#111111",
+          "op": 75,
+          "id": "h8omd3"
+        },
+        {
+          "type": "text",
+          "x": 6,
+          "y": 49,
+          "w": 6,
+          "h": 2,
+          "html": "05 · rotation",
+          "sty": "caption",
+          "fg": "#555555",
+          "id": "m6n0du"
+        },
+        {
+          "type": "shape",
+          "x": 7,
+          "y": 51,
+          "w": 4,
+          "h": 10,
+          "sh": "rect",
+          "fill": "none",
+          "sw": 2,
+          "sc": "#111111",
+          "rot": 0,
+          "id": "q4jz9n"
+        },
+        {
+          "type": "shape",
+          "x": 7,
+          "y": 51,
+          "w": 4,
+          "h": 10,
+          "sh": "rect",
+          "fill": "none",
+          "sw": 2,
+          "sc": "#e8382c",
+          "rot": 15,
+          "id": "5scxyh"
+        },
+        {
+          "type": "shape",
+          "x": 7,
+          "y": 51,
+          "w": 4,
+          "h": 10,
+          "sh": "rect",
+          "fill": "none",
+          "sw": 2,
+          "sc": "#0078bf",
+          "rot": 30,
+          "id": "leomnh"
+        },
+        {
+          "type": "shape",
+          "x": 7,
+          "y": 51,
+          "w": 4,
+          "h": 10,
+          "sh": "rect",
+          "fill": "none",
+          "sw": 2,
+          "sc": "#ff48b0",
+          "rot": 45,
+          "id": "fenkcv"
+        },
+        {
+          "type": "text",
+          "x": 0,
+          "y": 66,
+          "w": 12,
+          "h": 2,
+          "html": "06 · shapes behind type",
+          "sty": "caption",
+          "fg": "#555555",
+          "id": "6jk4pn"
+        },
+        {
+          "type": "shape",
+          "x": 0,
+          "y": 67,
+          "w": 2,
+          "h": 6,
+          "sh": "ellipse",
+          "fill": "#e8382c",
+          "sw": 0,
+          "sc": "#111111",
+          "id": "rlj86y"
+        },
+        {
+          "type": "shape",
+          "x": 2,
+          "y": 67,
+          "w": 2,
+          "h": 6,
+          "sh": "ellipse",
+          "fill": "#fff45c",
+          "sw": 0,
+          "sc": "#111111",
+          "id": "o7tmh7"
+        },
+        {
+          "type": "shape",
+          "x": 4,
+          "y": 67,
+          "w": 2,
+          "h": 6,
+          "sh": "ellipse",
+          "fill": "#e8382c",
+          "sw": 0,
+          "sc": "#111111",
+          "id": "cu1bgf"
+        },
+        {
+          "type": "shape",
+          "x": 6,
+          "y": 67,
+          "w": 2,
+          "h": 6,
+          "sh": "ellipse",
+          "fill": "#fff45c",
+          "sw": 0,
+          "sc": "#111111",
+          "id": "88yxpc"
+        },
+        {
+          "type": "shape",
+          "x": 8,
+          "y": 67,
+          "w": 2,
+          "h": 6,
+          "sh": "ellipse",
+          "fill": "#e8382c",
+          "sw": 0,
+          "sc": "#111111",
+          "id": "jm77xb"
+        },
+        {
+          "type": "shape",
+          "x": 10,
+          "y": 67,
+          "w": 2,
+          "h": 6,
+          "sh": "ellipse",
+          "fill": "#fff45c",
+          "sw": 0,
+          "sc": "#111111",
+          "id": "8uyp60"
+        },
+        {
+          "type": "text",
+          "x": 0,
+          "y": 68,
+          "w": 12,
+          "h": 4,
+          "html": "workshop week",
+          "sty": "H1",
+          "al": "center",
+          "z": 5,
+          "id": "yg27l1"
+        }
+      ],
+      "id": "r9p0w6"
+    },
+    {
+      "title": "type specimen",
+      "slug": "demo-type",
+      "blocks": [
+        {
+          "type": "text",
+          "x": 0,
+          "y": 0,
+          "w": 9,
+          "h": 4,
+          "html": "type specimen",
+          "sty": "H1",
+          "id": "danauv"
+        },
+        {
+          "type": "text",
+          "x": 9,
+          "y": 0,
+          "w": 3,
+          "h": 9,
+          "html": "ñ",
+          "sty": "body copy",
+          "font": "\"Degular Display\", Helvetica, Arial, sans-serif",
+          "size": 190,
+          "wt": "400",
+          "lh": 1,
+          "al": "right",
+          "fm": "lock",
+          "id": "kc352x"
+        },
+        {
+          "type": "text",
+          "x": 0,
+          "y": 3,
+          "w": 7,
+          "h": 3,
+          "html": "every text style on the site, sizes, weights, families and the fine print: optical margins, hyphenation, tracking, small caps, figures and ligatures.",
+          "sty": "body copy",
+          "id": "z0xw2s"
+        },
+        {
+          "type": "text",
+          "x": 0,
+          "y": 10,
+          "w": 12,
+          "h": 2,
+          "html": "01 · the site styles",
+          "sty": "caption",
+          "fg": "#555555",
+          "id": "kaavsg"
+        },
+        {
+          "type": "text",
+          "x": 0,
+          "y": 11,
+          "w": 3,
+          "h": 2,
+          "html": "body copy · 18 px · 400",
+          "sty": "caption",
+          "fg": "#555555",
+          "id": "pvgmux"
+        },
+        {
+          "type": "text",
+          "x": 3,
+          "y": 11,
+          "w": 9,
+          "h": 2,
+          "html": "Imprenta comunitaria en East Boston",
+          "sty": "body copy",
+          "id": "le7h1p"
+        },
+        {
+          "type": "text",
+          "x": 0,
+          "y": 15,
+          "w": 3,
+          "h": 2,
+          "html": "caption · 12 px · 400",
+          "sty": "caption",
+          "fg": "#555555",
+          "id": "hpcmuu"
+        },
+        {
+          "type": "text",
+          "x": 3,
+          "y": 15,
+          "w": 9,
+          "h": 2,
+          "html": "caption text for photo credits and small notes",
+          "sty": "caption",
+          "id": "pgf3ym"
+        },
+        {
+          "type": "text",
+          "x": 0,
+          "y": 18,
+          "w": 3,
+          "h": 2,
+          "html": "H1 · 64 px · 700",
+          "sty": "caption",
+          "fg": "#555555",
+          "id": "53pliz"
+        },
+        {
+          "type": "text",
+          "x": 3,
+          "y": 18,
+          "w": 9,
+          "h": 4,
+          "html": "Imprenta comunitaria",
+          "sty": "H1",
+          "id": "empbpe"
+        },
+        {
+          "type": "text",
+          "x": 0,
+          "y": 24,
+          "w": 3,
+          "h": 2,
+          "html": "H2 · 32 px · 700",
+          "sty": "caption",
+          "fg": "#555555",
+          "id": "8s2ksc"
+        },
+        {
+          "type": "text",
+          "x": 3,
+          "y": 24,
+          "w": 9,
+          "h": 3,
+          "html": "Imprenta comunitaria en East Boston",
+          "sty": "H2",
+          "id": "srilv0"
+        },
+        {
+          "type": "text",
+          "x": 0,
+          "y": 28,
+          "w": 12,
+          "h": 2,
+          "html": "02 · sizes",
+          "sty": "caption",
+          "fg": "#555555",
+          "id": "6t4df4"
+        },
+        {
+          "type": "text",
+          "x": 0,
+          "y": 29,
+          "w": 1,
+          "h": 2,
+          "html": "12",
+          "sty": "caption",
+          "fg": "#555555",
+          "id": "ff7r1t"
+        },
+        {
+          "type": "text",
+          "x": 1,
+          "y": 29,
+          "w": 11,
+          "h": 2,
+          "html": "ñ press imprime aquí",
+          "sty": "body copy",
+          "size": 12,
+          "lh": 1.15,
+          "id": "tipr33"
+        },
+        {
+          "type": "text",
+          "x": 0,
+          "y": 30,
+          "w": 1,
+          "h": 2,
+          "html": "16",
+          "sty": "caption",
+          "fg": "#555555",
+          "id": "j05ron"
+        },
+        {
+          "type": "text",
+          "x": 1,
+          "y": 30,
+          "w": 11,
+          "h": 2,
+          "html": "ñ press imprime aquí",
+          "sty": "body copy",
+          "size": 16,
+          "lh": 1.15,
+          "id": "ajfktl"
+        },
+        {
+          "type": "text",
+          "x": 0,
+          "y": 31,
+          "w": 1,
+          "h": 2,
+          "html": "24",
+          "sty": "caption",
+          "fg": "#555555",
+          "id": "6qrymr"
+        },
+        {
+          "type": "text",
+          "x": 1,
+          "y": 31,
+          "w": 11,
+          "h": 2,
+          "html": "ñ press imprime aquí",
+          "sty": "body copy",
+          "size": 24,
+          "lh": 1.15,
+          "id": "qn8fpj"
+        },
+        {
+          "type": "text",
+          "x": 0,
+          "y": 33,
+          "w": 1,
+          "h": 2,
+          "html": "36",
+          "sty": "caption",
+          "fg": "#555555",
+          "id": "d0eqq3"
+        },
+        {
+          "type": "text",
+          "x": 1,
+          "y": 33,
+          "w": 11,
+          "h": 3,
+          "html": "ñ press imprime aquí",
+          "sty": "body copy",
+          "size": 36,
+          "lh": 1.15,
+          "id": "ywct77"
+        },
+        {
+          "type": "text",
+          "x": 0,
+          "y": 35,
+          "w": 1,
+          "h": 2,
+          "html": "56",
+          "sty": "caption",
+          "fg": "#555555",
+          "id": "ama1na"
+        },
+        {
+          "type": "text",
+          "x": 1,
+          "y": 35,
+          "w": 11,
+          "h": 4,
+          "html": "ñ press imprime aquí",
+          "sty": "body copy",
+          "size": 56,
+          "lh": 1.15,
+          "id": "2spxsr"
+        },
+        {
+          "type": "text",
+          "x": 0,
+          "y": 38,
+          "w": 1,
+          "h": 2,
+          "html": "88",
+          "sty": "caption",
+          "fg": "#555555",
+          "id": "gg12c3"
+        },
+        {
+          "type": "text",
+          "x": 1,
+          "y": 38,
+          "w": 11,
+          "h": 5,
+          "html": "ñ press imprime aquí",
+          "sty": "body copy",
+          "size": 88,
+          "lh": 1.15,
+          "id": "i9t5qi"
+        },
+        {
+          "type": "text",
+          "x": 0,
+          "y": 44,
+          "w": 12,
+          "h": 2,
+          "html": "03 · weights of Degular",
+          "sty": "caption",
+          "fg": "#555555",
+          "id": "awby92"
+        },
+        {
+          "type": "text",
+          "x": 0,
+          "y": 45,
+          "w": 3,
+          "h": 3,
+          "html": "Ññ thin",
+          "sty": "body copy",
+          "size": 34,
+          "wt": "100",
+          "lh": 1.1,
+          "id": "s5572z"
+        },
+        {
+          "type": "text",
+          "x": 3,
+          "y": 45,
+          "w": 3,
+          "h": 3,
+          "html": "Ññ light",
+          "sty": "body copy",
+          "size": 34,
+          "wt": "300",
+          "lh": 1.1,
+          "id": "p0egpv"
+        },
+        {
+          "type": "text",
+          "x": 6,
+          "y": 45,
+          "w": 3,
+          "h": 3,
+          "html": "Ññ regular",
+          "sty": "body copy",
+          "size": 34,
+          "wt": "400",
+          "lh": 1.1,
+          "id": "48gn89"
+        },
+        {
+          "type": "text",
+          "x": 9,
+          "y": 45,
+          "w": 3,
+          "h": 3,
+          "html": "Ññ medium",
+          "sty": "body copy",
+          "size": 34,
+          "wt": "500",
+          "lh": 1.1,
+          "id": "sluoem"
+        },
+        {
+          "type": "text",
+          "x": 0,
+          "y": 48,
+          "w": 3,
+          "h": 3,
+          "html": "Ññ semibold",
+          "sty": "body copy",
+          "size": 34,
+          "wt": "600",
+          "lh": 1.1,
+          "id": "iby2xe"
+        },
+        {
+          "type": "text",
+          "x": 3,
+          "y": 48,
+          "w": 3,
+          "h": 3,
+          "html": "Ññ bold",
+          "sty": "body copy",
+          "size": 34,
+          "wt": "700",
+          "lh": 1.1,
+          "id": "j9t66n"
+        },
+        {
+          "type": "text",
+          "x": 6,
+          "y": 48,
+          "w": 3,
+          "h": 3,
+          "html": "Ññ black",
+          "sty": "body copy",
+          "size": 34,
+          "wt": "900",
+          "lh": 1.1,
+          "id": "q3kglo"
+        },
+        {
+          "type": "text",
+          "x": 0,
+          "y": 52,
+          "w": 12,
+          "h": 2,
+          "html": "04 · families",
+          "sty": "caption",
+          "fg": "#555555",
+          "id": "20afgp"
+        },
+        {
+          "type": "text",
+          "x": 0,
+          "y": 53,
+          "w": 3,
+          "h": 2,
+          "html": "Degular",
+          "sty": "caption",
+          "fg": "#555555",
+          "id": "ecnn0f"
+        },
+        {
+          "type": "text",
+          "x": 0,
+          "y": 54,
+          "w": 3,
+          "h": 3,
+          "html": "Aa Ññ 0123",
+          "sty": "body copy",
+          "font": "\"Degular\", Helvetica, Arial, sans-serif",
+          "size": 40,
+          "lh": 1.1,
+          "id": "chvlsv"
+        },
+        {
+          "type": "text",
+          "x": 3,
+          "y": 53,
+          "w": 3,
+          "h": 2,
+          "html": "Degular Display",
+          "sty": "caption",
+          "fg": "#555555",
+          "id": "y6a9j5"
+        },
+        {
+          "type": "text",
+          "x": 3,
+          "y": 54,
+          "w": 3,
+          "h": 3,
+          "html": "Aa Ññ 0123",
+          "sty": "body copy",
+          "font": "\"Degular Display\", Helvetica, Arial, sans-serif",
+          "size": 40,
+          "lh": 1.1,
+          "id": "m8wpif"
+        },
+        {
+          "type": "text",
+          "x": 6,
+          "y": 53,
+          "w": 3,
+          "h": 2,
+          "html": "Degular Mono",
+          "sty": "caption",
+          "fg": "#555555",
+          "id": "v0e27k"
+        },
+        {
+          "type": "text",
+          "x": 6,
+          "y": 54,
+          "w": 3,
+          "h": 3,
+          "html": "Aa Ññ 0123",
+          "sty": "body copy",
+          "font": "\"Degular Mono\", Menlo, monospace",
+          "size": 40,
+          "lh": 1.1,
+          "id": "9jqybi"
+        },
+        {
+          "type": "text",
+          "x": 9,
+          "y": 53,
+          "w": 3,
+          "h": 2,
+          "html": "Sofia Pro",
+          "sty": "caption",
+          "fg": "#555555",
+          "id": "5ga683"
+        },
+        {
+          "type": "text",
+          "x": 9,
+          "y": 54,
+          "w": 3,
+          "h": 3,
+          "html": "Aa Ññ 0123",
+          "sty": "body copy",
+          "font": "\"Sofia Pro\", Helvetica, Arial, sans-serif",
+          "size": 40,
+          "lh": 1.1,
+          "id": "4rfz1q"
+        },
+        {
+          "type": "text",
+          "x": 0,
+          "y": 59,
+          "w": 12,
+          "h": 2,
+          "html": "05 · optical margins: off (left) and on (right)",
+          "sty": "caption",
+          "fg": "#555555",
+          "id": "axgvam"
+        },
+        {
+          "type": "text",
+          "x": 0,
+          "y": 60,
+          "w": 5,
+          "h": 5,
+          "html": "“Print is how a neighborhood talks to itself,” said one member. Very often the work starts on a Thursday, with tea, paper and a deadline. “Yes” is the answer.",
+          "sty": "body copy",
+          "size": 24,
+          "lh": 1.25,
+          "bg": "#ffffff",
+          "id": "taf0t2"
+        },
+        {
+          "type": "text",
+          "x": 6,
+          "y": 60,
+          "w": 5,
+          "h": 5,
+          "html": "“Print is how a neighborhood talks to itself,” said one member. Very often the work starts on a Thursday, with tea, paper and a deadline. “Yes” is the answer.",
+          "sty": "body copy",
+          "size": 24,
+          "lh": 1.25,
+          "bg": "#ffffff",
+          "hq": true,
+          "id": "r7jh54"
+        },
+        {
+          "type": "text",
+          "x": 0,
+          "y": 70,
+          "w": 6,
+          "h": 2,
+          "html": "06 · hyphenation off, then on",
+          "sty": "caption",
+          "fg": "#555555",
+          "id": "8vogat"
+        },
+        {
+          "type": "text",
+          "x": 0,
+          "y": 71,
+          "w": 2,
+          "h": 6,
+          "html": "Typographically speaking, extraordinarily long words like internationalization need hyphenation in narrow columns.",
+          "sty": "body copy",
+          "size": 16,
+          "hy": false,
+          "id": "w726ht"
+        },
+        {
+          "type": "text",
+          "x": 3,
+          "y": 71,
+          "w": 2,
+          "h": 6,
+          "html": "Typographically speaking, extraordinarily long words like internationalization need hyphenation in narrow columns.",
+          "sty": "body copy",
+          "size": 16,
+          "hy": true,
+          "id": "q8va05"
+        },
+        {
+          "type": "text",
+          "x": 6,
+          "y": 70,
+          "w": 6,
+          "h": 2,
+          "html": "07 · tracking and case",
+          "sty": "caption",
+          "fg": "#555555",
+          "id": "0m8yxu"
+        },
+        {
+          "type": "text",
+          "x": 6,
+          "y": 71,
+          "w": 6,
+          "h": 2,
+          "html": "workshop schedule",
+          "sty": "body copy",
+          "size": 20,
+          "up": true,
+          "ls": 0.18,
+          "wt": "500",
+          "id": "z899no"
+        },
+        {
+          "type": "text",
+          "x": 6,
+          "y": 73,
+          "w": 6,
+          "h": 2,
+          "html": "workshop schedule",
+          "sty": "body copy",
+          "size": 20,
+          "up": true,
+          "ls": -0.02,
+          "wt": "500",
+          "id": "t45ojj"
+        },
+        {
+          "type": "text",
+          "x": 6,
+          "y": 75,
+          "w": 6,
+          "h": 2,
+          "html": "Small Caps For Labels",
+          "sty": "body copy",
+          "size": 20,
+          "ff": "c2sc smcp",
+          "id": "vrc128"
+        },
+        {
+          "type": "text",
+          "x": 0,
+          "y": 79,
+          "w": 4,
+          "h": 2,
+          "html": "08 · figures: default, tabular, oldstyle",
+          "sty": "caption",
+          "fg": "#555555",
+          "id": "xtm2yv"
+        },
+        {
+          "type": "text",
+          "x": 0,
+          "y": 80,
+          "w": 4,
+          "h": 3,
+          "html": "0123456789 · $1,140.50",
+          "sty": "body copy",
+          "size": 22,
+          "ff": "",
+          "id": "u4uhl1"
+        },
+        {
+          "type": "text",
+          "x": 0,
+          "y": 82,
+          "w": 4,
+          "h": 3,
+          "html": "0123456789 · $1,140.50",
+          "sty": "body copy",
+          "size": 22,
+          "ff": "tnum",
+          "id": "4ylq27"
+        },
+        {
+          "type": "text",
+          "x": 0,
+          "y": 84,
+          "w": 4,
+          "h": 3,
+          "html": "0123456789 · $1,140.50",
+          "sty": "body copy",
+          "size": 22,
+          "ff": "onum",
+          "id": "f2he6v"
+        },
+        {
+          "type": "text",
+          "x": 4,
+          "y": 79,
+          "w": 4,
+          "h": 2,
+          "html": "09 · ligatures on, then off",
+          "sty": "caption",
+          "fg": "#555555",
+          "id": "92hh01"
+        },
+        {
+          "type": "text",
+          "x": 4,
+          "y": 80,
+          "w": 4,
+          "h": 3,
+          "html": "office fifty flyers",
+          "sty": "body copy",
+          "size": 30,
+          "id": "6z6pb9"
+        },
+        {
+          "type": "text",
+          "x": 4,
+          "y": 82,
+          "w": 4,
+          "h": 3,
+          "html": "office fifty flyers",
+          "sty": "body copy",
+          "size": 30,
+          "ff": "-liga",
+          "id": "v8ht54"
+        },
+        {
+          "type": "text",
+          "x": 8,
+          "y": 79,
+          "w": 4,
+          "h": 2,
+          "html": "10 · italic, skew and highlight",
+          "sty": "caption",
+          "fg": "#555555",
+          "id": "enf7oj"
+        },
+        {
+          "type": "text",
+          "x": 8,
+          "y": 80,
+          "w": 4,
+          "h": 3,
+          "html": "an italic line",
+          "sty": "body copy",
+          "size": 26,
+          "it": true,
+          "id": "cvazbs"
+        },
+        {
+          "type": "text",
+          "x": 8,
+          "y": 82,
+          "w": 4,
+          "h": 3,
+          "html": "a skewed line",
+          "sty": "body copy",
+          "size": 26,
+          "sk": 12,
+          "id": "avkno7"
+        },
+        {
+          "type": "text",
+          "x": 8,
+          "y": 84,
+          "w": 4,
+          "h": 3,
+          "html": "mark <span style=\"background-color: rgb(255, 244, 92);\">what matters</span>",
+          "sty": "body copy",
+          "size": 26,
+          "id": "fpqzol"
+        },
+        {
+          "type": "text",
+          "x": 0,
+          "y": 88,
+          "w": 12,
+          "h": 2,
+          "html": "11 · color",
+          "sty": "caption",
+          "fg": "#555555",
+          "id": "ivss48"
+        },
+        {
+          "type": "text",
+          "x": 0,
+          "y": 89,
+          "w": 4,
+          "h": 4,
+          "html": "black on yellow",
+          "sty": "body copy",
+          "size": 30,
+          "bg": "#fff45c",
+          "pd": 14,
+          "fm": "lock",
+          "va": "bottom",
+          "id": "m18juh"
+        },
+        {
+          "type": "text",
+          "x": 4,
+          "y": 89,
+          "w": 4,
+          "h": 4,
+          "html": "white on red",
+          "sty": "body copy",
+          "size": 30,
+          "bg": "#e8382c",
+          "fg": "#ffffff",
+          "pd": 14,
+          "fm": "lock",
+          "va": "bottom",
+          "id": "6xu0qk"
+        },
+        {
+          "type": "text",
+          "x": 8,
+          "y": 89,
+          "w": 4,
+          "h": 4,
+          "html": "pink on black",
+          "sty": "body copy",
+          "size": 30,
+          "bg": "#111111",
+          "fg": "#f4c6d8",
+          "pd": 14,
+          "fm": "lock",
+          "va": "bottom",
+          "id": "brx1jy"
+        },
+        {
+          "type": "marquee",
+          "x": 0,
+          "y": 94,
+          "w": 12,
+          "h": 4,
+          "html": "ñ press · type specimen · imprenta comunitaria · ",
+          "speed": 30,
+          "size": 56,
+          "wt": "700",
+          "id": "w1udbh"
+        }
+      ],
+      "id": "3jobo1"
     }
   ],
   "styles": {
@@ -109,6 +2576,10 @@
     }
   },
   "base": {},
-  "pub": "68lm92mk",
-  "out": []
+  "pub": "jcujh2nh",
+  "out": [
+    "demo-tables",
+    "demo-shapes",
+    "demo-type"
+  ]
 }
