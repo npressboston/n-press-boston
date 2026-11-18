@@ -47,7 +47,6 @@
           "html": "Community print studio based in East Boston",
           "id": "3cwag2",
           "type": "text",
-          "sty": "body copy",
           "x": 1,
           "y": 2
         },
@@ -64,7 +63,8 @@
             "y": 4,
             "w": 2,
             "h": 5
-          }
+          },
+          "alt": "Bird"
         },
         {
           "w": 4,
@@ -74,11 +74,16 @@
           "type": "text",
           "sty": "body copy",
           "x": 5,
-          "y": 12
+          "y": 13,
+          "m": {
+            "x": 2,
+            "y": 8,
+            "w": 2,
+            "h": 2
+          }
         }
       ],
-      "g": {},
-      "len": 27
+      "g": {}
     }
   ],
   "styles": {
@@ -104,6 +109,6 @@
     }
   },
   "base": {},
-  "pub": "d42u3fgx",
+  "pub": "68lm92mk",
   "out": []
 }
