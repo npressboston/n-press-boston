@@ -18,6 +18,12 @@ function rp(p) {
 
 function mig(s) {
   var g = s.grid
+  ;(s.common || []).concat.apply(s.common || [], s.pages.map(function (p) { return p.blocks })).forEach(function (b) {
+    if (b.type == 'marquee' && b.text != null && b.html == null) {
+      b.html = b.text
+      delete b.text
+    }
+  })
   if (g.v >= 2) return
   var k = (g.row + g.gap) / 24
   function f(b) {
@@ -151,7 +157,7 @@ function grd(box, g) {
   box.style.padding = g.pad + 'px'
 }
 
-var TXY = 'text nav tabs cards gallery embed marquee lang button events join', MPK = ['x', 'y', 'w', 'h', 'hide']
+var TXY = 'text nav tabs cards gallery embed marquee lang button events join table', MPK = ['x', 'y', 'w', 'h', 'hide']
 
 function hid(b) {
   return MOB ? b.on == 'd' || (b.m && b.m.hide) : b.on == 'p'
@@ -224,7 +230,7 @@ function lay(el, b, mm) {
   var p = ps(b), s = el.style
   el.classList.add('t-' + b.type)
   if (b.type == 'text' && !b.fm) el.classList.add('fr')
-  s.zIndex = b.z || (b.fix ? 30 : b.type == 'band' ? (b.wp ? -1 : 0) : 1)
+  s.zIndex = b.type == 'band' && b.wp ? -1 : b.z || (b.fix ? 30 : b.type == 'band' ? 0 : 1)
   s.display = hid(b) ? 'none' : ''
   s.margin = ''
   if (b.type == 'band' && b.wp) {
@@ -394,11 +400,23 @@ function ln(it) {
 }
 
 function mq(el, b) {
-  var w = document.createElement('div'), t = ''
-  for (var i = 0; i < 4; i++) t += '<span>' + tx(b.text) + '</span>'
+  var w = document.createElement('div'), t = '', h = tx(b.html) || tx(b.text) || '', dr = b.dir || ''
+  for (var i = 0; i < 4; i++) t += '<span>' + h + '</span>'
   w.className = 'mqi'
   w.innerHTML = t + t
   w.style.animationDuration = (b.speed || 20) + 's'
+  if (dr == 'r' || dr == 'd') w.style.animationDirection = 'reverse'
+  if (dr == 'u' || dr == 'd') el.classList.add('mqv')
+  if (b.hp) el.classList.add('mqh')
+  if (b.gp != null) el.style.setProperty('--mg', b.gp + 'px')
+  if (b.ih) el.style.setProperty('--mih', b.ih / 100)
+  w.querySelectorAll('img').forEach(function (im) {
+    var k = im.getAttribute('src')
+    im.dataset.src = k
+    im.src = rp(k)
+    im.alt = im.alt || ''
+  })
+  pl(w)
   el.appendChild(w)
 }
 
@@ -586,6 +604,130 @@ function jn(el, b, mm) {
   el.appendChild(f)
 }
 
+var TRO = typeof ResizeObserver != 'undefined' ? new ResizeObserver(function (es) {
+  es.forEach(function (e) {
+    if (!e.target.isConnected) return TRO.unobserve(e.target)
+    tln(e.target)
+  })
+}) : null
+
+function tcov(b) {
+  var cv0 = {}
+  ;(b.cells || []).forEach(function (row, r) {
+    row.forEach(function (c, k) {
+      if (!c || cv0[r + ',' + k]) return
+      for (var i = 0; i < (c.rs || 1); i++) for (var j = 0; j < (c.cs || 1); j++) if (i || j) cv0[(r + i) + ',' + (k + j)] = 1
+    })
+  })
+  return cv0
+}
+
+function tbl(el, b, mm) {
+  var tc = b.tc || [1], tr = b.tr || [1], md = MOB ? b.tm || '' : 'g', stk = md == '', g = document.createElement('div'), cv0 = tcov(b)
+  el.classList.add('tbm' + (md || 's'))
+  g.className = 'tg'
+  g.tb = b
+  g.style.gridTemplateColumns = stk ? 'minmax(0, 1fr)' : tc.map(function (w) { return 'minmax(0, ' + w + 'fr)' }).join(' ')
+  g.style.gridTemplateRows = stk || b.ra ? '' : tr.map(function (h) { return 'minmax(0, ' + h + 'fr)' }).join(' ')
+  if (stk || b.ra) g.style.gridAutoRows = 'auto'
+  g.style.gap = (b.tg || 0) + 'px'
+  if (md == 'scroll') g.style.minWidth = (b.mw || 640) + 'px'
+  ;(b.cells || []).forEach(function (row, r) {
+    if (r >= tr.length) return
+    row.forEach(function (c, k) {
+      if (k >= tc.length || cv0[r + ',' + k]) return
+      c = c || {}
+      var d = document.createElement('div'), x = d.style, pd = c.pd != null ? c.pd : b.cp != null ? b.cp : 10
+      d.className = 'tcl'
+      d.tc = c
+      d.dataset.r = r
+      d.dataset.c = k
+      if (!stk) {
+        x.gridColumn = (k + 1) + ' / span ' + Math.min(c.cs || 1, tc.length - k)
+        x.gridRow = (r + 1) + ' / span ' + Math.min(c.rs || 1, tr.length - r)
+      }
+      if (c.bg || b.cbg) x.backgroundColor = c.bg || b.cbg
+      if (c.fg) x.color = c.fg
+      if (c.al) x.textAlign = c.al
+      if (c.size) x.fontSize = c.size + 'px'
+      x.justifyContent = { middle: 'center', bottom: 'flex-end' }[c.va || b.tva] || ''
+      if (c.k == 'img') {
+        d.classList.add('tim')
+        if (c.src) {
+          var m = document.createElement('img')
+          m.src = rp(c.src)
+          m.alt = tx(c.alt)
+          m.loading = 'lazy'
+          fit(m, c)
+          if (c.ip) x.padding = pd + 'px'
+          d.appendChild(m)
+        } else if (mm) d.innerHTML = '<span class="ph">image</span>'
+      } else {
+        x.padding = pd + 'px'
+        var t = document.createElement('div')
+        t.className = 'tct'
+        t.innerHTML = tx(c.html)
+        pl(t, mm)
+        d.appendChild(t)
+      }
+      g.appendChild(d)
+    })
+  })
+  var sv = document.createElementNS('http://www.w3.org/2000/svg', 'svg')
+  sv.setAttribute('class', 'tsv')
+  g.appendChild(sv)
+  if (md == 'scroll') {
+    var w = document.createElement('div')
+    w.className = 'tsw'
+    w.appendChild(g)
+    el.appendChild(w)
+  } else el.appendChild(g)
+  if (TRO) TRO.observe(g)
+}
+
+function tln(g) {
+  var b = g.tb, sv = g.querySelector('.tsv'), W = g.offsetWidth, H = g.offsetHeight, sg = {}, hd0 = {}, by = {}, h = ''
+  if (!b || !sv || !W) return
+  function v(o, k, d) { return o[k] != null && o[k] !== '' ? o[k] : d }
+  g.querySelectorAll('.tcl').forEach(function (el) {
+    var c = el.tc, ov = c.sw != null && c.sw !== '', x0 = el.offsetLeft, y0 = el.offsetTop, x1 = x0 + el.offsetWidth, y1 = y0 + el.offsetHeight
+    var y = { sw: +v(c, 'sw', b.sw || 0), sc: v(c, 'sc', b.sc || '#111111'), ds: v(c, 'ds', b.ds || ''), dl: v(c, 'dl', b.dl), dg: v(c, 'dg', b.dg), cap: v(c, 'cap', b.cap || '') }
+    ;[['t', 'h', y0, x0, x1], ['b', 'h', y1, x0, x1], ['l', 'v', x0, y0, y1], ['r', 'v', x1, y0, y1]].forEach(function (q) {
+      var k = q[1] + Math.round(q[2]) + ':' + Math.round(q[3]) + '-' + Math.round(q[4]), ed = q[1] == 'h' ? q[2] < 1 || q[2] > H - 1 : q[2] < 1 || q[2] > W - 1
+      if ((c.hs || '').indexOf(q[0]) > -1) { hd0[k] = 1; return }
+      if (!ov && !(ed ? b.lo : q[1] == 'h' ? b.lh : b.lv)) return
+      var p = ov ? 2 : 1
+      if (!sg[k] || sg[k].p < p) sg[k] = { o: q[1], at: q[2], a: q[3], z: q[4], y: y, p: p, k: k }
+    })
+  })
+  Object.keys(sg).forEach(function (k) {
+    var s0 = sg[k]
+    if (s0.p < 2 && hd0[k]) return
+    if (!s0.y.sw) return
+    var key = s0.o + Math.round(s0.at) + '|' + JSON.stringify(s0.y)
+    ;(by[key] = by[key] || []).push(s0)
+  })
+  Object.keys(by).forEach(function (key) {
+    var ls = by[key].sort(function (a, z) { return a.a - z.a }), m = []
+    ls.forEach(function (s0) {
+      var l = m[m.length - 1]
+      if (l && s0.a <= l.z + 1.5) l.z = Math.max(l.z, s0.z)
+      else m.push({ o: s0.o, at: s0.at, a: s0.a, z: s0.z, y: s0.y })
+    })
+    m.forEach(function (s0) {
+      var y = s0.y, sw = y.sw, cap = y.ds == 'dotted' ? 'round' : y.cap || (y.ds ? 'butt' : 'square'), da = ''
+      var dl = y.dl != null && y.dl !== '' ? +y.dl : sw * 3, dg = y.dg != null && y.dg !== '' ? +y.dg : y.ds == 'dotted' ? sw * 1.5 : sw * 2
+      if (y.ds == 'dashed') da = dl + ' ' + dg
+      if (y.ds == 'dotted') da = '0 ' + (dg + sw)
+      var p = s0.o == 'h' ? [s0.a, s0.at, s0.z, s0.at] : [s0.at, s0.a, s0.at, s0.z]
+      h += '<line x1="' + p[0] + '" y1="' + p[1] + '" x2="' + p[2] + '" y2="' + p[3] + '" stroke="' + y.sc + '" stroke-width="' + sw + '" stroke-linecap="' + cap + '"' + (da ? ' stroke-dasharray="' + da + '"' : '') + (b.dof ? ' stroke-dashoffset="' + -b.dof + '"' : '') + '/>'
+    })
+  })
+  sv.setAttribute('width', W)
+  sv.setAttribute('height', H)
+  sv.innerHTML = h
+}
+
 function nc(b) {
   var c = b.cols || 3
   return MOB ? b.mcol || Math.min(c, 2) : c
@@ -745,6 +887,8 @@ function bk(b, mm) {
   } else if (t == 'band') {
     if (b.bg) el.style.backgroundColor = b.bg
     ;(b.ly || []).slice().reverse().forEach(function (L) { el.appendChild(bly(L)) })
+  } else if (t == 'table') {
+    tbl(el, b, mm)
   } else if (t == 'join') {
     jn(el, b, mm)
   } else if (t == 'events') {

@@ -238,6 +238,12 @@ document.getElementById('wr').ondrop = async function (e) {
   e.preventDefault()
   if (RO) return
   if (!e.dataTransfer.files.length) return
+  var mqd = e.target.closest && e.target.closest('.b.t-marquee'), mqb = mqd && all().filter(function (x) { return x.id == mqd.bid })[0]
+  if (mqb) {
+    var mp = await up(e.dataTransfer.files)
+    mp.filter(function (p) { return !VD.test(p) }).forEach(function (p) { mqimg(mqb, p) })
+    return
+  }
   var g = pgd(s, pg()), c = cols(g), r = cv.getBoundingClientRect()
   var cw = (r.width - g.pad * 2 - g.gap * (c - 1)) / c + g.gap, rh = g.row
   var x = Math.max(0, Math.floor((e.clientX - r.left - g.pad) / cw)), y = Math.max(0, Math.floor((e.clientY - r.top - g.pad) / rh))

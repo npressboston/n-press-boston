@@ -228,7 +228,7 @@ body.mm {
   pointer-events: none;
 }
 
-.mm .b > [contenteditable=true]:not(.rz):not(.rr) {
+.mm .b > [contenteditable=true]:not(.rz):not(.rr), .mm .b .mqi [contenteditable=true], .mm .b .tct[contenteditable=true], .mm .b .tgh {
   pointer-events: auto;
 }
 
@@ -247,7 +247,7 @@ body.mm {
 #pn textarea {
   width: 100%;
   height: 80px;
-  font: 11px Menlo, monospace;
+  font: 11px Helvetica, Arial, sans-serif;
   box-sizing: border-box;
   border: 1px solid #bbb;
   margin: 2px 0 6px;
@@ -463,7 +463,7 @@ body.mm {
 
 .lbd .lt a i {
   flex: none;
-  font: normal 10px Menlo, monospace;
+  font: normal 10px Helvetica, Arial, sans-serif;
   color: #aaa;
 }
 
@@ -498,7 +498,7 @@ body.mm {
 
 .lg a.fd i {
   margin-top: 4px;
-  font: normal 10px Menlo, monospace;
+  font: normal 10px Helvetica, Arial, sans-serif;
 }
 
 .lg .le {
@@ -617,8 +617,27 @@ body.mm {
   padding: 0 8px;
 }
 
-#rt .rcl {
+#rt .rcl, #rt .rhl {
   position: relative;
+}
+
+#rt .rhl {
+  flex-direction: column;
+  gap: 1px;
+}
+
+#rt .rhl i {
+  width: 15px;
+  height: 3px;
+  box-shadow: 0 0 0 1px rgba(255,255,255,.35);
+}
+
+#rt .rhl.on {
+  background: #333;
+}
+
+#rt .rhl:hover {
+  background: #2b5cff;
 }
 
 #rt .rcl i {
@@ -627,7 +646,7 @@ body.mm {
   border: 1px solid rgba(255,255,255,.7);
 }
 
-#rt .rcl input {
+#rt .rcl input, #rt .rhl input {
   position: absolute;
   inset: 0;
   width: 100%;
@@ -664,7 +683,7 @@ body.mm {
   padding: 4px 8px;
   border: 0;
   background: #fff;
-  font: 12px Menlo, monospace;
+  font: 12px Helvetica, Arial, sans-serif;
   outline: 0;
 }
 
@@ -964,7 +983,7 @@ body.mm {
   flex: none;
   padding: 11px 6px 9px;
   margin-left: 4px;
-  font-family: Menlo, monospace;
+  font-family: Helvetica, Arial, sans-serif;
   font-size: 10px;
 }
 
@@ -1019,7 +1038,7 @@ body.mm {
 #pn a.sty i {
   display: block;
   margin-top: 3px;
-  font: 9.5px Menlo, monospace;
+  font: 10px Helvetica, Arial, sans-serif;
   color: #888;
 }
 
@@ -1069,7 +1088,7 @@ body.mm {
 #lab header span {
   flex: 1;
   text-align: center;
-  font: 11px Menlo, monospace;
+  font: 11px Helvetica, Arial, sans-serif;
   color: #a9a9a4;
   white-space: nowrap;
   overflow: hidden;
@@ -1092,7 +1111,7 @@ body.mm {
 #lab h6 {
   margin: 18px 0 8px;
   padding-bottom: 5px;
-  font: normal 9.5px Menlo, monospace;
+  font: normal 10px Helvetica, Arial, sans-serif;
   text-transform: uppercase;
   letter-spacing: .12em;
   color: #8a8a86;
@@ -1140,7 +1159,7 @@ body.mm {
 #lab .ll i {
   display: block;
   margin-top: 2px;
-  font: 10px Menlo, monospace;
+  font: 10px Helvetica, Arial, sans-serif;
   color: #888;
 }
 
@@ -1175,7 +1194,7 @@ body.mm {
 
 #lab .lplate > div:first-child i {
   white-space: nowrap;
-  font: 10px Menlo, monospace;
+  font: 10px Helvetica, Arial, sans-serif;
   text-transform: uppercase;
   letter-spacing: .14em;
 }
@@ -1192,7 +1211,7 @@ body.mm {
 }
 
 #lab dt {
-  font: 9px Menlo, monospace;
+  font: 10px Helvetica, Arial, sans-serif;
   text-transform: uppercase;
   letter-spacing: .12em;
   color: #8a8a86;
@@ -1234,7 +1253,7 @@ body.mm {
 
 #lab h3 > i {
   margin-right: 12px;
-  font: normal 11px Menlo, monospace;
+  font: normal 11px Helvetica, Arial, sans-serif;
   color: #e8382c;
 }
 
@@ -1262,7 +1281,7 @@ body.mm {
 #lab .mln span, #lab .mln em {
   position: absolute;
   top: -13px;
-  font: 9px Menlo, monospace;
+  font: 10px Helvetica, Arial, sans-serif;
   text-transform: uppercase;
   letter-spacing: .06em;
   color: #7f8bb5;
@@ -1348,7 +1367,7 @@ body.mm {
 }
 
 #lab .lsz label {
-  font: 9px Menlo, monospace;
+  font: 10px Helvetica, Arial, sans-serif;
   text-transform: uppercase;
   letter-spacing: .1em;
   color: #999;
@@ -1374,7 +1393,7 @@ body.mm {
 #lab .lstep {
   display: flex;
   margin-left: auto;
-  font: normal 10px Menlo, monospace;
+  font: normal 10px Helvetica, Arial, sans-serif;
   letter-spacing: 0;
   text-transform: none;
 }
@@ -1422,7 +1441,7 @@ body.mm {
 #lab .lread u {
   margin-left: 6px;
   padding: 1px 6px;
-  font: 10px Menlo, monospace;
+  font: 10px Helvetica, Arial, sans-serif;
   text-decoration: none;
 }
 
@@ -1483,7 +1502,7 @@ body.mm {
 
 #lab .kc em {
   display: block;
-  font: 10px Menlo, monospace;
+  font: 10px Helvetica, Arial, sans-serif;
   color: #111;
 }
 
@@ -1534,7 +1553,7 @@ body.mm {
   padding: 3px 4px;
   border: 1px solid #c8c8c4;
   background: #fff;
-  font: 10px Menlo, monospace;
+  font: 10px Helvetica, Arial, sans-serif;
 }
 
 #lab .lnum::placeholder {
@@ -1581,7 +1600,7 @@ body.mm {
 }
 
 #lab .lclr {
-  font: 10px Menlo, monospace;
+  font: 10px Helvetica, Arial, sans-serif;
   color: #888;
   cursor: pointer;
 }
@@ -1662,7 +1681,7 @@ body.mm {
 
 #lab .lgi {
   margin-left: auto;
-  font: 10px Menlo, monospace;
+  font: 10px Helvetica, Arial, sans-serif;
   color: #888;
 }
 
@@ -1720,7 +1739,7 @@ body.mm {
 }
 
 #lab .lft button b {
-  font: normal 9.5px Menlo, monospace;
+  font: normal 10px Helvetica, Arial, sans-serif;
   color: #888;
 }
 
@@ -1778,7 +1797,7 @@ body.mm {
   border: 0;
   background: none;
   padding: 3px 4px;
-  font: 11px Menlo, monospace;
+  font: 11px Helvetica, Arial, sans-serif;
 }
 
 #pn .scr input[type=number] {
@@ -1949,7 +1968,7 @@ body.mm {
   height: 28px;
   padding-left: 8px;
   border: 1px solid #111;
-  font: 12px Menlo, monospace;
+  font: 12px Helvetica, Arial, sans-serif;
   color: #888;
 }
 
@@ -1958,7 +1977,7 @@ body.mm {
   min-width: 0;
   border: 0;
   padding: 0 4px 0 2px;
-  font: 12px Menlo, monospace;
+  font: 12px Helvetica, Arial, sans-serif;
   text-transform: uppercase;
   color: #111;
   outline: 0;
@@ -1966,7 +1985,7 @@ body.mm {
 
 #cpk h5 {
   margin: 12px 0 5px;
-  font: normal 9px Menlo, monospace;
+  font: normal 10px Helvetica, Arial, sans-serif;
   text-transform: uppercase;
   letter-spacing: .12em;
   color: #999;
@@ -2001,7 +2020,7 @@ body.mm {
   margin: 12px 0 0;
   padding-top: 8px;
   border-top: 1px solid #e5e5e1;
-  font: 9px Menlo, monospace;
+  font: 10px Helvetica, Arial, sans-serif;
   text-transform: uppercase;
   letter-spacing: .12em;
   color: #555;
@@ -2029,7 +2048,7 @@ body.mm {
 }
 
 #lab .lst {
-  font: 10px Menlo, monospace;
+  font: 10px Helvetica, Arial, sans-serif;
   font-style: normal;
   color: #8a8a86;
   white-space: nowrap;
@@ -2130,7 +2149,7 @@ body.mm {
 
 #gp header span {
   flex: 1;
-  font: 10px Menlo, monospace;
+  font: 10px Helvetica, Arial, sans-serif;
   color: #aaa;
   white-space: nowrap;
   overflow: hidden;
@@ -2172,7 +2191,7 @@ body.mm {
 
 #gp h5 {
   margin: 8px 8px 4px;
-  font: normal 9px Menlo, monospace;
+  font: normal 10px Helvetica, Arial, sans-serif;
   text-transform: uppercase;
   letter-spacing: .12em;
   color: #999;
@@ -2225,7 +2244,7 @@ body.mm {
   margin: 0;
   padding: 6px 8px;
   border-top: 1px solid #e5e5e1;
-  font: 10px Menlo, monospace;
+  font: 10px Helvetica, Arial, sans-serif;
   color: #888;
 }
 
@@ -2251,7 +2270,7 @@ body.mm {
   padding: 1px 5px;
   background: #111;
   color: #fff45c;
-  font: normal 9px Menlo, monospace;
+  font: normal 10px Helvetica, Arial, sans-serif;
   text-transform: uppercase;
   letter-spacing: .08em;
 }
@@ -2289,7 +2308,7 @@ body.mm {
   padding: 2px 6px;
   background: #2b5cff;
   color: #fff;
-  font: 10px Menlo, monospace;
+  font: 10px Helvetica, Arial, sans-serif;
 }
 
 .mm .b.wp .rz, .mm .b.wp .rr {
@@ -2302,7 +2321,7 @@ body.mm {
 
 #pn .bly nav b {
   flex: 1;
-  font: normal 9.5px Menlo, monospace;
+  font: normal 10px Helvetica, Arial, sans-serif;
   text-transform: uppercase;
   letter-spacing: .1em;
   color: #888;
@@ -2426,7 +2445,7 @@ body.mm {
 
 #pfp header span {
   flex: 1;
-  font: 10px Menlo, monospace;
+  font: 10px Helvetica, Arial, sans-serif;
   color: #aaa;
 }
 
@@ -2451,7 +2470,7 @@ body.mm {
 
 #pfp h5 {
   margin: 12px 12px 4px;
-  font: normal 9px Menlo, monospace;
+  font: normal 10px Helvetica, Arial, sans-serif;
   text-transform: uppercase;
   letter-spacing: .12em;
   color: #999;
@@ -2494,7 +2513,7 @@ body.mm {
 }
 
 #pfp .pfi em {
-  font: normal 10px Menlo, monospace;
+  font: normal 10px Helvetica, Arial, sans-serif;
   color: #999;
   white-space: nowrap;
 }
@@ -2550,7 +2569,7 @@ body.mm {
   padding: 2px 6px;
   background: #2b5cff;
   color: #fff;
-  font: 10px Menlo, monospace;
+  font: 10px Helvetica, Arial, sans-serif;
   white-space: nowrap;
   pointer-events: none;
 }
@@ -2674,7 +2693,7 @@ body.mm {
 #pn .lbg {
   margin-right: 6px;
   padding: 0 4px;
-  font: normal 9px Menlo, monospace;
+  font: normal 10px Helvetica, Arial, sans-serif;
   text-transform: uppercase;
   letter-spacing: .06em;
   color: #fff;
@@ -2752,7 +2771,7 @@ body.sb #cvp::before, body.sb #cv::before {
   position: absolute;
   top: -24px;
   left: 0;
-  font: 10px Menlo, monospace;
+  font: 10px Helvetica, Arial, sans-serif;
   text-transform: uppercase;
   letter-spacing: .12em;
   color: #888;
@@ -2910,4 +2929,87 @@ body:not(.sb) #cvp {
 
 #tb > button, #tb > select, #tb > a, #tb > b {
   flex: none;
+}
+
+.c-marquee.mqe .mqi {
+  animation: none;
+}
+
+.c-marquee.mqe .mqi span ~ span {
+  visibility: hidden;
+}
+
+.c-marquee.mqe .mqi span[contenteditable=true] {
+  outline: 1px dashed #2b5cff;
+  outline-offset: 2px;
+  min-width: 1em;
+  cursor: text;
+}
+
+.tcl.tsel::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(43, 92, 255, .12);
+  box-shadow: inset 0 0 0 2px #2b5cff;
+  pointer-events: none;
+  z-index: 3;
+}
+
+.tct[contenteditable=true] {
+  outline: 1px dashed #2b5cff;
+  outline-offset: 2px;
+  min-height: 1em;
+  cursor: text;
+}
+
+.tgh {
+  position: absolute;
+  z-index: 4;
+  background: transparent;
+}
+
+.tgh::after {
+  content: "";
+  position: absolute;
+  background: #2b5cff;
+  opacity: 0;
+}
+
+.mm .b:hover .tgh::after {
+  opacity: .35;
+}
+
+.mm .b .tgh:hover::after {
+  opacity: 1;
+}
+
+.tghc {
+  top: 0;
+  bottom: 0;
+  width: 10px;
+  margin-left: -5px;
+  cursor: col-resize;
+}
+
+.tghc::after {
+  left: 4px;
+  width: 2px;
+  top: 0;
+  bottom: 0;
+}
+
+.tghr {
+  left: 0;
+  right: 0;
+  height: 10px;
+  margin-top: -5px;
+  cursor: row-resize;
+}
+
+.tghr::after {
+  top: 4px;
+  height: 2px;
+  left: 0;
+  right: 0;
 }

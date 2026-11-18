@@ -4,7 +4,8 @@ export async function mksub(db) {
   if (MADE) return
   await db.batch([
     db.prepare('CREATE TABLE IF NOT EXISTS subs (em TEXT PRIMARY KEY, nm TEXT, lg TEXT, src TEXT, st TEXT NOT NULL, ct TEXT, at INTEGER, cf INTEGER, un INTEGER, tk TEXT)'),
-    db.prepare('CREATE TABLE IF NOT EXISTS rl (h TEXT, at INTEGER)')
+    db.prepare('CREATE TABLE IF NOT EXISTS rl (h TEXT, at INTEGER)'),
+    db.prepare('CREATE TABLE IF NOT EXISTS cfg (k TEXT PRIMARY KEY, v TEXT, by TEXT, at INTEGER)')
   ])
   MADE = true
 }
@@ -29,7 +30,8 @@ export async function onRequestPost(ctx) {
   await mksub(db)
   var now = Date.now(), ip = rq.headers.get('cf-connecting-ip') || '', h = await hash(ip + new Date().toISOString().slice(0, 10))
   var n = await db.prepare('SELECT COUNT(*) AS n FROM rl WHERE h = ? AND at > ?').bind(h, now - 36e5).first()
-  if (n && n.n >= 30) return no('slow down', 429)
+  var off = await db.prepare("SELECT v FROM cfg WHERE k = 'rloff'").first()
+  if (n && n.n >= 30 && !(off && off.v == '1')) return no('slow down', 429)
   var tk = await hash(crypto.randomUUID() + em)
   await db.batch([
     db.prepare('INSERT INTO rl (h, at) VALUES (?, ?)').bind(h, now),
