@@ -151,7 +151,7 @@ function fits() {
 var rz
 window.addEventListener('resize', function () {
   clearTimeout(rz)
-  rz = setTimeout(function () { fits(); sdash(box) }, 150)
+  rz = setTimeout(function () { fits(); sdash(box); oma(box) }, 150)
 })
 document.fonts.ready.then(function () { if (s) { BL = {}; bas(box); fits() } })
 

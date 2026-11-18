@@ -1,10 +1,15 @@
 var LB = null, LG = 'ñ', LM = 4, LK = false, LD = {}
 
-var PAN = 'El veloz murciélago hindú comía feliz cardillo y kiwi. La cigüeña tocaba el saxofón detrás del palenque de paja. Sphinx of black quartz, judge my vow; the five boxing wizards jump quickly at 1,234 presses.'
+var PAN = '“El veloz murciélago hindú comía feliz cardillo y kiwi.” La cigüeña tocaba el saxofón detrás del palenque de paja. Sphinx of black quartz, judge my vow; the five boxing wizards jump quickly at 1,234 presses.'
 
 var KP = ['AV', 'AW', 'AY', 'AT', 'Av', 'Ay', 'LT', 'LV', 'LY', 'P.', 'Ta', 'Te', 'To', 'Ty', 'Va', 'Vo', 'Wa', 'Yo', 'F.', 'r.', 'y.', '“A', 'ño', 'Ñ.']
 
-var LSN = null
+var LTX = '', LSN = null, LO = { '01': 1 }, LSO = false, LSC = []
+try { LO = JSON.parse(localStorage.getItem('lsec') || 'null') || LO } catch (e) {}
+
+function lsv0() {
+  try { localStorage.setItem('lsec', JSON.stringify(LO)) } catch (e) {}
+}
 
 function lab(n) {
   if (!s.styles[n]) return
@@ -164,7 +169,18 @@ function lrd(full) {
 }
 
 function llist(p) {
-  p.innerHTML = '<h6>styles</h6>'
+  p.innerHTML = '<div class="lbm"></div><div class="lsd"><div class="lsl"' + (LSO ? '' : ' hidden') + '><h6>styles</h6></div><button class="lsb"></button></div>'
+  var bt = p.querySelector('.lsb'), o0 = s.styles[LB], ls = p.querySelector('.lsl')
+  bt.innerHTML = '<span><small>style</small><b></b></span><i>' + ev(o0).z + '/' + Math.round(ev(o0).lh) + '</i><em>' + (LSO ? '▾' : '▴') + '</em>'
+  bt.querySelector('b').textContent = LB
+  bt.classList.toggle('on', LSO)
+  var rt0 = p
+  bt.onclick = function () {
+    LSO = !LSO
+    llist(rt0)
+    lbook()
+  }
+  p = ls
   Object.keys(s.styles).forEach(function (n) {
     var o = s.styles[n], a = el('a', n == LB ? 'on' : ''), b = el('b'), i = el('i')
     b.textContent = n
@@ -174,7 +190,7 @@ function llist(p) {
     i.textContent = ev(o).z + '/' + Math.round(ev(o).lh)
     a.appendChild(b)
     a.appendChild(i)
-    a.onclick = function () { lab(n) }
+    a.onclick = function () { LSO = false; lab(n) }
     p.appendChild(a)
   })
   var nw = el('button', 'lnew', '+ new style')
@@ -189,24 +205,98 @@ function llist(p) {
 }
 
 function sec(p, no, t, x) {
-  var d = el('section'), h = el('h3', '', '<i>' + no + '</i>' + t)
+  var d = el('section', LO[no] ? '' : 'shut'), h = el('h3', '', '<i>' + no + '</i><span class="lsn">' + t + '</span>')
+  d.dataset.no = no
   if (x) h.appendChild(x)
+  h.appendChild(el('b', 'lcv', '›'))
+  h.onclick = function (e) {
+    if (e.target.closest('button, input, label, a, select')) return
+    lopen(no, !LO[no])
+  }
   d.appendChild(h)
   p.appendChild(d)
+  LSC.push([no, t])
   return d
 }
 
+function lopen(no, on, go) {
+  var w = document.getElementById('lab'), d = w.querySelector('.lc section[data-no="' + no + '"]')
+  if (on) LO[no] = 1
+  else delete LO[no]
+  lsv0()
+  if (d) d.classList.toggle('shut', !on)
+  if (d && go) w.querySelector('.lc').scrollTo({ top: ltop(d) - 8, behavior: 'smooth' })
+  lbook()
+}
+
+function ltop(d) {
+  var c = d.closest('.lc')
+  return d.getBoundingClientRect().top - c.getBoundingClientRect().top + c.scrollTop
+}
+
+function lbook() {
+  var w = document.getElementById('lab'), p = w && w.querySelector('.lbm'), c = w && w.querySelector('.lc')
+  if (!p) return
+  p.innerHTML = '<h6>sections</h6>'
+  var top = el('a', c.scrollTop < 40 ? 'on' : '', '<i>—</i><span>specification</span>')
+  top.onclick = function () { c.scrollTo({ top: 0, behavior: 'smooth' }) }
+  p.appendChild(top)
+  var cur = ''
+  c.querySelectorAll('section[data-no]').forEach(function (d) { if (ltop(d) <= c.scrollTop + c.clientHeight * .3) cur = d.dataset.no })
+  LSC.forEach(function (x) {
+    var a = el('a', (cur == x[0] && c.scrollTop >= 40 ? 'on' : '') + (LO[x[0]] ? '' : ' cl'), '<i>' + x[0] + '</i><span>' + x[1] + '</span><em>' + (LO[x[0]] ? 'open' : '') + '</em>')
+    a.onclick = function () { lopen(x[0], true, true) }
+    p.appendChild(a)
+  })
+  var ac = el('div', 'lba')
+  ;[['open all', 1], ['close all', 0]].forEach(function (y) {
+    var b = el('button', '', y[0])
+    b.onclick = function () { LSC.forEach(function (x) { lopen(x[0], y[1]) }) }
+    ac.appendChild(b)
+  })
+  p.appendChild(ac)
+}
+
 function lspec(p, o) {
-  var e = ev(o), m = met(o), sc = p.scrollTop, n = Object.keys(s.styles).indexOf(LB) + 1
+  var e = ev(o), m = met(o), sc = p.scrollTop
   p.innerHTML = ''
+  LSC = []
+  if (!p.onscroll) p.onscroll = function () { clearTimeout(p.bt); p.bt = setTimeout(lbook, 60) }
 
   var hd = el('div', 'lplate')
-  hd.innerHTML = '<div><i>type specification</i><i>ñ press · east boston</i><i>sheet ' + ('0' + n).slice(-2) + ' / ' + ('0' + Object.keys(s.styles).length).slice(-2) + '</i></div>'
-  var nm = smp(LB)
-  nm.className = 'lname'
-  nm.style.fontSize = Math.min(e.z, 88) + 'px'
-  nm.style.lineHeight = '1.05'
+  var nm = smp(LTX || LB)
+  nm.className = 'lname' + (LTX ? ' own' : '')
+  nm.contentEditable = 'plaintext-only'
+  nm.spellcheck = false
+  nm.title = 'click and type anything to try this style'
+  nm.dataset.ph = LB
+  function big() {
+    nm.style.fontSize = LTX ? '' : Math.min(e.z, 88) + 'px'
+    nm.style.lineHeight = LTX ? '' : '1.05'
+    if (LTX) sty(nm, { sty: LB }, 'text')
+  }
+  big()
+  nm.onfocus = function () {
+    nm.querySelectorAll('.hq').forEach(function (x) { x.replaceWith(x.textContent) })
+    if (!LTX) nm.textContent = ''
+  }
+  nm.oninput = function () {
+    var a = !LTX
+    LTX = nm.textContent
+    nm.classList.toggle('own', !!LTX)
+    if (a) big()
+  }
+  nm.onkeydown = function (ev0) { if (ev0.key == 'Escape') nm.blur() }
+  nm.onblur = function () {
+    if (!nm.textContent.trim()) LTX = ''
+    lspec(p, o)
+  }
   hd.appendChild(nm)
+  if (LTX) {
+    var rs = el('a', 'lrs0', 'back to the style name')
+    rs.onclick = function () { LTX = ''; lspec(p, o) }
+    hd.appendChild(rs)
+  }
   var sp = el('dl')
   ;[['family', fnm(e.f)], ['weight', wnm(e.w) + ' ' + e.w], ['style', (o.it ? 'italic' : 'roman') + (o.sk ? ', skew ' + o.sk + '°' : '')], ['size', e.z + ' px'], ['leading', Math.round(e.lh) + ' px · ' + Math.round(e.lh / e.r * 100) / 100 + ' rows'], ['tracking', e.tr + ' /1000 em'], ['kerning', o.kn == 'none' ? 'off' : 'metrics'], ['case', o.up ? 'uppercase' : /smcp/.test(o.ff || '') ? 'small caps' : 'as typed']].forEach(function (x) {
     sp.innerHTML += '<div><dt>' + x[0] + '</dt><dd>' + x[1] + '</dd></div>'
@@ -308,6 +398,14 @@ function lspec(p, o) {
   s5.appendChild(kg)
   s5.appendChild(el('p', 'lnote', 'kerning values come from the font, in units per 1000 em. tracking adds ' + e.tr + ' to every pair.'))
   p.scrollTop = sc
+  oma(p)
+  lbook()
+}
+
+function lq(p, t) {
+  var r = p.lastChild
+  if (r && r.classList && r.classList.contains('lrw')) r.firstChild.appendChild(qmark(t))
+  else p.appendChild(el('p', 'lhint', '')).appendChild(qmark(t))
 }
 
 function lrow(p, lb, x, v) {
@@ -383,7 +481,7 @@ function linsp(p, o) {
     if (x) o.lr = x
     else delete o.lr
   }, function (x) { return x ? x * e.r + 'px' : 'auto ' + lead(o.size || e.z) })
-  p.appendChild(el('p', 'lhint', 'leading moves in whole baseline rows of ' + e.r + ' px, so every line lands on the grid'))
+  lq(p, 'leading moves in whole baseline rows of ' + e.r + ' px, so every line lands on the grid')
 
   p.appendChild(el('h6', '', 'spacing'))
   lrng(p, 'tracking', -100, 400, 5, function () { return Math.round((o.ls || 0) * 1000) }, function (x) {
@@ -398,7 +496,16 @@ function linsp(p, o) {
     if (v) o.hy = true
     else delete o.hy
   })
-  p.appendChild(el('p', 'lhint', 'with hyphenation off, a word wider than its box still breaks so nothing spills out'))
+  lq(p, 'with hyphenation off, a word wider than its box still breaks so nothing spills out')
+  lseg(p, 'optical margins', [['', 'off'], ['hq', 'on']], o.hq ? 'hq' : '', function (v) {
+    if (v) o.hq = true
+    else delete o.hq
+  })
+  if (o.hq) lrng(p, 'hang', 0, 200, 5, function () { return o.hqa != null ? o.hqa : 100 }, function (x) {
+    if (x == 100) delete o.hqa
+    else o.hqa = x
+  }, function (x) { return x + '%' })
+  if (o.hq) lq(p, 'like indesign: quotes, hyphens, periods and commas hang fully outside the edge, dashes and colons partly, and slanted letters like A V W Y T a little, at the start and end of every line, so the edge looks straight. 100% is the classic amount')
 
   p.appendChild(el('h6', '', 'shape'))
   lrng(p, 'weight', 0, ws.length - 1, 1, function () {
@@ -536,7 +643,7 @@ function prim(f) {
 
 async function faces() {
   if (FCS) return FCS
-  var t = await (await fetch('fnts.css')).text(), m, re = /@font-face\s*{([^}]*)}/g
+  var t = await (await fetch('fonts.css')).text(), m, re = /@font-face\s*{([^}]*)}/g
   FCS = []
   while ((m = re.exec(t))) {
     var b = m[1]
@@ -687,7 +794,7 @@ function fsec(p, o) {
       return
     }
     var on = (o.ff || '').split(' ')
-    bx.appendChild(el('p', 'lhint', 'in this font, click to switch on'))
+    bx.appendChild(el('p', 'lhint', 'in this font'))
     cs.ft.forEach(function (t) {
       if (FX.indexOf(t) > -1) return
       var b = el('button', on.indexOf(t) > -1 ? 'on' : '', '<b>' + t + '</b>' + (FN[t] || (/^ss\d\d$/.test(t) ? 'stylistic set ' + +t.slice(2) : /^cv\d\d$/.test(t) ? 'character variant ' + +t.slice(2) : '')))

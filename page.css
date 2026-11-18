@@ -1,4 +1,4 @@
-@import url("fnts.css");
+@import url("fonts.css");
 
 html, body {
   margin: 0;
@@ -985,4 +985,31 @@ img.c-image {
 
 .tsw .tg {
   height: 100%;
+}
+
+.b.t-image:has(.cz) {
+  container-type: size;
+  overflow: hidden;
+}
+
+img.c-image.cz {
+  --iw: calc(max(100cqw, 100cqh * var(--ar)) * var(--z));
+  --ih: calc(max(100cqh, 100cqw / var(--ar)) * var(--z));
+  position: absolute;
+  max-width: none;
+  width: var(--iw);
+  height: var(--ih);
+  left: calc((100cqw - var(--iw)) * var(--x));
+  top: calc((100cqh - var(--ih)) * var(--y));
+  object-fit: fill;
+  clip-path: inset(calc((var(--ih) - 100cqh) * var(--y)) calc((var(--iw) - 100cqw) * (1 - var(--x))) calc((var(--ih) - 100cqh) * (1 - var(--y))) calc((var(--iw) - 100cqw) * var(--x)));
+}
+
+.tct a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.tct a:hover {
+  text-decoration: underline;
 }

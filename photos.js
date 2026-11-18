@@ -166,7 +166,7 @@ async function tup(files, f) {
       fr.onload = function () { ok(fr.result.slice(fr.result.indexOf(',') + 1)) }
       fr.readAsDataURL(bl)
     })
-    var r = await fetch('api/up', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ n: nm[0] + nm[1], b64: b64, f: (f || 'photos/up').slice(7) }) })
+    var r = await fetch('api/upload', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ n: nm[0] + nm[1], b64: b64, f: (f || 'photos/up').slice(7) }) })
     if (!r.ok) { st.textContent = 'upload failed for ' + fl.name; continue }
     var j = await r.json()
     PV[j.path] = j.url

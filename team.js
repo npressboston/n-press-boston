@@ -1,5 +1,56 @@
 var DV = 0, svT, busy = false, again = false, ed2 = false, mine = false, stop = false
-var lk = document.getElementById('lk')
+var lk = document.getElementById('lk'), AC = null, LA = '', FT = null, T0 = document.title, AK = false
+
+function ac0() {
+  if (!AC) AC = new (window.AudioContext || window.webkitAudioContext)()
+  if (AC.state == 'suspended') AC.resume()
+}
+document.addEventListener('pointerdown', ac0, { once: true, capture: true })
+
+function chime() {
+  try {
+    ac0()
+    var t = AC.currentTime + .02
+    ;[[659.25, 0], [987.77, .16]].forEach(function (n) {
+      var o = AC.createOscillator(), g = AC.createGain()
+      o.type = 'sine'
+      o.frequency.value = n[0]
+      g.gain.setValueAtTime(0, t + n[1])
+      g.gain.linearRampToValueAtTime(.12, t + n[1] + .02)
+      g.gain.exponentialRampToValueAtTime(.001, t + n[1] + 1.1)
+      o.connect(g)
+      g.connect(AC.destination)
+      o.start(t + n[1])
+      o.stop(t + n[1] + 1.2)
+    })
+  } catch (e) {}
+}
+
+function flash(m) {
+  unflash()
+  var on = false, n = 0
+  FT = setInterval(function () {
+    on = !on
+    document.title = on ? '● ' + m : T0
+    if (document.hasFocus() && !document.hidden && ++n > 8) unflash()
+  }, 1000)
+  document.title = '● ' + m
+  lk.classList.remove('pls')
+  void lk.offsetWidth
+  lk.classList.add('pls')
+}
+
+function unflash() {
+  clearInterval(FT)
+  FT = null
+  document.title = T0
+}
+
+function heads(m) {
+  chime()
+  flash(m)
+}
+window.addEventListener('focus', function () { if (FT) setTimeout(unflash, 2500) })
 
 function when(t) {
   return new Date(t).toLocaleString([], { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' })
@@ -80,7 +131,13 @@ async function apply(x, first) {
   if (mine && !was && !first) {
     await grabd()
     st.textContent = 'you are editing now'
+    if (AK) heads('your turn to edit')
   }
+  AK = !mine && !!(x.ask && x.ask.email == TM.email)
+  var na = mine && x.ask ? x.ask.email : ''
+  if (na && na != LA && !first) heads(x.ask.name + ' wants to edit')
+  if (!na && LA && FT) unflash()
+  LA = na
   var h = ''
   if (!mine && x.holder) {
     h = '<b></b> is editing since ' + hm(x.holder.since) + '. you can look around but not change anything. '
@@ -244,11 +301,11 @@ function tpanel() {
 function tvers() {
   hd('published versions')
   if (!HS) {
-    nt('loading...')
+    ns('loading...')
     hist2()
     return
   }
-  if (!HS.length) nt('nothing published from here yet')
+  if (!HS.length) ns('nothing published from here yet')
   HS.slice(0, 15).forEach(function (h) {
     var r = document.createElement('div'), a = document.createElement('a'), b = document.createElement('a')
     r.className = 'hs'
@@ -270,7 +327,7 @@ lk.onclick = async function (e) {
   var a = e.target.dataset.a
   if (!a) return
   if (a == 'reload') return location.reload()
-  if (a == 'ask') return apply(await post('api/ask'))
+  if (a == 'ask') { ac0(); return apply(await post('api/ask')) }
   if (a == 'give') await flush()
   apply(await post('api/lock', a == 'give' ? { give: 1 } : a == 'keep' ? { keep: 1 } : { take: 1 }))
 }

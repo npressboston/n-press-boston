@@ -1119,10 +1119,12 @@ body.mm {
 }
 
 #lab .ll {
-  overflow: auto;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
   background: #e4e4e1;
   border-right: 1px solid #c9c9c5;
-  padding: 0 0 20px;
 }
 
 #lab .ll h6 {
@@ -1130,7 +1132,147 @@ body.mm {
   border: 0;
 }
 
-#lab .ll a {
+#lab .lbm {
+  flex: 1;
+  overflow: auto;
+  padding-bottom: 12px;
+}
+
+#lab .lbm a {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  padding: 7px 14px 7px 11px;
+  border-left: 3px solid transparent;
+  cursor: pointer;
+  color: #111;
+  font-size: 13px;
+}
+
+#lab .lbm a i {
+  font-style: normal;
+  font-size: 11px;
+  color: #e8382c;
+  min-width: 14px;
+}
+
+#lab .lbm a span {
+  flex: 1;
+  text-transform: lowercase;
+}
+
+#lab .lbm a em {
+  font-style: normal;
+  font-size: 10px;
+  color: #8a8a86;
+}
+
+#lab .lbm a.cl span {
+  color: #6f6f6b;
+}
+
+#lab .lbm a:hover {
+  background: #eeeeeb;
+}
+
+#lab .lbm a.on {
+  background: #fff;
+  border-left-color: #111;
+}
+
+#lab .lba {
+  display: flex;
+  gap: 6px;
+  margin: 12px 14px 0;
+}
+
+#lab .lba button {
+  flex: 1;
+  padding: 4px 0;
+  background: none;
+  border: 1px solid #b9b9b5;
+  font: 11px Helvetica, Arial, sans-serif;
+  color: #444;
+  cursor: pointer;
+}
+
+#lab .lba button:hover {
+  border-color: #111;
+  color: #111;
+}
+
+#lab .lsd {
+  flex: none;
+}
+
+#lab .lsb {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 10px 12px 10px 14px;
+  background: #fff;
+  border: 0;
+  border-top: 1px solid #c9c9c5;
+  font: 12px Helvetica, Arial, sans-serif;
+  text-align: left;
+  cursor: pointer;
+  color: #111;
+}
+
+#lab .lsb span {
+  flex: 1;
+  min-width: 0;
+}
+
+#lab .lsb small {
+  display: block;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: .12em;
+  color: #8a8a86;
+}
+
+#lab .lsb b {
+  display: block;
+  font-size: 15px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+#lab .lsb i {
+  font-style: normal;
+  font-size: 10px;
+  color: #888;
+}
+
+#lab .lsb em {
+  font-style: normal;
+  font-size: 11px;
+}
+
+#lab .lsb:hover, #lab .lsb.on {
+  background: #f4f4f1;
+}
+
+#lab .lsl {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 57px;
+  overflow: auto;
+  background: #e4e4e1;
+  z-index: 2;
+  box-shadow: 0 -1px 0 #c9c9c5 inset;
+}
+
+#lab .lsl[hidden] {
+  display: none;
+}
+
+#lab .lsl a {
   display: block;
   padding: 8px 14px 8px 11px;
   border-left: 3px solid transparent;
@@ -1138,16 +1280,16 @@ body.mm {
   color: #111;
 }
 
-#lab .ll a:hover {
+#lab .lsl a:hover {
   background: #eeeeeb;
 }
 
-#lab .ll a.on {
+#lab .lsl a.on {
   background: #fff;
   border-left-color: #111;
 }
 
-#lab .ll b {
+#lab .lsl b {
   display: block;
   font-size: 17px;
   line-height: 1.15;
@@ -1156,11 +1298,50 @@ body.mm {
   text-overflow: ellipsis;
 }
 
-#lab .ll i {
+#lab .lsl i {
   display: block;
   margin-top: 2px;
   font: 10px Helvetica, Arial, sans-serif;
   color: #888;
+}
+
+#lab section.shut {
+  padding-bottom: 0;
+}
+
+#lab section.shut > :not(h3) {
+  display: none;
+}
+
+#lab section h3 {
+  cursor: pointer;
+  user-select: none;
+}
+
+#lab section h3 > .lsn {
+  flex: 1;
+}
+
+#lab section.shut h3 {
+  margin-bottom: 26px;
+}
+
+#lab .lcv {
+  margin-left: 14px;
+  font-size: 16px;
+  line-height: 1;
+  font-weight: normal;
+  color: #8a8a86;
+  transform: rotate(90deg);
+  transition: transform .15s;
+}
+
+#lab section.shut .lcv {
+  transform: none;
+}
+
+#lab section h3:hover .lcv {
+  color: #111;
 }
 
 #lab .lnew {
@@ -1184,26 +1365,43 @@ body.mm {
   border-bottom: 1px solid #111;
 }
 
-#lab .lplate > div:first-child {
-  display: flex;
-  justify-content: space-between;
-  padding-bottom: 8px;
-  margin-bottom: 22px;
-  border-bottom: 3px double #111;
-}
-
-#lab .lplate > div:first-child i {
-  white-space: nowrap;
-  font: 10px Helvetica, Arial, sans-serif;
-  text-transform: uppercase;
-  letter-spacing: .14em;
-}
-
 #lab .lname {
   margin: 0 0 20px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  outline: 0;
+  cursor: text;
+  border-radius: 2px;
+}
+
+#lab .lname:empty::before {
+  content: attr(data-ph);
+  color: #c4c4bf;
+}
+
+#lab .lname:hover {
+  box-shadow: 0 0 0 1px #d6d6d2;
+}
+
+#lab .lname:focus, #lab .lname.own {
+  white-space: pre-wrap;
+  overflow: visible;
+  text-overflow: clip;
+  overflow-wrap: break-word;
+}
+
+#lab .lname:focus {
+  box-shadow: 0 0 0 1px #2b5cff;
+}
+
+#lab .lrs0 {
+  display: inline-block;
+  margin: -12px 0 16px;
+  font-size: 11px;
+  color: #8a8a86;
+  text-decoration: underline;
+  cursor: pointer;
 }
 
 #lab dl {
@@ -2700,7 +2898,25 @@ body.mm {
   background: #888;
 }
 
-#pn .lbg.phone, #pn .lbg.unlinked {
+#pn .lbg.phone {
+  background: #2b5cff;
+}
+
+#pn .lbg.unlinked {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  padding: 0;
+  background: none;
+  color: #2b5cff;
+  font-weight: bold;
+}
+
+#pn .lbg.unlinked::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
   background: #2b5cff;
 }
 
@@ -3012,4 +3228,223 @@ body:not(.sb) #cvp {
   height: 2px;
   left: 0;
   right: 0;
+}
+
+#lab section.shut h3 > :not(i):not(.lsn):not(.lcv) {
+  display: none;
+}
+
+#lk.pls {
+  animation: lkp .9s ease-in-out 3;
+}
+
+@keyframes lkp {
+  50% { background: #2b5cff; color: #fff; }
+}
+
+.mm .b.crp {
+  overflow: visible !important;
+  z-index: 60 !important;
+  cursor: move;
+}
+
+.mm .b.crp img.cz {
+  clip-path: none;
+}
+
+.mm .b.crp .rz, .mm .b.crp .rr {
+  display: none;
+}
+
+.mm .cfr {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  outline: 1px solid #2b5cff;
+  box-shadow: 0 0 0 100vmax rgba(236, 236, 234, .7);
+}
+
+.qt {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 12px;
+  height: 12px;
+  margin-left: 5px;
+  border: 1px solid #b4b4af;
+  border-radius: 50%;
+  font: normal 9px/1 Helvetica, Arial, sans-serif;
+  color: #8a8a86;
+  cursor: help;
+  vertical-align: 1px;
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+.qt:hover {
+  border-color: #111;
+  color: #111;
+}
+
+#qtip {
+  display: none;
+  position: fixed;
+  z-index: 200;
+  max-width: 230px;
+  padding: 6px 8px;
+  background: #111;
+  color: #f4f4f0;
+  font: 11px/1.4 Helvetica, Arial, sans-serif;
+  pointer-events: none;
+}
+
+#pgw {
+  position: relative;
+  flex: none;
+}
+
+#pgs {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 190px;
+  font: inherit;
+  background: #333;
+  color: #fff;
+  border: 0;
+  padding: 5px 8px;
+  cursor: pointer;
+  text-align: left;
+}
+
+#pgs span {
+  flex: 1;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+#pgs i {
+  font-style: normal;
+  font-size: 10px;
+  opacity: .7;
+}
+
+#pgm {
+  position: fixed;
+  z-index: 90;
+  width: 320px;
+  max-height: 70vh;
+  overflow: auto;
+  background: #fff;
+  color: #111;
+  border: 1px solid #111;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, .25);
+  font: 12px Helvetica, Arial, sans-serif;
+}
+
+#pgm[hidden] {
+  display: none;
+}
+
+.pgr {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  border-bottom: 1px solid #e2e2de;
+  cursor: pointer;
+}
+
+.pgr:hover {
+  background: #f4f4f1;
+}
+
+.pgr.on {
+  background: #fff8b0;
+}
+
+.pgr > span {
+  flex: 1;
+  min-width: 0;
+}
+
+.pgr b {
+  display: block;
+  font-size: 13px;
+  font-weight: normal;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.pgr i {
+  display: block;
+  font-style: normal;
+  font-size: 11px;
+  color: #8a8a86;
+}
+
+.pgr em {
+  float: right;
+  margin-left: 6px;
+  padding: 0 5px;
+  font-style: normal;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  background: #111;
+  color: #fff;
+}
+
+.pga {
+  display: none;
+  gap: 4px;
+}
+
+.pgr:hover .pga {
+  display: flex;
+}
+
+.pga button, .pgn {
+  font: 11px Helvetica, Arial, sans-serif;
+  padding: 3px 7px;
+  background: #fff;
+  color: #111;
+  border: 1px solid #b4b4af;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.pga button:hover, .pgn:hover {
+  border-color: #111;
+}
+
+.pga button:disabled, .pgn:disabled {
+  opacity: .4;
+  cursor: default;
+}
+
+.pgn {
+  margin: 10px;
+}
+
+#pn .pgl {
+  margin: 4px -14px 0;
+  border-top: 1px solid #e2e2de;
+}
+
+#pn .pgl .pgr {
+  padding: 7px 14px;
+}
+
+#pn .pgl .pga {
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+#pn .pgl .pgn {
+  margin: 10px 14px;
 }

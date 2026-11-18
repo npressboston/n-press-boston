@@ -319,8 +319,82 @@ function fitx(el) {
 
 var BL = {}
 
+var OMA = { '“': 1, '”': 1, '"': 1, '‘': 1, '’': 1, "'": 1, '«': 1, '»': 1, '‹': 1, '›': 1, '„': 1, '‚': 1, '.': 1, ',': 1, '-': 1, '‐': 1, '–': .5, '—': .25, ':': .5, ';': .5, '*': .5, '·': .5, '•': .5, '!': .2, '?': .2, A: .1, V: .1, W: .1, Y: .1, T: .08, v: .08, w: .08, y: .08, '1': .05 }
+var OMB = 'p, li, h1, h2, h3, h4, h5, h6, blockquote, .tct, .c'
+
+function omr(t, i) {
+  var r = document.createRange()
+  r.setStart(t, i)
+  r.setEnd(t, i + 1)
+  var q = r.getClientRects()
+  return q[q.length - 1] || r.getBoundingClientRect()
+}
+
+function omd(c) {
+  var w = document.createTreeWalker(c, NodeFilter.SHOW_TEXT), ch = [], n, out = []
+  while ((n = w.nextNode())) {
+    for (var i = 0; i < n.data.length; i++) if (/\S/.test(n.data[i])) ch.push([n, i])
+  }
+  ch.forEach(function (x, j) {
+    var v = OMA[x[0].data[x[1]]]
+    if (!v) return
+    var me = omr(x[0], x[1]), bk = x[0].parentNode.closest(OMB)
+    function nb(y) {
+      if (!y || y[0].parentNode.closest(OMB) != bk) return 1
+      return Math.abs(omr(y[0], y[1]).top - me.top) > me.height * .5
+    }
+    out.push([x[0], x[1], v, nb(ch[j - 1]), nb(ch[j + 1])])
+  })
+  return out
+}
+
+function omset(sp, k) {
+  var x = sp.getBoundingClientRect().width * sp.dataset.v * k
+  sp.style.marginLeft = sp.dataset.s ? -x + 'px' : ''
+  sp.style.marginRight = sp.dataset.e ? -x + 'px' : ''
+}
+
+function oma(root) {
+  var cs = [].slice.call(root.querySelectorAll('[data-hq]'))
+  if (root.dataset && root.dataset.hq) cs.push(root)
+  cs.forEach(function (c) {
+    if (c.isContentEditable || c.classList.contains('c-marquee')) return
+    c.querySelectorAll('.hq').forEach(function (x) { x.replaceWith(x.textContent) })
+    c.normalize()
+    if (!c.offsetWidth) return
+    var k = (+c.dataset.hqa || 100) / 100
+    for (var it = 0; it < 4; it++) {
+      var ch = false, nw = []
+      omd(c).forEach(function (h) {
+        var sp = h[0].parentNode, s1 = h[3] ? '1' : '', e1 = h[4] ? '1' : ''
+        if (sp.classList.contains('hq')) {
+          if (sp.dataset.s == s1 && sp.dataset.e == e1) return
+          sp.dataset.s = s1
+          sp.dataset.e = e1
+          omset(sp, k)
+          ch = true
+        } else if (s1 || e1) nw.push(h)
+      })
+      nw.reverse().forEach(function (h) {
+        var r = document.createRange(), sp = document.createElement('span')
+        r.setStart(h[0], h[1])
+        r.setEnd(h[0], h[1] + 1)
+        sp.className = 'hq'
+        r.surroundContents(sp)
+        sp.dataset.v = h[2]
+        sp.dataset.s = h[3] ? '1' : ''
+        sp.dataset.e = h[4] ? '1' : ''
+        omset(sp, k)
+        ch = true
+      })
+      if (!ch) break
+    }
+  })
+}
+
 function bas(root) {
   var r = GR.row || 24
+  oma(root)
   root.querySelectorAll('.c-text:not(.m-fit)').forEach(function (c) {
     if (c.style.display == 'flex') return
     var cs = getComputedStyle(c), f = cs.fontStyle + ' ' + cs.fontWeight + ' ' + cs.fontSize + '/' + cs.lineHeight + ' ' + cs.fontFamily
@@ -353,6 +427,10 @@ function sty(el, b, t) {
   else if (t == 'text' && b.fm != 'fit') c.lineHeight = lead(o.size || BZ) + 'px'
   if (o.kn) c.fontKerning = o.kn
   if (o.hy) c.hyphens = c.webkitHyphens = 'auto'
+  if (o.hq) {
+    el.dataset.hq = 1
+    if (o.hqa != null) el.dataset.hqa = o.hqa
+  }
   if (o.ff) c.fontFeatureSettings = o.ff.split(' ').filter(Boolean).map(function (f) { return '"' + f.replace('-', '') + '" ' + (f.charAt(0) == '-' ? 0 : 1) }).join(', ')
   if (t == 'text' && b.fm == 'fit') c.lineHeight = 1.15
   if (o.ls) c.letterSpacing = o.ls + 'em'
@@ -457,7 +535,7 @@ function evs0() {
 function evl() {
   if (EV || EVD) return
   EVD = 1
-  fetch('/ev').then(function (r) { return r.ok ? r.json() : { demo: 1 } }).catch(function () { return { demo: 1 } }).then(function (j) {
+  fetch('/events').then(function (r) { return r.ok ? r.json() : { demo: 1 } }).catch(function () { return { demo: 1 } }).then(function (j) {
     EV = j.demo ? { ev: evs0(), demo: 1 } : j
     if (window.evup) evup()
   })
@@ -650,6 +728,7 @@ function tbl(el, b, mm) {
       if (c.fg) x.color = c.fg
       if (c.al) x.textAlign = c.al
       if (c.size) x.fontSize = c.size + 'px'
+      if (c.wt) x.fontWeight = c.wt
       x.justifyContent = { middle: 'center', bottom: 'flex-end' }[c.va || b.tva] || ''
       if (c.k == 'img') {
         d.classList.add('tim')
@@ -828,6 +907,14 @@ function bk(b, mm) {
     el = document.createElement(t == 'image' ? 'img' : 'video')
     el.src = rp(b.src)
     fit(el, b)
+    if (t == 'image' && !b.fit && b.ar && (b.cx != null || b.cy != null || b.cz)) {
+      el.classList.add('cz')
+      el.style.objectPosition = ''
+      el.style.setProperty('--ar', b.ar)
+      el.style.setProperty('--z', (b.cz || 100) / 100)
+      el.style.setProperty('--x', (b.cx == null ? 50 : b.cx) / 100)
+      el.style.setProperty('--y', (b.cy == null ? 50 : b.cy) / 100)
+    }
     if (t == 'image') {
       el.alt = tx(b.alt)
       if (b.zoom) {

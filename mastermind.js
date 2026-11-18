@@ -31,15 +31,10 @@ function wr(o, k, v) {
 }
 
 function tbr() {
-  var ps = document.getElementById('pgs'), lg = document.getElementById('lg')
-  ps.innerHTML = ''
-  s.pages.forEach(function (p, i) {
-    var o = document.createElement('option')
-    o.value = i
-    o.textContent = (p.slug ? '/' + p.slug : 'home') + ' · ' + (tx(p.title) || '')
-    ps.appendChild(o)
-  })
-  ps.value = pi
+  var ps = document.getElementById('pgs'), lg = document.getElementById('lg'), p0 = pg()
+  ps.innerHTML = '<span></span><i>▾</i>'
+  ps.firstChild.textContent = (p0.slug ? '/' + p0.slug : 'home') + ' · ' + (tx(p0.title) || '')
+  if (!document.getElementById('pgm').hidden) plist(document.getElementById('pgm'), 1)
   lg.innerHTML = ''
   LS.forEach(function (l) {
     var o = document.createElement('option')
@@ -101,8 +96,42 @@ function draw() {
   act(m0)
 }
 
+var EMH = null
+
+function emsig(b) {
+  return JSON.stringify(Object.assign({}, mob(b), { x: 0, y: 0, w: 0, h: 0, fx: 0, fy: 0, fw: 0, fh: 0, z: 0, m: 0, rot: 0 }))
+}
+
+function emstash() {
+  if (!document.body.moveBefore) return
+  if (!EMH) {
+    EMH = document.createElement('div')
+    EMH.style.cssText = 'position:fixed;left:-9999px;top:0;width:600px;height:600px;overflow:hidden;visibility:hidden'
+    document.body.appendChild(EMH)
+  }
+  ;[cv, pin].forEach(function (r) {
+    r.querySelectorAll('.b > .c-embed').forEach(function (c) {
+      if (!c.dataset.sig || !c.parentNode.bid) return
+      c.dataset.k = c.parentNode.bid + (cv == cvp ? 'p' : 'd')
+      EMH.moveBefore(c, null)
+    })
+  })
+}
+
+function emback(b, d) {
+  var n = d.firstChild, sg = emsig(b), k = b.id + (cv == cvp ? 'p' : 'd')
+  n.dataset.sig = sg
+  if (!EMH) return
+  var o = [].filter.call(EMH.children, function (x) { return x.dataset.k == k })[0]
+  if (!o || o.dataset.sig != sg) return
+  d.moveBefore(o, n)
+  n.remove()
+}
+
 function draw0() {
+  if (CRP) cend(1)
   var g = pgd(s, pg()), c = cols(g)
+  emstash()
   cv.innerHTML = ''
   pin.innerHTML = ''
   cv.style.width = MOB ? '390px' : ''
@@ -157,6 +186,7 @@ function draw0() {
     if (MOB && b.m && b.m.w) d.classList.add('ul')
     d.appendChild(bk(b, 1))
     if (b.type == 'table') thook(b, d)
+    if (b.type == 'image') cfix(b, d)
     d.querySelectorAll('img, video').forEach(function (m) {
       var k = m.dataset.src || m.getAttribute('src')
       if (PV[k]) m.src = PV[k]
@@ -177,11 +207,14 @@ function draw0() {
     if (b.type == 'text' && !b.fm) d.classList.add('fh')
     if (b.lk) d.classList.add('lk')
     d.onpointerdown = function (e) {
+      if (CRP && CRP.d == d) return cdrag(e)
       if (SB) act(d.mob)
       if (e.target == ro) return spin(e, b, d)
       grab(e, b, d, e.target.dataset.h)
     }
     d.ondblclick = function (e) {
+      if (CRP) return
+      if (b.type == 'image' && b.src && !b.fit && e.target != ro) return crop(b, d)
       if (SB) act(d.mob)
       if (e.target == ro) {
         delete b.rot
@@ -199,6 +232,7 @@ function draw0() {
     if (b.type == 'shape' && b.di && PV[b.di]) d.firstChild.dataset.src = PV[b.di]
     d.mob = MOB
     ;(b.fix && cv == cvd ? pin : cv).appendChild(d)
+    if (b.type == 'embed' && b.code) emback(b, d)
     bas(d)
     sdash(d)
     tfit(d, b)
@@ -208,6 +242,7 @@ function draw0() {
   all().forEach(function (b) { if (b.ag && !b.fix) fb0 = Math.max(fb0, ((b.fy || 0) + (b.fh || 10)) * cw0 / 100) })
   if (fb0 > end * g.row) end = Math.ceil(fb0 / g.row)
   cv.style.minHeight = ((end + 24) * g.row + g.pad * 2) + 'px'
+  if (EMH) [].slice.call(EMH.children).forEach(function (x) { if ((x.dataset.k || '').slice(-1) == (cv == cvp ? 'p' : 'd')) x.remove() })
   var pe = document.createElement('div'), pz = document.createElement('div')
   pe.className = 'pe' + (plr(pg()) > mx && !MOB ? ' set' : '')
   pe.style.top = g.pad * 2 + end * g.row + 'px'
@@ -436,6 +471,25 @@ function mprox(b) {
   })
 }
 
+function pdpos(l, b) {
+  if (!MOB || !l) return
+  var i = l.querySelector('input'), f0 = i && i.onchange
+  if (f0) i.onchange = function () { f0.call(i); panel() }
+  if (!b.m || !b.m.w) return
+  var d = document.createElement('b')
+  d.className = 'pd'
+  d.title = 'moved on the phone, click to go back to the automatic phone layout'
+  d.onclick = function (e) {
+    e.preventDefault()
+    e.stopPropagation()
+    ;['x', 'y', 'w', 'h'].forEach(function (k) { delete b.m[k] })
+    if (!Object.keys(b.m).length) delete b.m
+    dirty(); draw(); panel()
+  }
+  l.classList.add('ov')
+  l.insertBefore(d, l.firstChild)
+}
+
 function pdot(l, b, k) {
   if (!b.m || !(k in b.m) || MPK.indexOf(k) > -1) return
   var d = document.createElement('b')
@@ -445,6 +499,7 @@ function pdot(l, b, k) {
     e.preventDefault()
     e.stopPropagation()
     delete b.m[k]
+    if (!Object.keys(b.m).length) delete b.m
     dirty(); draw(); panel()
   }
   l.classList.add('ov')
@@ -847,7 +902,8 @@ function tcell(b, el, ext) {
 function tpan(B, sel) {
   tfix(B)
   hd('table')
-  nt(B.tr.length + (B.tr.length == 1 ? ' row' : ' rows') + ' × ' + B.tc.length + (B.tc.length == 1 ? ' column' : ' columns') + '. click a cell to style it, shift click to pick a range, double click to type in it')
+  ns(B.tr.length + (B.tr.length == 1 ? ' row' : ' rows') + ' × ' + B.tc.length + (B.tc.length == 1 ? ' column' : ' columns'))
+  nt('click a cell to style it, shift click to pick a range, double click to type in it')
   btn('+ row', function () { tins(B, 'r', B.tr.length); tgo() })
   btn('+ column', function () { tins(B, 'c', B.tc.length); tgo() })
   btn('− row', function () { tdel(B, 'r', B.tr.length - 1); tfix(B); tgo() })
@@ -947,6 +1003,93 @@ function tpan(B, sel) {
   btn('done with cells', function () { TS = null; draw(); panel() })
 }
 
+var CRP = null
+
+function crfp(b) {
+  var m = { top: [50, 0], bottom: [50, 100], left: [0, 50], right: [100, 50] }[b.fp] || [50, 50]
+  return { x: b.cx != null ? b.cx : m[0], y: b.cy != null ? b.cy : m[1], z: b.cz || 100 }
+}
+
+function cfix(b, d) {
+  var im = d.querySelector('img.c-image')
+  if (!im || (b.cx == null && b.cy == null && !b.cz)) return
+  function ck() {
+    if (!im.naturalWidth) return
+    var a = Math.round(im.naturalWidth / im.naturalHeight * 10000) / 10000
+    if (Math.abs((b.ar || 0) - a) > .001) {
+      b.ar = a
+      dirty()
+      setTimeout(draw)
+    }
+  }
+  if (im.complete) ck()
+  else im.addEventListener('load', ck)
+}
+
+function crop(b, d) {
+  var im = d.querySelector('img.c-image')
+  if (!im || b.fit || RO) return
+  if (!im.naturalWidth) return im.addEventListener('load', function () { crop(b, elof(b)) }, { once: true })
+  var B = MOB ? mprox(b) : b, v = crfp(mob(b))
+  b.ar = Math.round(im.naturalWidth / im.naturalHeight * 10000) / 10000
+  B.cx = v.x
+  B.cy = v.y
+  B.cz = v.z
+  draw()
+  d = elof(b)
+  CRP = { b: b, B: B, d: d, im: d.querySelector('img.c-image'), v: v }
+  d.classList.add('crp')
+  var fr = document.createElement('i')
+  fr.className = 'cfr'
+  d.appendChild(fr)
+  d.onwheel = function (e) {
+    if (!CRP) return
+    e.preventDefault()
+    cmv(v.x, v.y, v.z * Math.exp(-e.deltaY * .002))
+  }
+  st.textContent = 'drag to move the photo, scroll to zoom, arrows nudge. esc or click outside when done'
+}
+
+function cmv(x, y, z) {
+  var c = CRP, v = c.v
+  v.x = Math.max(0, Math.min(100, x))
+  v.y = Math.max(0, Math.min(100, y))
+  v.z = Math.max(100, Math.min(600, z))
+  c.im.style.setProperty('--x', v.x / 100)
+  c.im.style.setProperty('--y', v.y / 100)
+  c.im.style.setProperty('--z', v.z / 100)
+}
+
+function cend(nd) {
+  if (!CRP) return
+  var c = CRP, v = c.v
+  CRP = null
+  c.B.cx = Math.round(v.x * 10) / 10
+  c.B.cy = Math.round(v.y * 10) / 10
+  c.B.cz = Math.round(v.z)
+  st.textContent = ''
+  dirty()
+  if (nd) return
+  draw()
+  panel()
+}
+
+function cdrag(e) {
+  e.preventDefault()
+  e.stopPropagation()
+  var c = CRP, d = c.d, v = c.v, w = d.clientWidth, h = d.clientHeight, ar = c.b.ar
+  var iw = Math.max(w, h * ar) * v.z / 100, ih = Math.max(h, w / ar) * v.z / 100, ow = iw - w, oh = ih - h, sx = e.clientX, sy = e.clientY, x0 = v.x, y0 = v.y
+  d.setPointerCapture(e.pointerId)
+  d.onpointermove = function (e) {
+    cmv(ow > .5 ? x0 - (e.clientX - sx) / ow * 100 : x0, oh > .5 ? y0 - (e.clientY - sy) / oh * 100 : y0, v.z)
+  }
+  d.onpointerup = function () { d.onpointermove = d.onpointerup = null }
+}
+
+document.addEventListener('pointerdown', function (e) {
+  if (CRP && !CRP.d.contains(e.target)) cend()
+}, true)
+
 function mqimg(b, p) {
   var h = tx(b.html) || tx(b.text) || ''
   delete b.text
@@ -960,6 +1103,8 @@ function typ(b, d, e, wd, tc) {
   if (RO) return
   var c = d.firstChild, g = document.getSelection(), mq0 = b.type == 'marquee'
   if (tc) c = tc.el
+  c.querySelectorAll('.hq').forEach(function (x) { x.replaceWith(x.textContent) })
+  c.normalize()
   if (mq0) {
     d.firstChild.classList.add('mqe')
     c = d.querySelector('.mqi span')
@@ -1235,7 +1380,7 @@ function gopen() {
       }
       if (GM) ls = GM.filter(function (x) { return ls.indexOf(x) > -1 })
       gg.innerHTML = ls.slice(0, 1500).map(gcell).join('')
-      gp.querySelector('p').textContent = (GM ? 'best matches for your drawing · ' : '') + ls.length + ' shown' + (c.ex ? '' : ' · estimated, system font') + ' · click to type it'
+      gp.querySelector('p').textContent = (GM ? 'best matches for your drawing · ' : '') + ls.length + ' shown' + (c.ex ? '' : ' · estimated, system font')
     }
     gsel.onchange = function () { GBK = gsel.value; fill() }
     gq.oninput = fill
@@ -1427,12 +1572,51 @@ function hd(t) {
   tg.appendChild(h)
 }
 
-function nt(t) {
+function ns(t) {
   var d = document.createElement('div')
   d.className = 'nt'
   d.textContent = t
   tg.appendChild(d)
 }
+
+function qmark(t) {
+  var q = document.createElement('i')
+  q.className = 'qt'
+  q.textContent = '?'
+  q.dataset.tip = t
+  return q
+}
+
+function nt(t) {
+  if (!t) return
+  var q = qmark(t), l = tg != pn && pn.lastChild != tg ? pn.lastChild : tg.lastChild
+  if (l && l.tagName == 'LABEL') {
+    var tn = [].filter.call(l.childNodes, function (n) { return n.nodeType == 3 && n.data.trim() })[0]
+    if (tn) tn.after(q)
+    else l.appendChild(q)
+  } else if (l && (l.tagName == 'H4' || l.classList.contains('nt'))) l.appendChild(q)
+  else if (l && (l.tagName == 'BUTTON' || l.tagName == 'A')) l.after(q)
+  else {
+    var d = document.createElement('div')
+    d.className = 'nt'
+    d.appendChild(q)
+    tg.appendChild(d)
+  }
+}
+
+var QT = document.createElement('div')
+QT.id = 'qtip'
+document.body.appendChild(QT)
+document.addEventListener('mouseover', function (e) {
+  var q = e.target.closest && e.target.closest('.qt')
+  if (!q) { QT.style.display = 'none'; return }
+  QT.textContent = q.dataset.tip
+  QT.style.display = 'block'
+  var r = q.getBoundingClientRect(), w = QT.offsetWidth, h = QT.offsetHeight
+  QT.style.left = Math.max(8, Math.min(innerWidth - w - 8, r.left + r.width / 2 - w / 2)) + 'px'
+  QT.style.top = (r.bottom + 6 + h > innerHeight ? r.top - h - 6 : r.bottom + 6) + 'px'
+})
+document.addEventListener('click', function (e) { if (e.target.closest && e.target.closest('.qt')) e.preventDefault() }, true)
 
 var FF = [
   ['ñ press', [
@@ -1488,6 +1672,7 @@ function fam(v) {
 function fpk(t, o) {
   var l = document.createElement('label'), b = document.createElement('button'), f = fam(o.font)
   l.textContent = t
+  if (o.__pb) pdot(l, o.__pb, 'font')
   b.className = 'fpb'
   b.type = 'button'
   b.textContent = f ? f[0] : o.font ? o.font.split(',')[0].replace(/"/g, '') : 'default'
@@ -1607,7 +1792,7 @@ function fld(t, o, k, kd, lo) {
     dirty()
     draw()
     if (o == pg() && k == 'title') tbr()
-    if (kd == 'c' || kd == 'b') panel()
+    if (kd == 'c' || kd == 'b' || (o && o.__pb)) panel()
   }
   if (kd == 'b') {
     l.textContent = ''
@@ -1654,9 +1839,14 @@ function btn(t, f, c) {
   pn.appendChild(x)
 }
 
-function slg(v) {
+function slg0(v) {
   v = v.toLowerCase().replace(/[^a-z0-9ñ-]+/g, '-').replace(/^-+|-+$/g, '') || 'page'
-  if (['photos', 'assets', 'up', 'mastermind', '404', 'site'].indexOf(v) > -1) v += '-page'
+  if (['photos', 'assets', 'up', 'mastermind', '404', 'site', 'api', 'preview', 'events', 'join', 'functions', 'system_fonts'].indexOf(v) > -1) v += '-page'
+  return v
+}
+
+function slg(v) {
+  v = slg0(v)
   var n = v, k = 2
   while (s.pages.some(function (p) { return p != pg() && p.slug == n })) n = v + '-' + k++
   return n
@@ -1683,6 +1873,7 @@ function newpg(src) {
 }
 
 function odot(l, po, k) {
+  if (MOB && po && po.__pb) return
   var d = document.createElement('b'), on = po[k] != null && po[k] !== ''
   d.className = 'od' + (on ? ' on' : '')
   if (on) {
@@ -1781,30 +1972,10 @@ function pgpanel() {
   ovf('page length, rows', p, 'len', s.grid, 0)
   tg.lastChild.querySelector('input').placeholder = 'auto'
   nt('blank follows global. 0 ends the page right after the last block. or drag the page end line on the canvas')
-  hd('background')
-  nt('backgrounds are bands now. add one from + add, or start with a band that covers this whole page')
-  btn('+ page background band', function () {
-    add('band')
-    sel.wp = true
-    sel.bg = s.base.bg || '#ffffff'
-    dirty(); draw(); panel()
-  })
   hd('colors')
   ovf('text color', p, 'fg', s.base, 'c')
   ovf('highlight', p, 'hl', s.base, 'c')
   ovf('lines', p, 'ln', s.base, 'c')
-  nt('a yellow dot means this page differs from global. click it to go back')
-  hd('pages')
-  btn('+ new page', function () { newpg() })
-  btn('duplicate', function () { newpg(p) })
-  if (pi) btn('delete page', function () {
-    if (!confirm('delete page /' + p.slug + '?')) return
-    s.pages.splice(pi, 1)
-    pi = 0
-    sel = null
-    dirty()
-    setup()
-  })
   var lk = all().filter(function (b) { return b.lk })
   hd('locked')
   btn('unlock all on page' + (lk.length ? ' (' + lk.length + ')' : ''), function () {
@@ -1812,7 +1983,8 @@ function pgpanel() {
     dirty(); draw(); panel()
   })
   pn.lastChild.disabled = !lk.length
-  nt(lk.length ? 'blocks marked on every page unlock on every page' : 'nothing is locked on this page')
+  if (lk.length) nt('blocks marked on every page unlock on every page')
+  else ns('nothing is locked on this page')
 }
 
 function lst(t, o, k, fs) {
@@ -1859,7 +2031,6 @@ function tsty(o, all) {
     tg.appendChild(la)
   }
   var y = all && (ST[o.sty] || (all && !o.sty ? sb(s) : null))
-  if (all && y) nt('these follow ' + (o.sty || 'the site font') + '. a yellow dot means this block is different, click it to go back')
   function ov(k) {
     if (!y) return
     var l = tg.lastChild, i = l.querySelector('input:not([type=checkbox]), select')
@@ -1889,6 +2060,12 @@ function tsty(o, all) {
   ov('up')
   fld('hyphenate', o, 'hy', 'b')
   ov('hy')
+  fld('optical margins', o, 'hq', 'b')
+  ov('hq')
+  if (o.hq) {
+    fld('hang %', o, 'hqa', 'o')
+    ov('hqa')
+  }
   fld('text color', o, 'fg', 'c')
   ov('fg')
 }
@@ -1959,7 +2136,7 @@ function pal(t, bl, p) {
   }
   pn.appendChild(h)
   if (!LC) return
-  if (!ks.length) return nt('no colors set here yet')
+  if (!ks.length) return ns('no colors set here yet')
   ks.forEach(function (v) {
     var rs = by[v], cur = v, w = document.createElement('div'), sw = document.createElement('label'), ci = document.createElement('input'), tx0 = document.createElement('input'), op = document.createElement('input')
     w.className = 'scr'
@@ -2032,8 +2209,8 @@ function layers() {
   f.onchange = function () { LF = f.value; panel() }
   pn.appendChild(f)
   var bl = all0.filter(function (b) { return !LF || b.type == LF }).sort(function (a, b) { return (b.z || (b.fix ? 30 : 1)) - (a.z || (a.fix ? 30 : 1)) })
-  if (!all0.length) nt('nothing yet, use + add or drop photos on the page')
-  else if (!bl.length) nt('none of these on this page')
+  if (!all0.length) ns('nothing yet, use + add or drop photos on the page')
+  else if (!bl.length) ns('none of these on this page')
   bl.forEach(function (b) {
     var r = document.createElement('div')
     r.className = 'ly' + (s.common.indexOf(b) > -1 ? ' sh' : '') + (b.lk ? ' lk' : '')
@@ -2041,7 +2218,7 @@ function layers() {
     r.children[0].textContent = (b.type == 'nav' ? 'menu' : b.type) + (b.ag ? ' ✕' : '')
     r.children[1].textContent = (OV[b.id] ? '! ' : '') + nm(b)
     var bg = b.on == 'd' ? 'desktop' : b.on == 'p' ? 'phone' : MOB && b.m && Object.keys(b.m).length ? 'unlinked' : ''
-    if (bg) r.children[1].insertAdjacentHTML('afterbegin', '<i class="lbg ' + bg + '">' + bg + '</i>')
+    if (bg) r.children[1].insertAdjacentHTML('afterbegin', '<i class="lbg ' + bg + '"' + (bg == 'unlinked' ? ' title="unlinked from desktop"' : '') + '>' + (bg == 'unlinked' ? 'ul' : bg) + '</i>')
     r.children[2].onclick = function (e) {
       e.stopPropagation()
       if (b.lk) delete b.lk
@@ -2124,10 +2301,10 @@ function csvq(v) {
 function listpanel() {
   btn('← back to dev', function () { PT = 'dev'; panel() })
   hd('mailing list')
-  if (!TM) return nt('signups are saved online. open the editor on the live site to see them')
+  if (!TM) return ns('signups are saved online. open the editor on the live site to see them')
   if (!SU) {
-    nt('loading...')
-    fetch('api/subs').then(function (r) { return r.ok ? r.json() : [] }).then(function (j) {
+    ns('loading...')
+    fetch('api/signups').then(function (r) { return r.ok ? r.json() : [] }).then(function (j) {
       SU = j
       if (!sel && PT == 'list') panel()
     })
@@ -2135,8 +2312,11 @@ function listpanel() {
   }
   var c = {}
   SU.forEach(function (x) { c[x.st] = (c[x.st] || 0) + 1 })
-  nt(SU.length + (SU.length == 1 ? ' person' : ' people') + ' signed up' + (c.unsub ? ', ' + c.unsub + ' left the list' : ''))
-  if (c.pending) nt(c.pending + ' not confirmed yet. once sending is set up they get a confirm email first')
+  ns(SU.length + (SU.length == 1 ? ' person' : ' people') + ' signed up' + (c.unsub ? ', ' + c.unsub + ' left the list' : ''))
+  if (c.pending) {
+    ns(c.pending + ' not confirmed yet')
+    nt('once sending is set up they get a confirm email first')
+  }
   btn('download as a spreadsheet (csv)', function () {
     var rows = [['email', 'name', 'language', 'from', 'status', 'signed up', 'confirmed', 'left', 'what they agreed to']].concat(SU.map(function (x) {
       var d = function (t) { return t ? new Date(t).toISOString().slice(0, 16).replace('T', ' ') : '' }
@@ -2150,7 +2330,7 @@ function listpanel() {
   btn('refresh', function () { SU = null; CF = null; panel() })
   cfgsec()
   hd('newest')
-  if (!SU.length) nt('nobody yet')
+  if (!SU.length) ns('nobody yet')
   SU.slice(0, 40).forEach(function (x) {
     var r = document.createElement('div')
     r.className = 'hs'
@@ -2196,6 +2376,11 @@ function devpanel() {
   nt('/ on cloudflare. /n_press/ only for the old github pages address')
   fld('phones below px', s.grid, 'bp', 'n', 300)
   nt('narrower screens than this get the phone layout')
+  hd('demo pages')
+  nt('adds a new page that shows off a feature. it goes in your draft like any page, delete it whenever')
+  btn('+ tables demo', function () { demo('tables') })
+  btn('+ shapes demo', function () { demo('shapes') })
+  btn('+ type specimen', function () { demo('type') })
   hd('mailing list')
   btn('open the mailing list', function () { PT = 'list'; panel() })
   nt('see who signed up, download the list, and turn off the signup limit for events')
@@ -2207,8 +2392,8 @@ var CF = null
 function cfgsec() {
   hd('signup limit')
   if (!CF) {
-    nt('loading...')
-    fetch('api/cfg').then(function (r) { return r.ok ? r.json() : {} }).then(function (j) {
+    ns('loading...')
+    fetch('api/settings').then(function (r) { return r.ok ? r.json() : {} }).then(function (j) {
       CF = j
       if (!sel && PT == 'list') panel()
     })
@@ -2221,7 +2406,7 @@ function cfgsec() {
   i.disabled = RO
   i.onchange = function () {
     i.disabled = true
-    fetch('api/cfg', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ k: 'rloff', v: i.checked }) }).then(function (r) {
+    fetch('api/settings', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ k: 'rloff', v: i.checked }) }).then(function (r) {
       st.textContent = r.ok ? (i.checked ? 'signup limit off' : 'signup limit back on') : 'could not change the signup limit'
       CF = null
       panel()
@@ -2230,7 +2415,7 @@ function cfgsec() {
   l.appendChild(i)
   l.appendChild(document.createTextNode('no signup limit (event mode)'))
   pn.appendChild(l)
-  nt(on ? 'off since ' + when(o.at) + ' by ' + o.by + '. anyone can sign up as fast as they like. turn it back on after the event' : 'normally one connection can sign up 30 emails an hour, which stops bots. check this when a crowd is signing up on one tablet or wifi. it works right away, no publish needed')
+  ;(on ? ns : nt)(on ? 'off since ' + when(o.at) + ' by ' + o.by + '. turn it back on after the event' : 'normally one connection can sign up 30 emails an hour, which stops bots. check this when a crowd is signing up on one tablet or wifi. it works right away, no publish needed')
 }
 
 function scard(n, on, f, bare) {
@@ -2422,7 +2607,8 @@ function pnl() {
   fld('show on', sel, 'on', 's', [['', 'phone and desktop'], ['d', 'desktop only'], ['p', 'phone only']])
   if (MOB && !sel.fix && !sel.ag && !sel.on) {
     var lk0 = sel.m && Object.keys(sel.m).some(function (k) { return k != 'hide' })
-    nt(lk0 ? 'phone: unlinked. blue dots mark what differs from desktop' : 'phone: linked, it follows desktop. moving it or changing a setting here unlinks just that')
+    ns(lk0 ? 'phone: unlinked' : 'phone: linked to desktop')
+    if (!lk0) nt('moving it or changing a setting here unlinks just that')
     if (lk0) btn('relink to desktop', function () {
       relink(sel)
       dirty(); draw(); panel()
@@ -2479,17 +2665,21 @@ function pnl() {
       var qb = MOB ? mpx(sel) : sel
       if (sel.ic) {
         fld('x', qb, 'x', 'n')
+        pdpos(tg.lastChild, sel)
         fld('width', qb, 'w', 'n', 1)
+        pdpos(tg.lastChild, sel)
       }
       fld('y', qb, 'y', 'n')
+      pdpos(tg.lastChild, sel)
       fld('height', qb, 'h', 'n', 1)
+      pdpos(tg.lastChild, sel)
     }
   } else if (!sel.fix) {
     var q = MOB ? mpx(sel) : sel
-    fld('x', q, 'x', 'n')
-    fld('y', q, 'y', 'n')
-    fld('width', q, 'w', 'n', 1)
-    fld('height', q, 'h', 'n', 1)
+    ;[['x', 'x'], ['y', 'y'], ['width', 'w'], ['height', 'h']].forEach(function (f) {
+      fld(f[0], q, f[1], 'n', f[1] == 'w' || f[1] == 'h' ? 1 : undefined)
+      pdpos(tg.lastChild, sel)
+    })
   } else {
     fld('width', sel, 'w', 'n', 1)
     fld('height', sel, 'h', 'n', 1)
@@ -2592,7 +2782,15 @@ function pnl() {
   }
   if ('image video gallery banner'.indexOf(t) > -1) {
     fld('fit', sel, 'fit', 's', [['', t == 'banner' ? 'fill' : 'crop'], ['contain', 'whole image'], ['fill', 'stretch']].slice(0, t == 'banner' ? 2 : 3))
-    fld('focus', sel, 'fp', 's', [['', 'center'], 'top', 'bottom', 'left', 'right'])
+    if (t == 'image' && !sel.fit && sel.src) {
+      var B0 = sel.__pb || sel
+      btn('move and zoom the photo', function () { var d = elof(B0); if (d) crop(B0, d) })
+      nt('or double click the photo on the canvas. drag it around inside its box, scroll to zoom, arrows nudge, esc when done')
+      if (sel.cx != null || sel.cy != null || sel.cz) {
+        fld('zoom %', sel, 'cz', 'o')
+        btn('reset crop', function () { delete sel.cx; delete sel.cy; delete sel.cz; delete sel.fp; dirty(); draw(); panel() })
+      }
+    } else fld('focus', sel, 'fp', 's', [['', 'center'], 'top', 'bottom', 'left', 'right'])
   }
   if (t == 'gallery') {
     lst('images', sel, 'items', [['src', 'image'], ['cap', 'caption', 't']])
@@ -2640,7 +2838,7 @@ function pnl() {
     fld('button text', sel, 'bfg', 'c')
   }
   if (t == 'events') {
-    nt(EV && EV.demo ? 'showing sample events. once the google calendar is connected, its events show here' : 'events come from the ñ press google calendar. add or change them there, the site updates in a few minutes')
+    ;(EV && EV.demo ? ns : nt)(EV && EV.demo ? 'showing sample events until the google calendar is connected' : 'events come from the ñ press google calendar. add or change them there, the site updates in a few minutes')
     fld('view', sel, 'vw', 's', [['', 'list'], ['month', 'month']])
     if (sel.vw == 'month') fld('week starts', sel, 'ws', 's', [['', 'sunday'], ['mo', 'monday']])
     else {
@@ -2662,7 +2860,7 @@ function pnl() {
   }
   if (t == 'text') {
     fld('box', sel, 'fm', 's', [['', 'free, grows with text'], ['lock', 'locked, cuts off'], ['fit', 'scale text to fit']])
-    if (OV[sel.id]) nt('! some text is cut off. make the box bigger or the text shorter')
+    if (OV[sel.id]) ns('! some text is cut off. make the box bigger or the text shorter')
     fld('html', sel, 'html', 'ta')
     nt('or double click the block to type')
   }
@@ -2793,13 +2991,99 @@ hlp.onclick = function () { hlp.hidden = true }
 
 document.getElementById('o').onclick = function (e) { opn(e.shiftKey) }
 document.getElementById('sv').onclick = save
-document.getElementById('pgs').onchange = function () {
-  pi = +this.value
+function pgo(i) {
+  pi = i
   sel = null
+  SS = []
   CUR = pg().slug || ''
+  document.getElementById('pgm').hidden = true
+  tbr()
   draw()
   panel()
 }
+
+function pdel(i) {
+  var p = s.pages[i]
+  if (!p.slug || !confirm('delete the page /' + p.slug + '? undo brings it back')) return
+  s.pages.splice(i, 1)
+  pi = Math.max(0, Math.min(pi > i ? pi - 1 : pi == i ? 0 : pi, s.pages.length - 1))
+  sel = null
+  SS = []
+  dirty()
+  setup()
+}
+
+function phome(i) {
+  var p = s.pages[i], h = s.pages.filter(function (x) { return !x.slug })[0], old = p.slug
+  if (!old || !confirm('make /' + old + ' the homepage? the current homepage moves to its own address')) return
+  p.slug = ''
+  if (h) {
+    var v = slg0(tx(h.title) || 'old-home'), n = v, k = 2
+    while (s.pages.some(function (x) { return x != h && x.slug == n })) n = v + '-' + k++
+    h.slug = n
+  }
+  var j = JSON.stringify(s).replace(new RegExp('@' + old.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '(?=\\\\"|")', 'g'), '@')
+  s = JSON.parse(j)
+  var ni = s.pages.findIndex(function (x) { return !x.slug })
+  s.pages.unshift(s.pages.splice(ni, 1)[0])
+  pi = 0
+  CUR = ''
+  sel = null
+  SS = []
+  dirty()
+  setup()
+  st.textContent = '/' + old + ' is the homepage now' + (h ? ', the old one lives at /' + h.slug : '')
+}
+
+function plist(w, menu) {
+  w.innerHTML = ''
+  s.pages.forEach(function (p, i) {
+    var r = document.createElement('div'), a = document.createElement('div')
+    r.className = 'pgr' + (i == pi ? ' on' : '')
+    r.innerHTML = '<span><b></b><i></i></span>'
+    r.querySelector('b').textContent = tx(p.title) || 'untitled'
+    r.querySelector('i').textContent = p.slug ? '/' + p.slug : 'home · /'
+    if (!p.slug) r.querySelector('span').insertAdjacentHTML('afterbegin', '<em>home</em>')
+    a.className = 'pga'
+    ;[['duplicate', function () { newpg(p); document.getElementById('pgm').hidden = true }], p.slug && ['make home', function () { phome(i) }], p.slug && ['delete', function () { pdel(i) }]].forEach(function (x) {
+      if (!x) return
+      var b = document.createElement('button')
+      b.textContent = x[0]
+      b.disabled = RO
+      b.onclick = function (e) { e.stopPropagation(); x[1]() }
+      a.appendChild(b)
+    })
+    r.appendChild(a)
+    r.onclick = function () { pgo(i) }
+    w.appendChild(r)
+  })
+  var nw = document.createElement('button')
+  nw.className = 'pgn'
+  nw.textContent = '+ new page'
+  nw.disabled = RO
+  nw.onclick = function () { document.getElementById('pgm').hidden = true; newpg() }
+  w.appendChild(nw)
+}
+
+document.body.appendChild(document.getElementById('pgm'))
+document.getElementById('pgs').onclick = function (e) {
+  e.stopPropagation()
+  var m = document.getElementById('pgm')
+  m.hidden = !m.hidden
+  if (m.hidden) return
+  var r = this.getBoundingClientRect()
+  m.style.left = r.left + 'px'
+  m.style.top = r.bottom + 6 + 'px'
+  plist(m, 1)
+}
+document.addEventListener('pointerdown', function (e) {
+  var m = document.getElementById('pgm')
+  if (!m.hidden && !document.getElementById('pgw').contains(e.target) && !m.contains(e.target)) m.hidden = true
+})
+document.addEventListener('keydown', function (e) {
+  var m = document.getElementById('pgm')
+  if (e.key == 'Escape' && !m.hidden) m.hidden = true
+}, true)
 
 function pside(v) {
   document.body.classList.remove('pl', 'pr')
@@ -2901,6 +3185,19 @@ document.getElementById('wr').onpointerdown = function (e) {
 
 document.onkeydown = function (e) {
   var m = e.metaKey || e.ctrlKey, k = e.key.toLowerCase()
+  if (CRP && !/INPUT|TEXTAREA|SELECT/.test(e.target.tagName)) {
+    var v = CRP.v, n = e.shiftKey ? 5 : 1
+    if (e.key == 'Escape' || e.key == 'Enter') cend()
+    else if (e.key == 'ArrowLeft') cmv(v.x + n, v.y, v.z)
+    else if (e.key == 'ArrowRight') cmv(v.x - n, v.y, v.z)
+    else if (e.key == 'ArrowUp') cmv(v.x, v.y + n, v.z)
+    else if (e.key == 'ArrowDown') cmv(v.x, v.y - n, v.z)
+    else if (e.key == '=' || e.key == '+') cmv(v.x, v.y, v.z * 1.1)
+    else if (e.key == '-') cmv(v.x, v.y, v.z / 1.1)
+    else return
+    e.preventDefault()
+    return
+  }
   if (m && k == 's') { e.preventDefault(); save(); return }
   if (m && (e.key == '|' || (e.shiftKey && e.code == 'Backslash')) && !RO) {
     e.preventDefault()

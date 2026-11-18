@@ -35,10 +35,10 @@ function html(p, slug, rt) {
   return '<!doctype html>\n<html lang="' + LS[0] + '">\n<head>\n<meta charset="utf-8">\n<meta name="viewport" content="width=device-width, initial-scale=1">\n' +
     '<title>' + esc(tx(p.title) || 'ñ press') + '</title>\n' +
     '<link rel="icon" href="' + rt + esc(s.icon || 'assets/favicon.svg') + '">\n' +
-    '<link rel="stylesheet" href="' + rt + 'pg.css">\n' +
+    '<link rel="stylesheet" href="' + rt + 'page.css">\n' +
     '</head>\n<body data-rt="' + rt + '" data-p="' + esc(slug) + '"' + (bs ? ' style="' + esc(bs) + '"' : '') + '>\n' +
     box.outerHTML + '\n' +
-    '<script src="' + rt + 'drw.js"></script>\n<script src="' + rt + 'nx.js"></script>\n</body>\n</html>\n'
+    '<script src="' + rt + 'render.js"></script>\n<script src="' + rt + 'site.js"></script>\n</body>\n</html>\n'
 }
 
 async function put(path, txt) {
