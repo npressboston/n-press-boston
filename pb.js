@@ -65,6 +65,7 @@ var PO = []
 function build() {
   var kl = L, km = MOB, kc = CUR, f = {}, now = [], del = []
   PO = []
+  EVX = 1
   L = LS[0]
   MOB = false
   s.pages.forEach(function (p) {
@@ -78,6 +79,7 @@ function build() {
   MOB = km
   CUR = kc
   RT = ''
+  EVX = 0
   return { f: f, now: now, del: del }
 }
 

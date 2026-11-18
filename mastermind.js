@@ -78,6 +78,12 @@ function act(m) {
   cv = m && SB ? cvp : cvd
 }
 
+function evup() {
+  if (!s) return
+  draw()
+  if (sel && sel.type == 'events') panel()
+}
+
 function draw() {
   if (!SB) {
     cv = cvd
@@ -112,7 +118,7 @@ function draw0() {
     grd(hd, g)
     base(hd, s, pg())
     nw.forEach(function (b) {
-      if (b.type == 'text' ? b.fm : 'cards nav'.indexOf(b.type) < 0) return
+      if (b.type == 'text' ? b.fm : 'cards nav events'.indexOf(b.type) < 0) return
       var d = document.createElement('div'), x
       d.className = 'b'
       lay(d, b)
@@ -1034,6 +1040,8 @@ var df = {
   gallery: { w: 9, h: 17, mode: 'grid', cols: 3, zoom: true, items: [] },
   video: { w: 6, h: 13, src: '' },
   embed: { w: 6, h: 13, code: '' },
+  join: { w: 6, h: 6, bt: { es: 'unirme', en: 'join' }, note: { es: 'te escribimos unas pocas veces al mes. puedes salirte cuando quieras.', en: 'we write a few times a month. leave anytime.' }, ok: { es: '¡gracias! ya estás en la lista.', en: 'thanks! you are on the list.' } },
+  events: { w: 8, h: 30, n: 5, loc: true, dsc: true, pic: true, add: true },
   band: { w: 12, h: 10, bg: '#fff45c', ly: [] },
   shape: { w: 3, h: 6, sh: 'rect', fill: '#e8382c', sw: 0, sc: '#111111' }
 }
@@ -1584,7 +1592,7 @@ try {
   LC = localStorage.getItem('lc') == '1'
 } catch (e) {}
 
-var TN = [['band', 'band'], ['shape', 'shape'], ['text', 'text'], ['image', 'image'], ['marquee', 'marquee'], ['nav', 'menu'], ['tabs', 'tabs'], ['cards', 'cards'], ['banner', 'banner'], ['button', 'button'], ['lang', 'language switch'], ['gallery', 'gallery'], ['video', 'video'], ['embed', 'embed']]
+var TN = [['band', 'band'], ['shape', 'shape'], ['text', 'text'], ['image', 'image'], ['marquee', 'marquee'], ['nav', 'menu'], ['tabs', 'tabs'], ['cards', 'cards'], ['banner', 'banner'], ['button', 'button'], ['lang', 'language switch'], ['gallery', 'gallery'], ['video', 'video'], ['embed', 'embed'], ['events', 'events'], ['join', 'mailing list']]
 
 function hx(v) {
   v = v.toLowerCase()
@@ -1778,6 +1786,52 @@ function everypg() {
   nt('first one is the default. es, en')
 }
 
+var SU = null
+
+function csvq(v) {
+  v = String(v == null ? '' : v)
+  if (/^[=+\-@\t\r]/.test(v)) v = "'" + v
+  return /[",\n]/.test(v) ? '"' + v.replace(/"/g, '""') + '"' : v
+}
+
+function listpanel() {
+  hd('mailing list')
+  if (!TM) return nt('signups are saved online. open the editor on the live site to see them')
+  if (!SU) {
+    nt('loading...')
+    fetch('api/subs').then(function (r) { return r.ok ? r.json() : [] }).then(function (j) {
+      SU = j
+      if (!sel && PT == 'list') panel()
+    })
+    return
+  }
+  var c = {}
+  SU.forEach(function (x) { c[x.st] = (c[x.st] || 0) + 1 })
+  nt(SU.length + (SU.length == 1 ? ' person' : ' people') + ' signed up' + (c.unsub ? ', ' + c.unsub + ' left the list' : ''))
+  if (c.pending) nt(c.pending + ' not confirmed yet. once sending is set up they get a confirm email first')
+  btn('download as a spreadsheet (csv)', function () {
+    var rows = [['email', 'name', 'language', 'from', 'status', 'signed up', 'confirmed', 'left', 'what they agreed to']].concat(SU.map(function (x) {
+      var d = function (t) { return t ? new Date(t).toISOString().slice(0, 16).replace('T', ' ') : '' }
+      return [x.em, x.nm, x.lg, x.src, x.st, d(x.at), d(x.cf), d(x.un), x.ct]
+    }))
+    var a = document.createElement('a')
+    a.href = URL.createObjectURL(new Blob([rows.map(function (r) { return r.map(csvq).join(',') }).join('\r\n')], { type: 'text/csv' }))
+    a.download = 'n-press-list-' + new Date().toISOString().slice(0, 10) + '.csv'
+    a.click()
+  })
+  btn('refresh', function () { SU = null; panel() })
+  hd('newest')
+  if (!SU.length) nt('nobody yet')
+  SU.slice(0, 40).forEach(function (x) {
+    var r = document.createElement('div')
+    r.className = 'hs'
+    r.innerHTML = '<span></span><small></small>'
+    r.firstChild.textContent = x.em + (x.nm ? ' · ' + x.nm : '')
+    r.children[1].textContent = x.src + ', ' + new Date(x.at).toLocaleDateString([], { month: 'short', day: 'numeric' }) + (x.st != 'pending' ? ', ' + (x.st == 'unsub' ? 'left' : x.st) : '')
+    pn.appendChild(r)
+  })
+}
+
 function devpanel() {
   hd('developer')
   var l = document.createElement('label'), b = document.createElement('button'), im = document.createElement('img'), k = s.icon || 'assets/favicon.svg'
@@ -1969,7 +2023,7 @@ function pnl() {
   if (!sel) {
     var tb = document.createElement('nav')
     tb.className = 'tbs'
-    ;[['page', 'page'], ['site', 'global'], ['type', 'type'], ['dev', 'developer']].forEach(function (x) {
+    ;[['page', 'page'], ['site', 'global'], ['type', 'type'], ['list', 'list'], ['dev', 'developer']].forEach(function (x) {
       var a = document.createElement('a')
       a.textContent = x[1]
       if (PT == x[0]) a.className = 'on'
@@ -1985,6 +2039,7 @@ function pnl() {
     if (PT == 'site') return everypg()
     if (PT == 'type') return sitepanel()
     if (PT == 'dev') return devpanel()
+    if (PT == 'list') return listpanel()
     if (TM) tpanel()
     layers()
     pal('page colors', all(), pg())
@@ -2195,6 +2250,35 @@ function pnl() {
   }
   if (t == 'button') fld('label', sel, 't', 't')
   if ('text image banner button video'.indexOf(t) > -1 && !sel.zoom) fld('link', sel, 'href')
+  if (t == 'join') {
+    nt('people type their email and it saves to the list. see everyone in the list tab')
+    fld('layout', sel, 'lay', 's', [['', 'field and button in a row'], ['st', 'stacked']])
+    fld('ask for a name', sel, 'nmf', 'b')
+    fld('placeholder', sel, 'ph', 't')
+    fld('button', sel, 'bt', 't')
+    fld('small print', sel, 'note', 't')
+    nt('say what they are signing up for. it is saved with each signup as their consent')
+    fld('thank you', sel, 'ok', 't')
+    fld('button color', sel, 'bbg', 'c')
+    fld('button text', sel, 'bfg', 'c')
+  }
+  if (t == 'events') {
+    nt(EV && EV.demo ? 'showing sample events. once the google calendar is connected, its events show here' : 'events come from the ñ press google calendar. add or change them there, the site updates in a few minutes')
+    fld('view', sel, 'vw', 's', [['', 'list'], ['month', 'month']])
+    if (sel.vw == 'month') fld('week starts', sel, 'ws', 's', [['', 'sunday'], ['mo', 'monday']])
+    else {
+      fld('how many', sel, 'n', 'n', 1)
+      fld('past events', sel, 'past', 'o')
+      nt('how many past events to list under the upcoming ones, blank for none')
+    }
+    fld('place', sel, 'loc', 'b')
+    fld('descriptions', sel, 'dsc', 'b')
+    fld('pictures', sel, 'pic', 'b')
+    fld('add to calendar button', sel, 'add', 'b')
+    fld('date color', sel, 'ac', 'c')
+    fld('when empty', sel, 'emp', 't')
+    btn('refresh events', function () { EV = null; EVD = 0; evl() })
+  }
   if (t == 'embed') {
     fld('code', sel, 'code', 'a')
     nt('paste an iframe from youtube, spotify, google maps etc')

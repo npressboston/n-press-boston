@@ -13,7 +13,7 @@ export async function onRequestPost(ctx) {
   var env = ctx.env, u = ctx.data.u, st = await state(env.DB, u)
   if (!st.mine) return Response.json(st, { status: 423 })
   var b = await ctx.request.json(), nm = (b.n || 'img').replace(/[^a-z0-9._-]/gi, '-').toLowerCase()
-  var fd = String(b.f || 'up').split('/').map(function (x) { return x.replace(/[^A-Za-z0-9 _-]/g, '').trim().replace(/\s+/g, '_') }).filter(Boolean).slice(0, 4).join('/') || 'up'
+  var fd = (typeof b.f == 'string' && b.f || 'up').split('/').map(function (x) { return x.replace(/[’‘]/g, "'").replace(/[^A-Za-z0-9 _'-]/g, '').trim().replace(/\s+/g, '_') }).filter(Boolean).slice(0, 4).join('/') || 'up'
   var i = nm.lastIndexOf('.'), bs = i > 0 ? nm.slice(0, i) : nm, x = i > 0 ? nm.slice(i) : '', n = nm, k = 2
   var have = (await repo(env, true)).concat(Object.keys(await tree(env, 'up')))
   while (have.indexOf('photos/' + fd + '/' + n) > -1) n = bs + '-' + k++ + x

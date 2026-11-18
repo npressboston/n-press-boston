@@ -121,7 +121,7 @@ async function lib(cb) {
 }
 
 function lfold(n) {
-  return n.split('/').map(function (x) { return x.replace(/[^A-Za-z0-9 _-]/g, '').trim().replace(/\s+/g, '_') }).filter(Boolean).join('/')
+  return n.split('/').map(function (x) { return x.replace(/[’‘]/g, "'").replace(/[^A-Za-z0-9 _'-]/g, '').trim().replace(/\s+/g, '_') }).filter(Boolean).join('/')
 }
 
 function clean(n) {
@@ -156,10 +156,10 @@ async function shrink(f) {
 
 async function tup(files, f) {
   var out = []
-  for (var f of files) {
-    if (!IM.test(f.name) && !VD.test(f.name)) continue
-    st.textContent = 'uploading ' + f.name
-    var nm = clean(f.name), bl = await shrink(f)
+  for (var fl of files) {
+    if (!IM.test(fl.name) && !VD.test(fl.name)) continue
+    st.textContent = 'uploading ' + fl.name
+    var nm = clean(fl.name), bl = await shrink(fl)
     if (bl.type == 'image/jpeg' && nm[1] != '.jpg' && nm[1] != '.jpeg') nm[1] = '.jpg'
     var b64 = await new Promise(function (ok) {
       var fr = new FileReader()
@@ -167,7 +167,7 @@ async function tup(files, f) {
       fr.readAsDataURL(bl)
     })
     var r = await fetch('api/up', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ n: nm[0] + nm[1], b64: b64, f: (f || 'photos/up').slice(7) }) })
-    if (!r.ok) { st.textContent = 'upload failed for ' + f.name; continue }
+    if (!r.ok) { st.textContent = 'upload failed for ' + fl.name; continue }
     var j = await r.json()
     PV[j.path] = j.url
     s.pend = s.pend || []
@@ -185,10 +185,10 @@ async function up(files, f) {
   var d = dir
   for (var sg of f.split('/')) d = await d.getDirectoryHandle(sg, { create: true })
   var out = []
-  for (var f of files) {
-    if (!IM.test(f.name) && !VD.test(f.name)) continue
-    st.textContent = 'uploading ' + f.name
-    var nm = clean(f.name), bl = await shrink(f)
+  for (var fl of files) {
+    if (!IM.test(fl.name) && !VD.test(fl.name)) continue
+    st.textContent = 'uploading ' + fl.name
+    var nm = clean(fl.name), bl = await shrink(fl)
     if (bl.type == 'image/jpeg' && nm[1] != '.jpg' && nm[1] != '.jpeg') nm[1] = '.jpg'
     var n = await free(d, nm[0], nm[1])
     var w = await (await d.getFileHandle(n, { create: true })).createWritable()

@@ -52,6 +52,8 @@ load().then(function (j) {
 
 var PG, PP
 
+function evup() { if (s) go() }
+
 function draw(bl) {
   box.innerHTML = ''
   grd(box, PG)
@@ -80,7 +82,7 @@ function go() {
   plen(box, p, PG)
   if (MOB) {
     var re = false
-    box.querySelectorAll('.b.fr, .t-cards, .t-nav').forEach(function (d) {
+    box.querySelectorAll('.b.fr, .t-cards, .t-nav, .t-events').forEach(function (d) {
       var b = bl.filter(function (x) { return x.id == d.bid })[0]
       if (!b || (b.m && b.m.w) || b.fix) return
       var c = d.querySelector('.c')

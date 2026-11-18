@@ -2,7 +2,7 @@ var TY = { jpg: 'image/jpeg', jpeg: 'image/jpeg', png: 'image/png', gif: 'image/
 
 export async function onRequestGet(ctx) {
   var env = ctx.env, k = [].concat(ctx.params.k).join('/')
-  if (!/^[A-Za-z0-9 _-]+(\/[A-Za-z0-9 _-]+)*\/[a-z0-9._-]+$/.test(k) || k.indexOf('..') > -1) return new Response('not found', { status: 404 })
+  if (!/^[A-Za-z0-9 _'-]+(\/[A-Za-z0-9 _'-]+)*\/[a-z0-9._-]+$/.test(k) || k.indexOf('..') > -1) return new Response('not found', { status: 404 })
   var r = await fetch((env.GH_API || 'https://api.github.com') + '/repos/' + env.GH_REPO + '/contents/photos/' + k.split('/').map(encodeURIComponent).join('/') + '?ref=up', {
     headers: { authorization: 'Bearer ' + env.GH_TOKEN, 'user-agent': 'n-press-site', accept: 'application/vnd.github.raw' }
   })

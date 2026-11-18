@@ -151,7 +151,7 @@ function grd(box, g) {
   box.style.padding = g.pad + 'px'
 }
 
-var TXY = 'text nav tabs cards gallery embed marquee lang button', MPK = ['x', 'y', 'w', 'h', 'hide']
+var TXY = 'text nav tabs cards gallery embed marquee lang button events join', MPK = ['x', 'y', 'w', 'h', 'hide']
 
 function hid(b) {
   return MOB ? b.on == 'd' || (b.m && b.m.hide) : b.on == 'p'
@@ -402,6 +402,190 @@ function mq(el, b) {
   el.appendChild(w)
 }
 
+var EV = null, EVD = 0, EVX = 0, ETZ = 'America/New_York', EFM = {}
+var EVW = {
+  es: { add: 'añadir a mi calendario', none: 'no hay eventos próximos', past: 'eventos pasados', all: 'todo el día', demo: 'eventos de muestra · el calendario aún no está conectado', today: 'hoy', g: 'google calendar', i: 'apple, outlook (.ics)' },
+  en: { add: 'add to my calendar', none: 'no upcoming events', past: 'past events', all: 'all day', demo: 'sample events · the calendar is not connected yet', today: 'today', g: 'google calendar', i: 'apple, outlook (.ics)' }
+}
+
+function ew() { return EVW[L] || EVW.en }
+
+function ef(k, o) {
+  var n = L + k
+  if (!EFM[n]) EFM[n] = new Intl.DateTimeFormat(k == 'dk' ? 'en-CA' : L, Object.assign({ timeZone: ETZ }, o))
+  return EFM[n]
+}
+
+function dk(t) { return ef('dk', { year: 'numeric', month: '2-digit', day: '2-digit' }).format(t) }
+
+function esc0(v) {
+  return String(v == null ? '' : v).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
+}
+
+function evs0() {
+  var n = new Date(), o = [], d0 = new Date(n.getFullYear(), n.getMonth(), n.getDate())
+  function at(dd, h, m) { var d = new Date(d0); d.setDate(d.getDate() + dd); d.setHours(h, m || 0); return d.getTime() }
+  function nxt(wd, min) { var k = (wd - d0.getDay() + 7) % 7; while (k < (min || 0)) k += 7; return k }
+  var th = nxt(4)
+  for (var i = 0; i < 6; i++) o.push({ id: 'os' + i, t: 'Open studio · taller abierto', s: at(th + i * 7, 18), e: at(th + i * 7, 21), loc: 'ñ press, East Boston', d: 'Drop in, bring a project or start one. Presses, ink and paper are here.\nVen a imprimir, todo el material está aquí.' })
+  var sa = nxt(6, 8), su = nxt(0, 18), sm = nxt(6, 26)
+  o.push({ id: 'rs', t: 'Riso 101 workshop', s: at(sa, 13), e: at(sa, 16), loc: 'ñ press, East Boston', d: 'Learn to print on the risograph, from making a file to pulling two colors. 8 spots.', img: 'photos/Studios/Riso_Prints/©IaritzaMenjivar-8100.JPG' })
+  o.push({ id: 'zn', t: 'Zine night', s: at(su, 17), e: at(su, 20), loc: 'ñ press, East Boston', d: 'Cut, paste, fold and staple. We bring the copier.', img: 'photos/Projects/Zine_Night_Workshop/©IaritzaMenjivar-6100.JPG' })
+  o.push({ id: 'mk', t: 'Holiday print market', s: at(sm, 0), e: at(sm + 2, 0), ad: 1, loc: 'ñ press, East Boston', d: 'Prints, zines and cards from the studio members.', img: 'photos/Studios/Final_day/©IaritzaMenjivar-8364.JPG' })
+  o.push({ id: 'ps', t: 'Poster night', s: at(-9, 18), e: at(-9, 21), loc: 'ñ press, East Boston' })
+  return o.sort(function (a, b) { return a.s - b.s })
+}
+
+function evl() {
+  if (EV || EVD) return
+  EVD = 1
+  fetch('/ev').then(function (r) { return r.ok ? r.json() : { demo: 1 } }).catch(function () { return { demo: 1 } }).then(function (j) {
+    EV = j.demo ? { ev: evs0(), demo: 1 } : j
+    if (window.evup) evup()
+  })
+}
+
+function ewhen(e) {
+  var w = ew()
+  if (e.ad) {
+    var l = e.e - 864e5, f = ef('md', { weekday: 'short', month: 'short', day: 'numeric' })
+    return (dk(l) == dk(e.s) ? f.format(e.s) : f.formatRange(e.s, l)) + ' · ' + w.all
+  }
+  var a = ef('wd', { weekday: 'short', month: 'short', day: 'numeric' }).format(e.s), h = ef('hm', { hour: 'numeric', minute: '2-digit' })
+  return a + ' · ' + (dk(e.s) == dk(e.e) ? h.formatRange(e.s, e.e) : ef('all', { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' }).formatRange(e.s, e.e))
+}
+
+function zt(t) { return new Date(t).toISOString().replace(/[-:]|\.\d+/g, '') }
+
+function ecal(e) {
+  var d = e.ad ? dk(e.s).replace(/-/g, '') + '/' + dk(e.e).replace(/-/g, '') : zt(e.s) + '/' + zt(e.e)
+  var g = 'https://calendar.google.com/calendar/render?action=TEMPLATE&text=' + encodeURIComponent(e.t) + '&dates=' + d + '&details=' + encodeURIComponent(e.d || '') + '&location=' + encodeURIComponent(e.loc || '')
+  function q(v) { return String(v || '').replace(/\\/g, '\\\\').replace(/\n/g, '\\n').replace(/([,;])/g, '\\$1') }
+  var ic = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//n press//events//EN', 'BEGIN:VEVENT', 'UID:' + e.id + '@npress', 'DTSTAMP:' + zt(Date.now()),
+    e.ad ? 'DTSTART;VALUE=DATE:' + d.split('/')[0] : 'DTSTART:' + zt(e.s), e.ad ? 'DTEND;VALUE=DATE:' + d.split('/')[1] : 'DTEND:' + zt(e.e),
+    'SUMMARY:' + q(e.t), 'DESCRIPTION:' + q(e.d), 'LOCATION:' + q(e.loc), 'END:VEVENT', 'END:VCALENDAR'].join('\r\n')
+  var w = ew(), fn = (e.t || 'event').toLowerCase().replace(/[^a-z0-9ñ]+/g, '-').replace(/^-|-$/g, '') || 'event'
+  return '<details class="eva"><summary>' + w.add + '</summary><span><a href="' + g + '" target="_blank" rel="noopener">' + w.g + '</a><a href="data:text/calendar;charset=utf-8,' + encodeURIComponent(ic) + '" download="' + fn + '.ics">' + w.i + '</a></span></details>'
+}
+
+function elink(t) {
+  return esc0(t).replace(/(https?:\/\/[^\s<]+)/g, function (u) { return '<a href="' + u + '" target="_blank" rel="noopener">' + u.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '') + '</a>' })
+}
+
+function eone(e, b, sm) {
+  var d = new Date(e.s), x = ''
+  x += '<article class="ev' + (sm ? ' evs' : '') + '">'
+  x += '<div class="evd"><b>' + ef('dd', { day: 'numeric' }).format(d) + '</b><span>' + ef('mo', { month: 'short' }).format(d).replace('.', '') + '</span></div>'
+  x += '<div class="evb"><h4>' + (e.u && !sm ? '<a href="' + esc0(e.u) + '" target="_blank" rel="noopener">' + esc0(e.t) + '</a>' : esc0(e.t)) + '</h4>'
+  x += '<p class="evt">' + esc0(ewhen(e)) + (b.loc && e.loc ? '<br><span>' + elink(e.loc) + '</span>' : '') + '</p>'
+  if (!sm && b.dsc && e.d) x += '<p class="evx">' + elink(e.d).replace(/\n/g, '<br>') + '</p>'
+  if (!sm && b.add) x += ecal(e)
+  x += '</div>'
+  if (!sm && b.pic && e.img) x += '<img class="evi" src="' + esc0(rp(e.img)) + '" alt="" loading="lazy">'
+  return x + '</article>'
+}
+
+function elist(el, b) {
+  var now = Date.now(), all = EV.ev || [], up = all.filter(function (e) { return e.e >= now }), pa = all.filter(function (e) { return e.e < now }).reverse()
+  var x = up.slice(0, b.n || 5).map(function (e) { return eone(e, b) }).join('')
+  if (!up.length) x = '<p class="eve">' + esc0(tx(b.emp) || ew().none) + '</p>'
+  if (b.past && pa.length) x += '<h5>' + ew().past + '</h5>' + pa.slice(0, b.past).map(function (e) { return eone(e, b, 1) }).join('')
+  el.innerHTML = x
+}
+
+function emon(el, b, ym, sk) {
+  var now = Date.now(), tk = dk(now), all = EV.ev || [], by = {}
+  if (!ym) {
+    var nx = all.filter(function (e) { return e.e >= now })[0]
+    ym = tk.slice(0, 7)
+    sk = sk || (nx && dk(nx.s).slice(0, 7) == ym ? dk(Math.max(nx.s, now)) : tk)
+  }
+  all.forEach(function (e) {
+    for (var t = Date.parse(dk(e.s) + 'T12:00Z'), l = dk(e.e - 1); ; t += 864e5) {
+      var k = new Date(t).toISOString().slice(0, 10)
+      ;(by[k] = by[k] || []).push(e)
+      if (k >= l) break
+    }
+  })
+  if (sk == 'x') sk = Object.keys(by).sort().filter(function (k) { return k.slice(0, 7) == ym && (ym != tk.slice(0, 7) || k >= tk) })[0] || ''
+  var y = +ym.slice(0, 4), m = +ym.slice(5) - 1, f = new Date(Date.UTC(y, m, 1)), n = new Date(Date.UTC(y, m + 1, 0)).getUTCDate(), ws = b.ws == 'mo' ? 1 : 0
+  var lead = (f.getUTCDay() - ws + 7) % 7, x = '<div class="emh"><a class="emp">‹</a><b>' + new Intl.DateTimeFormat(L, { month: 'long', year: 'numeric', timeZone: 'UTC' }).format(f) + '</b><a class="emn">›</a></div><div class="emg">'
+  for (var i = 0; i < 7; i++) x += '<span class="emw">' + new Intl.DateTimeFormat(L, { weekday: 'narrow', timeZone: 'UTC' }).format(new Date(Date.UTC(2026, 1, 1 + i + ws))) + '</span>'
+  for (i = 0; i < lead; i++) x += '<span></span>'
+  for (var d = 1; d <= n; d++) {
+    var k = ym + '-' + (d < 10 ? '0' : '') + d, es = by[k] || []
+    x += '<a class="emd' + (k == tk ? ' tdy' : '') + (k == sk ? ' on' : '') + (es.length ? ' has' : '') + (k < tk ? ' was' : '') + '" data-k="' + k + '"><i>' + d + '</i>' + es.slice(0, 3).map(function (e) { return '<em>' + esc0(e.t) + '</em>' }).join('') + (es.length > 3 ? '<em>+' + (es.length - 3) + '</em>' : '') + '</a>'
+  }
+  x += '</div><div class="eml">'
+  var se = by[sk] || []
+  x += se.length ? se.map(function (e) { return eone(e, b) }).join('') : '<p class="eve">' + esc0(tx(b.emp) || ew().none) + '</p>'
+  el.innerHTML = x + '</div>'
+  el.querySelector('.emp').onclick = function () { emon(el, b, new Date(Date.UTC(y, m - 1, 1)).toISOString().slice(0, 7), 'x') }
+  el.querySelector('.emn').onclick = function () { emon(el, b, new Date(Date.UTC(y, m + 1, 1)).toISOString().slice(0, 7), 'x') }
+  el.querySelectorAll('.emd').forEach(function (a) { a.onclick = function () { emon(el, b, ym, a.dataset.k) } })
+}
+
+function evr(el, b, mm) {
+  el.classList.add(b.vw == 'month' ? 'evm' : 'evls')
+  if (b.ac) el.style.setProperty('--ac', b.ac)
+  if (EVX) return
+  if (!EV) {
+    evl()
+    if (mm) el.innerHTML = '<span class="ph">events</span>'
+    return
+  }
+  if (b.vw == 'month') emon(el, b)
+  else elist(el, b)
+  if (EV.demo) el.insertAdjacentHTML('afterbegin', '<p class="edm">' + ew().demo + '</p>')
+}
+
+var JNW = {
+  es: { nm: 'nombre', em: 'correo electrónico', bad: 'revisa tu correo, parece que falta algo', slow: 'demasiados intentos, prueba en un rato', err: 'no se pudo enviar, prueba otra vez' },
+  en: { nm: 'name', em: 'email', bad: 'check your email, something looks off', slow: 'too many tries, wait a bit', err: 'that did not go through, try again' }
+}
+
+function jn(el, b, mm) {
+  var w = JNW[L] || JNW.en, f = document.createElement('form'), t0 = Date.now()
+  f.className = 'jn' + (b.lay == 'st' ? ' jst' : '')
+  f.noValidate = true
+  f.innerHTML = '<input class="jhp" name="w" tabindex="-1" autocomplete="off" aria-hidden="true">' +
+    '<div class="jf">' + (b.nmf ? '<input name="nm" autocomplete="name" maxlength="80">' : '') +
+    '<input name="em" type="email" autocomplete="email" required maxlength="254"><button type="submit"></button></div><p class="jnt"></p><p class="jms" hidden></p>'
+  var q = function (k) { return f.querySelector(k) }
+  if (b.nmf) q('[name=nm]').placeholder = w.nm
+  q('[name=em]').placeholder = tx(b.ph) || w.em
+  q('button').textContent = tx(b.bt) || '→'
+  q('.jnt').textContent = tx(b.note)
+  if (!tx(b.note)) q('.jnt').remove()
+  if (b.bbg) q('button').style.background = b.bbg
+  if (b.bfg) q('button').style.color = b.bfg
+  f.onsubmit = function (e) {
+    e.preventDefault()
+    if (mm) return
+    var em = q('[name=em]').value.trim(), ms = q('.jms')
+    function say(x, ok) { ms.hidden = false; ms.textContent = x; ms.className = 'jms' + (ok ? ' jok' : '') }
+    if (!/^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i.test(em)) return say(w.bad)
+    q('button').disabled = true
+    fetch('/join', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ em: em, nm: b.nmf ? q('[name=nm]').value : '', lg: L, p: CUR, ct: [tx(b.note), tx(b.bt)].filter(Boolean).join(' / '), w: q('[name=w]').value, t: t0 })
+    }).then(function (r) { return r.json().catch(function () { return {} }).then(function (j) { j._s = r.status; return j }) }).then(function (j) {
+      q('button').disabled = false
+      if (j.ok) {
+        f.classList.add('jdn')
+        say(tx(b.ok) || '✓', 1)
+        return
+      }
+      say(j._s == 429 ? w.slow : j.err == 'email' ? w.bad : w.err)
+    }).catch(function () {
+      q('button').disabled = false
+      say(w.err)
+    })
+  }
+  el.appendChild(f)
+}
+
 function nc(b) {
   var c = b.cols || 3
   return MOB ? b.mcol || Math.min(c, 2) : c
@@ -561,6 +745,10 @@ function bk(b, mm) {
   } else if (t == 'band') {
     if (b.bg) el.style.backgroundColor = b.bg
     ;(b.ly || []).slice().reverse().forEach(function (L) { el.appendChild(bly(L)) })
+  } else if (t == 'join') {
+    jn(el, b, mm)
+  } else if (t == 'events') {
+    evr(el, b, mm)
   } else if (t == 'embed') {
     el.innerHTML = b.code || (mm ? '<span class="ph">embed</span>' : '')
   }

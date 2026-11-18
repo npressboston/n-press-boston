@@ -34,9 +34,10 @@ export async function onRequestGet(ctx) {
   ;(await repo(env)).forEach(function (p) {
     if (p.indexOf('photos/') == 0 && MED.test(p)) { seen[p] = 1; out.push({ p: p }) }
   })
-  var u = await tree(env, 'up')
+  var u = await tree(env, 'up'), m = Object.keys(u).length ? await tree(env, env.GH_BRANCH || 'main') : {}, sh = {}
+  Object.keys(m).forEach(function (p) { sh[m[p]] = 1 })
   Object.keys(u).forEach(function (p) {
-    if (p.indexOf('photos/') == 0 && MED.test(p) && !seen[p]) out.push({ p: p, u: '/api/img/' + p.slice(7) })
+    if (p.indexOf('photos/') == 0 && MED.test(p) && !seen[p] && !sh[u[p]]) out.push({ p: p, u: '/api/img/' + p.slice(7) })
   })
   return Response.json(out)
 }
