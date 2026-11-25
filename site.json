@@ -28,27 +28,43 @@
           "w": 4,
           "h": 3,
           "html": "ñ press",
-          "sty": "H2"
+          "sty": "H2",
+          "m": {
+            "x": 0,
+            "y": 0,
+            "w": 4,
+            "h": 3
+          }
         },
         {
           "w": 12,
           "h": 29,
-          "bg": "#f984ca",
+          "bg": "#ff00a1",
           "ly": [],
           "id": "0ky7d8",
           "type": "band",
           "x": 0,
           "y": 0,
-          "wp": true
+          "wp": true,
+          "m": {
+            "ly": []
+          },
+          "lk": true
         },
         {
           "w": 4,
           "h": 2,
-          "html": "Community print studio based in East Boston",
+          "html": "Community print studio based in East Boston&nbsp;",
           "id": "3cwag2",
           "type": "text",
           "x": 1,
-          "y": 2
+          "y": 2,
+          "m": {
+            "x": 0,
+            "y": 4,
+            "w": 4,
+            "h": 2
+          }
         },
         {
           "id": "hbhtm3",
@@ -57,10 +73,10 @@
           "w": 4,
           "h": 10,
           "x": 1,
-          "y": 4,
+          "y": 5,
           "m": {
             "x": 0,
-            "y": 4,
+            "y": 6,
             "w": 2,
             "h": 5
           },
@@ -77,7 +93,7 @@
           "y": 13,
           "m": {
             "x": 2,
-            "y": 8,
+            "y": 6,
             "w": 2,
             "h": 2
           }
@@ -88,7 +104,7 @@
           "id": "r272wd",
           "type": "lang",
           "x": 9,
-          "y": 12,
+          "y": 2,
           "names": {
             "es": "espanol",
             "en": "english"
@@ -99,10 +115,12 @@
               "en": "english"
             },
             "x": 2,
-            "y": 4,
+            "y": 1,
             "w": 2,
             "h": 1
-          }
+          },
+          "sty": "body copy",
+          "rot": 10
         },
         {
           "w": 2,
@@ -115,7 +133,7 @@
           "y": 15,
           "m": {
             "x": 2,
-            "y": 9,
+            "y": 7,
             "w": 2,
             "h": 2
           }
@@ -131,7 +149,7 @@
           "y": 15,
           "m": {
             "x": 2,
-            "y": 10,
+            "y": 8,
             "w": 2,
             "h": 2
           }
@@ -147,9 +165,57 @@
           "y": 15,
           "m": {
             "x": 2,
-            "y": 11,
+            "y": 9,
             "w": 2,
             "h": 2
+          }
+        },
+        {
+          "w": 10,
+          "h": 30,
+          "n": 5,
+          "loc": true,
+          "dsc": true,
+          "pic": true,
+          "add": true,
+          "id": "7jz2pr",
+          "type": "events",
+          "x": 1,
+          "y": 29,
+          "vw": "month",
+          "m": {
+            "x": 0,
+            "y": 12,
+            "w": 4,
+            "h": 30
+          }
+        },
+        {
+          "w": 6,
+          "h": 3,
+          "bt": {
+            "es": "unirme",
+            "en": "join"
+          },
+          "note": {
+            "es": "te escribimos unas pocas veces al mes. puedes salirte cuando quieras.",
+            "en": "we write a few times a month. leave anytime."
+          },
+          "ok": {
+            "es": "¡gracias! ya estás en la lista.",
+            "en": "thanks! you are on the list."
+          },
+          "id": "joeudz",
+          "type": "join",
+          "x": 1,
+          "y": 64,
+          "m": {
+            "x": 0,
+            "y": 38,
+            "w": 4,
+            "h": 3,
+            "lnc": "#ffee00",
+            "ifc": "#ffffff"
           }
         }
       ],
@@ -810,7 +876,7 @@
           "y": 76,
           "w": 4,
           "h": 2,
-          "html": "05 · a ticket, turned a little",
+          "html": "05 · a ticket, <span style=\"color: rgb(255, 0, 0);\">turned a </span>little",
           "sty": "caption",
           "fg": "#555555",
           "id": "6a6ry8"
@@ -1027,7 +1093,8 @@
           "id": "z9i98v"
         }
       ],
-      "id": "yb2x0z"
+      "id": "yb2x0z",
+      "g": {}
     },
     {
       "title": "shapes demo",
@@ -1733,7 +1800,8 @@
           "id": "yg27l1"
         }
       ],
-      "id": "r9p0w6"
+      "id": "r9p0w6",
+      "g": {}
     },
     {
       "title": "type specimen",
@@ -2551,6 +2619,42 @@
         }
       ],
       "id": "3jobo1"
+    },
+    {
+      "title": "page",
+      "blocks": [
+        {
+          "w": 3,
+          "h": 6,
+          "sh": "ellipse",
+          "fill": "#e8382c",
+          "sw": 0,
+          "sc": "#111111",
+          "id": "eqwrox",
+          "type": "shape",
+          "x": 1,
+          "y": 2,
+          "rot": 37,
+          "m": {
+            "x": 0,
+            "y": 0,
+            "w": 2,
+            "h": 6
+          }
+        },
+        {
+          "w": 4,
+          "h": 10,
+          "src": "",
+          "id": "cs5y9w",
+          "type": "image",
+          "x": 5,
+          "y": 6
+        }
+      ],
+      "id": "1tuu95",
+      "slug": "page",
+      "g": {}
     }
   ],
   "styles": {
@@ -2576,10 +2680,11 @@
     }
   },
   "base": {},
-  "pub": "jcujh2nh",
+  "pub": "sf3l31v1",
   "out": [
     "demo-tables",
     "demo-shapes",
-    "demo-type"
+    "demo-type",
+    "page"
   ]
 }
